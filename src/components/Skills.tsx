@@ -32,7 +32,7 @@ export function Skills({ lang }: SkillsProps) {
         {/* Technical Stack Grid Cards */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
           gap: 24,
         }}
         className="tech-stack-grid"

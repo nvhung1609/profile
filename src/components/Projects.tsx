@@ -119,9 +119,11 @@ export function Projects({ lang }: ProjectsProps) {
                     <div className="hud-corner-br" />
 
                     {/* Left Media Preview Image */}
-                    <div style={{
-                      width: 180,
-                      height: 140,
+                    <div
+                      className="project-row-img-box"
+                      style={{
+                        width: 180,
+                        height: 140,
                       borderRadius: 'var(--radius-lg)',
                       overflow: 'hidden',
                       position: 'relative',
@@ -289,9 +291,9 @@ export function Projects({ lang }: ProjectsProps) {
             grid-template-columns: 1fr !important;
             gap: 20px !important;
           }
-          #projects .hud-card > div:first-child {
+          .project-row-img-box {
             width: 100% !important;
-            height: 180px !important;
+            height: 200px !important;
           }
         }
       `}</style>

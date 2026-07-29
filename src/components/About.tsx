@@ -58,13 +58,20 @@ export function About({ lang, onOpenCv }: AboutProps) {
             <div className="hud-corner-br" />
 
             <h3 style={{
-              fontSize: '1.35rem',
+              fontSize: '1.25rem',
               fontWeight: 800,
               fontFamily: 'var(--font-display)',
               marginBottom: 16,
               color: 'var(--accent-primary)',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 8,
+              alignItems: 'center',
             }}>
-              MUSEN PLUS Co., Ltd. (無線プラス製作所)
+              <span style={{ whiteSpace: 'nowrap' }}>MUSEN PLUS Co., Ltd.</span>
+              <span style={{ whiteSpace: 'nowrap', fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                (無線プラス製作所)
+              </span>
             </h3>
 
             <p style={{
