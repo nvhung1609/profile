@@ -94,6 +94,7 @@ export function Skills({ lang }: SkillsProps) {
                   display: 'flex',
                   flexWrap: 'wrap',
                   gap: 8,
+                  justifyContent: 'center',
                 }}>
                   {cat.items.map((item) => (
                     <motion.span

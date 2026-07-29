@@ -19,48 +19,56 @@ export function Experience({ lang }: ExperienceProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6 }}
-          style={{ marginBottom: 60 }}
+          style={{ marginBottom: 50, textAlign: 'center' }}
         >
-          <h2 className="section-title gradient-text">{t.title[lang]}</h2>
-          <p className="section-subtitle">{t.subtitle[lang]}</p>
+          <h2 className="section-title">
+            {t.title[lang]}
+          </h2>
+          <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
         </motion.div>
 
         {/* Timeline */}
-        <div className="timeline">
+        <div style={{ maxWidth: 1040, margin: '0 auto' }}>
           {workExperiences.map((exp, index) => (
             <motion.div
               key={exp.id}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              style={{ position: 'relative', marginBottom: 48 }}
+              style={{ marginBottom: 40 }}
             >
-              {/* Timeline dot */}
-              <div className="timeline-dot" />
-
-              {/* Card */}
+              {/* Cyberpunk HUD Card */}
               <motion.div
-                whileHover={{ scale: 1.01 }}
-                className="glass-card"
-                style={{ padding: 28 }}
+                whileHover={{ scale: 1.01, y: -3 }}
+                className="hud-card"
+                style={{ padding: 32 }}
               >
-                {/* Company header */}
+                <div className="hud-corner-tl" />
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+                <div className="hud-corner-br" />
+
+                {/* Header info bar */}
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
                   flexWrap: 'wrap',
-                  gap: 12,
-                  marginBottom: 16,
+                  gap: 16,
+                  marginBottom: 20,
+                  paddingBottom: 16,
+                  borderBottom: '1px solid var(--border-primary)',
                 }}>
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  {/* Left: Company & Role */}
+                  <div style={{ flex: 1, minWidth: 260 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                       <h3 style={{
-                        fontSize: '1.25rem',
-                        fontWeight: 700,
+                        fontSize: '1.3rem',
+                        fontWeight: 800,
                         fontFamily: 'var(--font-display)',
                         color: 'var(--text-primary)',
+                        lineHeight: 1.3,
                       }}>
                         {exp.company}
                       </h3>
@@ -69,7 +77,8 @@ export function Experience({ lang }: ExperienceProps) {
                           href={exp.companyUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ color: 'var(--accent-primary)', display: 'flex' }}
+                          style={{ color: 'var(--accent-primary)', display: 'inline-flex' }}
+                          aria-label="Company website"
                         >
                           <ExternalLink size={16} />
                         </a>
@@ -77,34 +86,46 @@ export function Experience({ lang }: ExperienceProps) {
                     </div>
                     <p style={{
                       color: 'var(--accent-primary)',
-                      fontWeight: 600,
-                      fontSize: '0.95rem',
-                      marginTop: 4,
+                      fontWeight: 700,
+                      fontSize: '0.98rem',
+                      marginTop: 6,
+                      fontFamily: 'var(--font-sans)',
                     }}>
                       {exp.role[lang]}
                     </p>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
+                  {/* Right: Period & Location Badges */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }} className="exp-meta-right">
+                    {/* Period Badge - Bright Cyber Cyan */}
                     <span style={{
-                      display: 'flex',
+                      display: 'inline-flex',
                       alignItems: 'center',
                       gap: 6,
-                      fontSize: '0.85rem',
-                      color: 'var(--text-tertiary)',
+                      padding: '6px 14px',
+                      fontSize: '0.83rem',
+                      color: 'var(--accent-cyan)',
+                      background: 'rgba(0, 229, 255, 0.12)',
+                      border: '1px solid rgba(0, 229, 255, 0.35)',
+                      borderRadius: 'var(--radius-full)',
                       fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
                     }}>
-                      <Calendar size={14} />
+                      <Calendar size={14} style={{ color: 'var(--accent-cyan)' }} />
                       {exp.period}
                     </span>
+
+                    {/* Location */}
                     <span style={{
-                      display: 'flex',
+                      display: 'inline-flex',
                       alignItems: 'center',
                       gap: 6,
                       fontSize: '0.85rem',
-                      color: 'var(--text-tertiary)',
+                      color: 'var(--text-secondary)',
+                      fontFamily: 'var(--font-sans)',
+                      fontWeight: 500,
                     }}>
-                      <MapPin size={14} />
+                      <MapPin size={14} style={{ color: 'var(--accent-primary)' }} />
                       {exp.location[lang]}
                     </span>
                   </div>
@@ -113,28 +134,31 @@ export function Experience({ lang }: ExperienceProps) {
                 {/* Description */}
                 <p style={{
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.7,
+                  lineHeight: 1.75,
                   fontSize: '0.95rem',
-                  marginBottom: 16,
+                  marginBottom: 20,
                 }}>
                   {exp.description[lang]}
                 </p>
 
-                {/* Achievements */}
-                <div style={{ marginBottom: 16 }}>
-                  <p style={{
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
+                {/* Achievements Checklist */}
+                <div style={{ marginBottom: 20 }}>
+                  <h4 style={{
+                    fontSize: '0.9rem',
+                    fontWeight: 800,
                     color: 'var(--text-primary)',
-                    marginBottom: 8,
+                    marginBottom: 12,
+                    fontFamily: 'var(--font-display)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
                   }}>
                     {t.achievements[lang]}
-                  </p>
+                  </h4>
                   <ul style={{
                     listStyle: 'none',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 6,
+                    gap: 10,
                     paddingLeft: 0,
                   }}>
                     {exp.achievements.map((ach, i) => (
@@ -142,21 +166,21 @@ export function Experience({ lang }: ExperienceProps) {
                         key={i}
                         style={{
                           display: 'flex',
-                          gap: 8,
+                          gap: 10,
                           fontSize: '0.9rem',
                           color: 'var(--text-secondary)',
-                          lineHeight: 1.6,
+                          lineHeight: 1.65,
                         }}
                       >
-                        <span style={{ color: 'var(--accent-primary)', flexShrink: 0 }}>▹</span>
-                        {ach[lang]}
+                        <span style={{ color: 'var(--accent-primary)', flexShrink: 0, fontWeight: 800 }}>⚡</span>
+                        <span>{ach[lang]}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {/* Tech stack tags */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', paddingTop: 16, borderTop: '1px solid var(--border-primary)' }}>
                   {exp.techStack.map((tech, i) => (
                     <span key={i} className="tech-tag">{tech}</span>
                   ))}
@@ -166,6 +190,16 @@ export function Experience({ lang }: ExperienceProps) {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .exp-meta-right {
+            align-items: flex-start !important;
+            width: 100% !important;
+            margin-top: 4px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

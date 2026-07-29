@@ -463,3 +463,34 @@ button, input, textarea, select {
     padding: 16px !important;
   }
 }
+
+/* ========== MODAL OVERLAY & CLEARANCE ========== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(4, 4, 10, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: calc(var(--header-height) + 12px) 14px 36px 14px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  max-width: 840px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
