@@ -58,16 +58,31 @@ export function Experience({ lang }: ExperienceProps) {
                   gap: 12,
                   marginBottom: 8,
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                     <h3 style={{
-                      fontSize: '1.35rem',
+                      fontSize: '1.25rem',
                       fontWeight: 800,
                       fontFamily: 'var(--font-display)',
                       color: 'var(--text-primary)',
-                      lineHeight: 1.25,
+                      lineHeight: 1.3,
                       margin: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      flexWrap: 'wrap',
                     }}>
-                      {exp.company}
+                      <span style={{ whiteSpace: 'nowrap' }}>{exp.company}</span>
+                      {exp.companyJapanese && (
+                        <span style={{
+                          fontSize: '1.05rem',
+                          fontWeight: 600,
+                          color: 'var(--text-secondary)',
+                          whiteSpace: 'nowrap',
+                          display: 'inline-block',
+                        }}>
+                          {exp.companyJapanese}
+                        </span>
+                      )}
                     </h3>
                     {exp.companyUrl && (
                       <a

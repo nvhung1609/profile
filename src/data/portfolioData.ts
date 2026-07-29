@@ -99,8 +99,8 @@ export const translations = {
     greeting: { vi: 'Xin chào, tôi là', en: "Hi, It's" },
     rolePrefix: { vi: 'Tôi là', en: "I'm a" },
     roleName: { vi: 'KỸ SƯ HỆ THỐNG NHÚNG', en: 'EMBEDDED SYSTEMS ENGINEER' },
-    downloadCv: { vi: '📄 Tải CV PDF', en: '📄 Download CV' },
-    contactMe: { vi: '💬 Liên Hệ Ngay', en: '💬 Contact Me' },
+    downloadCv: { vi: 'Tải CV PDF', en: 'Download CV' },
+    contactMe: { vi: 'Liên Hệ Ngay', en: 'Contact Me' },
     aboutMe: { vi: 'Về bản thân', en: 'About Me' },
     backgroundLabel: { vi: 'Học vấn:', en: 'Background:' },
     interestsLabel: { vi: 'Sở thích:', en: 'Interests:' },
@@ -232,8 +232,8 @@ export const personalInfo: PersonalInfo = {
 export const workExperiences: WorkExperience[] = [
   {
     id: 'musen-plus',
-    company: 'MUSEN PLUS Co., Ltd. (無線プラス製作所)',
-    companyJapanese: '大阪府大阪市 / Osaka, Japan',
+    company: 'MUSEN PLUS Co., Ltd.',
+    companyJapanese: '(無線プラス製作所)',
     role: {
       vi: 'Kỹ sư Firmware Nhúng & Thiết kế Phần cứng (Senior Embedded Engineer)',
       en: 'Embedded Firmware & Hardware Design Engineer (Senior Embedded Engineer)',

@@ -33,7 +33,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
         className="hero-grid"
         >
           {/* Left - Hero Text & Facts Panel */}
-          <div>
+          <div className="hero-text-col">
             {/* Cyber Badge */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -111,6 +111,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 14,
+                textAlign: 'left',
               }}
             >
               <div className="hud-corner-tl" />
@@ -183,7 +184,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
               </div>
             </motion.div>
 
-            {/* Social Buttons & Action CTAs */}
+            {/* Social Buttons & Action CTAs (Centered on Mobile) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -194,9 +195,10 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                 gap: 16,
                 flexWrap: 'wrap',
               }}
+              className="hero-social-action-row"
             >
               {/* Quick Social Icon Row */}
-              <div style={{ display: 'flex', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
                 {socialLinks.map((s, i) => (
                   <motion.a
                     key={i}
@@ -226,7 +228,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
                 <button
                   className="btn-primary"
                   onClick={onOpenCv}
@@ -322,6 +324,19 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
           .hero-grid {
             grid-template-columns: 1fr !important;
             gap: 36px !important;
+            text-align: center !important;
+          }
+          .hero-badge {
+            margin: 0 auto !important;
+          }
+          .hero-text-col {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+          }
+          .hero-social-action-row {
+            justify-content: center !important;
+            width: 100% !important;
           }
         }
         @media (max-width: 480px) {
