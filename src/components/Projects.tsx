@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, CodeSquare, Eye, Cpu, Calendar } from 'lucide-react';
+import { ExternalLink, CodeSquare, Eye, Calendar } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
 import { projects, projectCategories, translations } from '@/data/portfolioData';
 import { ProjectModal } from './ProjectModal';
@@ -85,177 +85,188 @@ export function Projects({ lang }: ProjectsProps) {
           }}
         >
           <AnimatePresence mode="popLayout">
-            {filtered.map((project, index) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-              >
-                <div
-                  className="hud-card"
-                  style={{
-                    padding: 32,
-                    display: 'grid',
-                    gridTemplateColumns: '120px 1fr',
-                    gap: 32,
-                    alignItems: 'flex-start',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => setSelectedProject(project)}
+            {filtered.map((project, index) => {
+              const projectImg = `./assets/img/projects/${project.id}/preview.png`;
+
+              return (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
                 >
-                  <div className="hud-corner-tl" />
-                  <div className="hud-corner-tr" />
-                  <div className="hud-corner-bl" />
-                  <div className="hud-corner-br" />
+                  <div
+                    className="hud-card"
+                    style={{
+                      padding: 28,
+                      display: 'grid',
+                      gridTemplateColumns: '180px 1fr',
+                      gap: 28,
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => setSelectedProject(project)}
+                  >
+                    <div className="hud-corner-tl" />
+                    <div className="hud-corner-tr" />
+                    <div className="hud-corner-bl" />
+                    <div className="hud-corner-br" />
 
-                  {/* Left Media Graphic Badge */}
-                  <div style={{
-                    width: 120,
-                    height: 120,
-                    borderRadius: 'var(--radius-lg)',
-                    background: 'var(--gradient-card)',
-                    border: '1px solid var(--border-accent)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8,
-                    flexShrink: 0,
-                    boxShadow: 'var(--shadow-glow)',
-                  }}>
-                    <Cpu size={38} style={{ color: 'var(--accent-primary)' }} />
-                    <span style={{
-                      fontSize: '0.68rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700,
-                      color: 'var(--accent-cyan)',
-                      textTransform: 'uppercase',
+                    {/* Left Media Preview Image */}
+                    <div style={{
+                      width: 180,
+                      height: 140,
+                      borderRadius: 'var(--radius-lg)',
+                      overflow: 'hidden',
+                      position: 'relative',
+                      background: 'var(--gradient-card)',
+                      border: '1px solid var(--border-accent)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      boxShadow: 'var(--shadow-glow)',
                     }}>
-                      {project.category.split(' ')[0]}
-                    </span>
-                  </div>
+                      <img
+                        src={projectImg}
+                        alt={project.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          objectPosition: 'center',
+                        }}
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                      <div style={{
+                        position: 'absolute', inset: 0,
+                        background: 'linear-gradient(180deg, transparent 40%, rgba(14,14,26,0.8) 100%)',
+                      }} />
+                    </div>
 
-                  {/* Right Content */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
-                    {/* Category & Period */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                        <span className="tech-tag" style={{ fontSize: '0.72rem' }}>{project.category}</span>
-                        {project.highlight && (
-                          <span style={{
-                            padding: '3px 10px',
-                            fontSize: '0.7rem',
-                            fontWeight: 800,
-                            color: '#ffb700',
-                            background: 'rgba(255, 183, 0, 0.15)',
-                            border: '1px solid rgba(255, 183, 0, 0.35)',
-                            borderRadius: 'var(--radius-full)',
-                          }}>
-                            ⭐ FLAGSHIP
+                    {/* Right Content */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+                      {/* Category & Period */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                          <span className="tech-tag" style={{ fontSize: '0.72rem' }}>{project.category}</span>
+                          {project.highlight && (
+                            <span style={{
+                              padding: '3px 10px',
+                              fontSize: '0.7rem',
+                              fontWeight: 800,
+                              color: '#ffb700',
+                              background: 'rgba(255, 183, 0, 0.15)',
+                              border: '1px solid rgba(255, 183, 0, 0.35)',
+                              borderRadius: 'var(--radius-full)',
+                            }}>
+                              ⭐ FLAGSHIP
+                            </span>
+                          )}
+                        </div>
+                        <span style={{
+                          display: 'flex', alignItems: 'center', gap: 6,
+                          fontSize: '0.82rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)',
+                        }}>
+                          <Calendar size={14} />
+                          {project.period}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 style={{
+                        fontSize: '1.3rem',
+                        fontWeight: 800,
+                        fontFamily: 'var(--font-display)',
+                        color: 'var(--text-primary)',
+                        lineHeight: 1.3,
+                      }}>
+                        {project.title}
+                      </h3>
+
+                      {/* Summary */}
+                      <p style={{
+                        fontSize: '0.92rem',
+                        color: 'var(--text-secondary)',
+                        lineHeight: 1.65,
+                      }}>
+                        {project.summary[lang]}
+                      </p>
+
+                      {/* Tech Stack Tags */}
+                      <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                        {project.techStack.map((tech, i) => (
+                          <span
+                            key={i}
+                            style={{
+                              padding: '3px 9px',
+                              fontSize: '0.73rem',
+                              fontFamily: 'var(--font-mono)',
+                              fontWeight: 600,
+                              color: 'var(--text-secondary)',
+                              background: 'var(--bg-tertiary)',
+                              border: '1px solid var(--border-primary)',
+                              borderRadius: 'var(--radius-sm)',
+                            }}
+                          >
+                            {tech}
                           </span>
+                        ))}
+                      </div>
+
+                      {/* Buttons */}
+                      <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 12,
+                        marginTop: 10,
+                        paddingTop: 12,
+                        borderTop: '1px solid var(--border-primary)',
+                      }}>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setSelectedProject(project); }}
+                          className="btn-primary"
+                          style={{ padding: '8px 18px', fontSize: '0.82rem' }}
+                        >
+                          <Eye size={15} />
+                          {t.viewDetail[lang]}
+                        </button>
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            className="btn-secondary"
+                            style={{ padding: '8px 18px', fontSize: '0.82rem' }}
+                          >
+                            <ExternalLink size={15} />
+                            Live Demo
+                          </a>
+                        )}
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            className="btn-secondary"
+                            style={{ padding: '8px 18px', fontSize: '0.82rem' }}
+                          >
+                            <CodeSquare size={15} />
+                            GitHub
+                          </a>
                         )}
                       </div>
-                      <span style={{
-                        display: 'flex', alignItems: 'center', gap: 6,
-                        fontSize: '0.82rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)',
-                      }}>
-                        <Calendar size={14} />
-                        {project.period}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 style={{
-                      fontSize: '1.35rem',
-                      fontWeight: 800,
-                      fontFamily: 'var(--font-display)',
-                      color: 'var(--text-primary)',
-                      lineHeight: 1.3,
-                    }}>
-                      {project.title}
-                    </h3>
-
-                    {/* Summary & Description */}
-                    <p style={{
-                      fontSize: '0.95rem',
-                      color: 'var(--text-secondary)',
-                      lineHeight: 1.7,
-                    }}>
-                      {project.description[lang]}
-                    </p>
-
-                    {/* Tech Stack Tags */}
-                    <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      {project.techStack.map((tech, i) => (
-                        <span
-                          key={i}
-                          style={{
-                            padding: '4px 10px',
-                            fontSize: '0.75rem',
-                            fontFamily: 'var(--font-mono)',
-                            fontWeight: 600,
-                            color: 'var(--text-secondary)',
-                            background: 'var(--bg-tertiary)',
-                            border: '1px solid var(--border-primary)',
-                            borderRadius: 'var(--radius-sm)',
-                          }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Buttons */}
-                    <div style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: 12,
-                      marginTop: 12,
-                      paddingTop: 14,
-                      borderTop: '1px solid var(--border-primary)',
-                    }}>
-                      <button
-                        onClick={(e) => { e.stopPropagation(); setSelectedProject(project); }}
-                        className="btn-primary"
-                        style={{ padding: '8px 18px', fontSize: '0.82rem' }}
-                      >
-                        <Eye size={15} />
-                        {t.viewDetail[lang]}
-                      </button>
-                      {project.liveUrl && (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={e => e.stopPropagation()}
-                          className="btn-secondary"
-                          style={{ padding: '8px 18px', fontSize: '0.82rem' }}
-                        >
-                          <ExternalLink size={15} />
-                          Live Demo
-                        </a>
-                      )}
-                      {project.githubUrl && (
-                        <a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={e => e.stopPropagation()}
-                          className="btn-secondary"
-                          style={{ padding: '8px 18px', fontSize: '0.82rem' }}
-                        >
-                          <CodeSquare size={15} />
-                          GitHub
-                        </a>
-                      )}
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </motion.div>
       </div>
@@ -276,6 +287,10 @@ export function Projects({ lang }: ProjectsProps) {
           #projects .hud-card {
             grid-template-columns: 1fr !important;
             gap: 20px !important;
+          }
+          #projects .hud-card > div:first-child {
+            width: 100% !important;
+            height: 180px !important;
           }
         }
       `}</style>

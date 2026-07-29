@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { X, ExternalLink, CodeSquare } from 'lucide-react';
+import { X, ExternalLink, CodeSquare, FolderOpen } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
 import { translations } from '@/data/portfolioData';
 
@@ -11,6 +11,7 @@ interface ProjectModalProps {
 
 export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
   const t = translations.projects;
+  const projectImg = project.image || `./assets/img/projects/${project.id}/preview.png`;
 
   return (
     <motion.div
@@ -27,22 +28,38 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
         className="modal-content"
         onClick={e => e.stopPropagation()}
+        style={{ maxWidth: 780 }}
       >
-        {/* Header gradient */}
+        {/* Hardware Render Header Banner */}
         <div style={{
-          height: 160,
-          background: project.highlight
-            ? 'linear-gradient(135deg, rgba(129, 140, 248, 0.4) 0%, rgba(167, 139, 250, 0.3) 50%, rgba(192, 132, 252, 0.2) 100%)'
-            : 'var(--gradient-card)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
           position: 'relative',
+          width: '100%',
+          height: 260,
+          background: 'var(--bg-tertiary)',
+          overflow: 'hidden',
           borderRadius: 'var(--radius-xl) var(--radius-xl) 0 0',
+          borderBottom: '1px solid var(--border-accent)',
         }}>
-          <span style={{ fontSize: '4rem', opacity: 0.5 }}>
-            {project.category === 'Fullstack' ? '🏗️' : '🎨'}
-          </span>
+          <img
+            src={projectImg}
+            alt={project.title}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+            }}
+            onError={(e) => {
+              // Fallback if image fails to load
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+
+          {/* Sci-Fi Overlay Gradient */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(180deg, rgba(7,7,13,0.3) 0%, rgba(14,14,26,0.9) 100%)',
+          }} />
 
           {/* Close button */}
           <motion.button
@@ -58,34 +75,56 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'rgba(0,0,0,0.3)',
-              border: 'none',
+              background: 'rgba(0,0,0,0.5)',
+              border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '50%',
               color: '#fff',
               cursor: 'pointer',
               backdropFilter: 'blur(10px)',
+              zIndex: 10,
             }}
           >
             <X size={18} />
           </motion.button>
+
+          {/* Image folder path notice */}
+          <div style={{
+            position: 'absolute',
+            bottom: 12,
+            left: 16,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            fontSize: '0.75rem',
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--accent-cyan)',
+            background: 'rgba(0,0,0,0.6)',
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-sm)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0,229,255,0.3)',
+          }}>
+            <FolderOpen size={13} />
+            <span>public/assets/img/projects/{project.id}/</span>
+          </div>
         </div>
 
         {/* Body */}
         <div style={{ padding: 32 }}>
-          {/* Title */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-            <span className="tech-tag" style={{ fontSize: '0.7rem' }}>{project.category}</span>
+          {/* Title & Badge */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
+            <span className="tech-tag" style={{ fontSize: '0.75rem' }}>{project.category}</span>
             {project.highlight && (
               <span style={{
-                padding: '3px 8px',
-                fontSize: '0.7rem',
-                fontWeight: 700,
-                color: '#fbbf24',
-                background: 'rgba(251, 191, 36, 0.15)',
-                border: '1px solid rgba(251, 191, 36, 0.3)',
+                padding: '3px 10px',
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                color: '#ffb700',
+                background: 'rgba(255, 183, 0, 0.15)',
+                border: '1px solid rgba(255, 183, 0, 0.35)',
                 borderRadius: 'var(--radius-full)',
               }}>
-                ⭐ HIGHLIGHT
+                ⭐ FLAGSHIP PROJECT
               </span>
             )}
           </div>
@@ -95,6 +134,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             fontWeight: 800,
             fontFamily: 'var(--font-display)',
             marginBottom: 16,
+            color: 'var(--text-primary)',
           }}>
             {project.title}
           </h2>
@@ -112,18 +152,19 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
           {/* Features */}
           <div style={{ marginBottom: 24 }}>
             <h4 style={{
-              fontSize: '0.9rem',
-              fontWeight: 700,
+              fontSize: '0.92rem',
+              fontWeight: 800,
               marginBottom: 12,
               color: 'var(--text-primary)',
+              fontFamily: 'var(--font-display)',
             }}>
               {t.features[lang]}
             </h4>
             <ul style={{
               listStyle: 'none',
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-              gap: 8,
+              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+              gap: 10,
               paddingLeft: 0,
             }}>
               {project.features.map((feature, i) => (
@@ -132,16 +173,16 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 8,
-                    fontSize: '0.9rem',
+                    gap: 10,
+                    fontSize: '0.88rem',
                     color: 'var(--text-secondary)',
-                    padding: '8px 12px',
+                    padding: '10px 14px',
                     background: 'var(--bg-glass)',
                     borderRadius: 'var(--radius-md)',
                     border: '1px solid var(--border-primary)',
                   }}
                 >
-                  <span style={{ color: '#34d399' }}>✓</span>
+                  <span style={{ color: 'var(--accent-cyan)', fontWeight: 800 }}>✓</span>
                   {feature[lang]}
                 </li>
               ))}
@@ -151,10 +192,11 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
           {/* Tech stack */}
           <div style={{ marginBottom: 28 }}>
             <h4 style={{
-              fontSize: '0.9rem',
-              fontWeight: 700,
+              fontSize: '0.92rem',
+              fontWeight: 800,
               marginBottom: 12,
               color: 'var(--text-primary)',
+              fontFamily: 'var(--font-display)',
             }}>
               {t.techUsed[lang]}
             </h4>
