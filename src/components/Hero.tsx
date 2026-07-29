@@ -70,8 +70,8 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="hero-badge">
-                <Cpu size={15} />
+              <div className="hero-badge" style={{ flexWrap: 'wrap', textAlign: 'center', maxWidth: '100%' }}>
+                <span style={{ color: 'var(--accent-primary)', fontSize: '0.8rem' }}>⚡</span>
                 <span>{t.badge[lang]}</span>
               </div>
             </motion.div>

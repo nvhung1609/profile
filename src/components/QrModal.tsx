@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { X, Copy, Check } from 'lucide-react';
+import { X, Copy, Check, ExternalLink, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 import type { Language } from '@/data/portfolioData';
 import { personalInfo } from '@/data/portfolioData';
@@ -13,13 +13,14 @@ export function QrModal({ lang, onClose }: QrModalProps) {
   const [copied, setCopied] = useState(false);
   const contactUrl = personalInfo.zalo;
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(personalInfo.phone);
+  const copyPhone = () => {
+    navigator.clipboard.writeText('0338812063');
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 2500);
   };
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(contactUrl)}&bgcolor=0e0e18&color=ff5500&format=svg`;
+  // High-res crisp QR code with dark pixels on white background for 100% scan reliability
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(contactUrl)}&bgcolor=ffffff&color=07070d&format=svg`;
 
   return (
     <motion.div
@@ -30,35 +31,66 @@ export function QrModal({ lang, onClose }: QrModalProps) {
       onClick={onClose}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+        initial={{ opacity: 0, scale: 0.88, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 30 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+        exit={{ opacity: 0, scale: 0.88, y: 20 }}
+        transition={{ type: 'spring', damping: 22, stiffness: 220 }}
         onClick={e => e.stopPropagation()}
+        className="hud-card"
         style={{
-          background: 'var(--bg-secondary)',
-          border: '1px solid var(--border-hover)',
-          borderRadius: 'var(--radius-xl)',
-          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6)',
           maxWidth: 420,
-          width: '100%',
-          padding: 32,
+          width: '92%',
+          padding: '28px 24px',
           textAlign: 'center',
+          border: '1px solid var(--border-accent)',
+          boxShadow: 'var(--shadow-glow)',
+          background: 'var(--bg-secondary)',
+          borderRadius: 'var(--radius-xl)',
         }}
       >
-        {/* Close */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-          <h3 style={{
-            fontSize: '1.15rem',
-            fontWeight: 800,
-            fontFamily: 'var(--font-display)',
-          }}>
-            📱 {lang === 'vi' ? 'Mã QR Zalo / Danh Bạ' : 'Zalo Contact QR Code'}
-          </h3>
+        <div className="hud-corner-tl" />
+        <div className="hud-corner-tr" />
+        <div className="hud-corner-bl" />
+        <div className="hud-corner-br" />
+
+        {/* Header */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 20,
+          paddingBottom: 12,
+          borderBottom: '1px solid var(--border-primary)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 32,
+              height: 32,
+              borderRadius: 'var(--radius-sm)',
+              background: 'rgba(0, 104, 255, 0.18)',
+              border: '1px solid rgba(0, 104, 255, 0.4)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#0068ff',
+            }}>
+              <MessageCircle size={18} />
+            </div>
+            <h3 style={{
+              fontSize: '1.15rem',
+              fontWeight: 800,
+              fontFamily: 'var(--font-display)',
+              color: 'var(--text-primary)',
+            }}>
+              {lang === 'vi' ? 'Kết Nối Zalo Trực Tiếp' : 'Direct Zalo Contact'}
+            </h3>
+          </div>
+
           <motion.button
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
+            aria-label="Close"
             style={{
               width: 34,
               height: 34,
@@ -76,74 +108,104 @@ export function QrModal({ lang, onClose }: QrModalProps) {
           </motion.button>
         </div>
 
-        {/* QR Image Box */}
+        {/* High-Tech Cyberpunk Framed QR Container */}
         <div style={{
-          padding: 20,
-          background: '#fff',
+          position: 'relative',
+          margin: '0 auto 20px',
+          width: 240,
+          height: 240,
+          padding: 14,
+          background: '#ffffff',
           borderRadius: 'var(--radius-lg)',
-          display: 'inline-block',
-          marginBottom: 20,
-          boxShadow: 'var(--shadow-glow)',
+          boxShadow: '0 0 35px rgba(0, 229, 255, 0.2), 0 0 20px rgba(255, 85, 0, 0.2)',
+          border: '3px solid var(--accent-primary)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
+          {/* QR Code SVG */}
           <img
             src={qrUrl}
-            alt="QR Code Zalo"
-            width={220}
-            height={220}
-            style={{ display: 'block' }}
+            alt="Mã QR Zalo Nguyễn Việt Hưng"
+            width={210}
+            height={210}
+            style={{ display: 'block', borderRadius: 4 }}
           />
+
+          {/* Centered Zalo Brand Badge */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            padding: '5px 12px',
+            background: '#0068ff',
+            color: '#ffffff',
+            borderRadius: 'var(--radius-full)',
+            fontWeight: 900,
+            fontSize: '0.78rem',
+            fontFamily: 'var(--font-display)',
+            boxShadow: '0 2px 12px rgba(0, 104, 255, 0.6)',
+            border: '2px solid #ffffff',
+            letterSpacing: '0.04em',
+          }}>
+            Zalo
+          </div>
         </div>
 
+        {/* Subtitle */}
         <p style={{
           fontSize: '0.88rem',
           color: 'var(--text-secondary)',
-          marginBottom: 16,
+          marginBottom: 20,
           lineHeight: 1.6,
         }}>
           {lang === 'vi'
-            ? 'Quét mã QR bằng ứng dụng Zalo hoặc Camera điện thoại để kết nối trực tiếp với Nguyễn Việt Hưng'
-            : 'Scan QR code using Zalo app or phone camera to connect directly with Nguyen Viet Hung'}
+            ? 'Quét mã QR bằng Camera điện thoại hoặc Zalo để nhắn tin trực tiếp cho Nguyễn Việt Hưng'
+            : 'Scan QR code with phone camera or Zalo app to chat directly with Nguyen Viet Hung'}
         </p>
 
-        {/* Copy Phone / Zalo Link */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          background: 'var(--bg-glass)',
-          border: '1px solid var(--border-primary)',
-          borderRadius: 'var(--radius-md)',
-          padding: '10px 14px',
-        }}>
-          <span style={{
-            flex: 1,
-            fontSize: '0.88rem',
-            color: 'var(--accent-primary)',
-            fontFamily: 'var(--font-mono)',
-            fontWeight: 700,
-            textAlign: 'left',
-          }}>
-            {personalInfo.phone} ({personalInfo.zalo})
-          </span>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={copyLink}
+        {/* Action Buttons: Direct Open & Copy Phone */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <a
+            href={personalInfo.zalo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
             style={{
-              width: 34,
-              height: 34,
-              display: 'flex',
-              alignItems: 'center',
               justifyContent: 'center',
-              background: copied ? 'rgba(52, 211, 153, 0.2)' : 'var(--accent-glow)',
-              border: 'none',
-              borderRadius: 'var(--radius-sm)',
-              color: copied ? '#34d399' : 'var(--accent-primary)',
-              cursor: 'pointer',
-              flexShrink: 0,
+              background: 'linear-gradient(135deg, #0068ff 0%, #0044bb 100%)',
+              boxShadow: '0 4px 20px rgba(0, 104, 255, 0.4)',
+              fontSize: '0.9rem',
+              padding: '12px 20px',
+              width: '100%',
+              textDecoration: 'none',
             }}
           >
-            {copied ? <Check size={16} /> : <Copy size={16} />}
+            <ExternalLink size={16} />
+            💬 {lang === 'vi' ? 'Mở Ứng Dụng Zalo Ngay' : 'Open Zalo App Now'}
+          </a>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={copyPhone}
+            className="btn-secondary"
+            style={{
+              justifyContent: 'center',
+              fontSize: '0.88rem',
+              padding: '11px 20px',
+              width: '100%',
+              color: copied ? '#34d399' : 'var(--text-primary)',
+              borderColor: copied ? 'rgba(52, 211, 153, 0.5)' : 'var(--border-primary)',
+            }}
+          >
+            {copied ? <Check size={16} style={{ color: '#34d399' }} /> : <Copy size={16} />}
+            <span>
+              {copied
+                ? (lang === 'vi' ? '✅ Đã sao chép 0338812063!' : '✅ Copied 0338812063!')
+                : (lang === 'vi' ? '📋 Sao chép SĐT: 0338812063' : '📋 Copy Phone: +84 338 812 063')}
+            </span>
           </motion.button>
         </div>
       </motion.div>
