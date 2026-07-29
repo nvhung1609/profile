@@ -232,7 +232,7 @@ export const personalInfo: PersonalInfo = {
 export const workExperiences: WorkExperience[] = [
   {
     id: 'musen-plus',
-    company: 'Công ty MUSEN PLUS (無線プラス製作所) — Osaka, Nhật Bản',
+    company: 'MUSEN PLUS Co., Ltd. (無線プラス製作所)',
     companyJapanese: '大阪府大阪市 / Osaka, Japan',
     role: {
       vi: 'Kỹ sư Firmware Nhúng & Thiết kế Phần cứng (Senior Embedded Engineer)',
@@ -240,8 +240,8 @@ export const workExperiences: WorkExperience[] = [
     },
     period: '09/2022 - Hiện tại',
     location: {
-      vi: 'Osaka, Nhật Bản / TP. Hồ Chí Minh & Cần Thơ, Việt Nam',
-      en: 'Osaka, Japan / Ho Chi Minh City & Can Tho, Vietnam',
+      vi: 'Osaka, Nhật Bản (HQ) • TP. HCM & Cần Thơ',
+      en: 'Osaka, Japan (HQ) • Ho Chi Minh City & Can Tho',
     },
     description: {
       vi: 'Đảm nhiệm vai trò Kỹ sư R&D chính thiết kế phần cứng và phát triển firmware nhúng cấp production cho 16+ sản phẩm IoT/AIoT thương mại triển khai thực tế tại các viện dưỡng lão Nhật Bản, nhà máy công nghiệp và thiết bị thông minh.',

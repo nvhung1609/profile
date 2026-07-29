@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, FolderOpen, Layers, Sparkles } from 'lucide-react';
+import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
 import { translations } from '@/data/portfolioData';
 
@@ -57,10 +57,10 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          maxHeight: 'calc(90vh - var(--header-height))',
+          maxHeight: 'calc(92vh - var(--header-height))',
         }}
       >
-        {/* Sticky Header Bar with Title & Easy-Tap Close Button */}
+        {/* Sticky Header Bar with Title & Close Button */}
         <div style={{
           position: 'sticky',
           top: 0,
@@ -125,11 +125,11 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
         }}
         className="modal-scroll-body"
         >
-          {/* Gallery Carousel Banner */}
+          {/* Gallery Carousel Banner - Taller & Larger Display */}
           <div style={{
             position: 'relative',
             width: '100%',
-            height: 300,
+            height: 420,
             background: '#07070d',
             overflow: 'hidden',
             borderBottom: '1px solid var(--border-accent)',
@@ -158,7 +158,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             {/* Sci-Fi Overlay Gradient */}
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(180deg, rgba(7,7,13,0.3) 0%, rgba(14,14,26,0.92) 100%)',
+              background: 'linear-gradient(180deg, rgba(7,7,13,0.2) 0%, rgba(14,14,26,0.85) 100%)',
               pointerEvents: 'none',
             }} />
 
@@ -169,15 +169,15 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               onClick={(e) => { e.stopPropagation(); prevImg(); }}
               aria-label="Previous Image"
               style={{
-                position: 'absolute', top: '50%', left: 12,
+                position: 'absolute', top: '50%', left: 14,
                 transform: 'translateY(-50%)',
-                width: 36, height: 36, borderRadius: '50%',
+                width: 40, height: 40, borderRadius: '50%',
                 background: 'rgba(0,0,0,0.75)', border: '1px solid rgba(255,255,255,0.3)',
                 color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer', backdropFilter: 'blur(10px)', zIndex: 10,
               }}
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={22} />
             </motion.button>
 
             <motion.button
@@ -186,53 +186,41 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               onClick={(e) => { e.stopPropagation(); nextImg(); }}
               aria-label="Next Image"
               style={{
-                position: 'absolute', top: '50%', right: 12,
+                position: 'absolute', top: '50%', right: 14,
                 transform: 'translateY(-50%)',
-                width: 36, height: 36, borderRadius: '50%',
+                width: 40, height: 40, borderRadius: '50%',
                 background: 'rgba(0,0,0,0.75)', border: '1px solid rgba(255,255,255,0.3)',
                 color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer', backdropFilter: 'blur(10px)', zIndex: 10,
               }}
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={22} />
             </motion.button>
 
-            {/* Image index badge & folder path notice */}
+            {/* Clean Image Counter Badge Only */}
             <div style={{
-              position: 'absolute', bottom: 10, left: 12, right: 12,
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6,
+              position: 'absolute', bottom: 14, right: 14,
               zIndex: 10,
             }}>
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 6,
-                fontSize: '0.73rem', fontFamily: 'var(--font-mono)',
-                color: 'var(--accent-cyan)', background: 'rgba(0,0,0,0.85)',
-                padding: '4px 10px', borderRadius: 'var(--radius-sm)',
-                backdropFilter: 'blur(10px)', border: '1px solid rgba(0,229,255,0.35)',
+                fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                color: '#fff', background: 'rgba(0,0,0,0.85)',
+                padding: '5px 14px', borderRadius: 'var(--radius-full)',
+                border: '1px solid var(--border-accent)', backdropFilter: 'blur(10px)',
               }}>
-                <FolderOpen size={12} />
-                <span>public/assets/img/projects/{project.id}/ (1.png - 6.png)</span>
-              </div>
-
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                fontSize: '0.78rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
-                color: '#fff', background: 'var(--accent-glow-strong)',
-                padding: '4px 12px', borderRadius: 'var(--radius-full)',
-                border: '1px solid var(--border-accent)',
-              }}>
-                <Layers size={13} style={{ color: 'var(--accent-primary)' }} />
+                <Layers size={14} style={{ color: 'var(--accent-primary)' }} />
                 <span>{activeImgIndex + 1} / {galleryImages.length}</span>
               </div>
             </div>
           </div>
 
-          {/* 6 Thumbnail Selector Bar */}
+          {/* 6 Thumbnail Selector Bar (Squarer & Taller) */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(6, 1fr)',
-            gap: 6,
-            padding: '10px 14px',
+            gap: 8,
+            padding: '12px 16px',
             background: 'var(--bg-tertiary)',
             borderBottom: '1px solid var(--border-primary)',
           }}>
@@ -243,8 +231,9 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveImgIndex(idx)}
                 style={{
-                  height: 46,
-                  borderRadius: 'var(--radius-sm)',
+                  aspectRatio: '4 / 3',
+                  minHeight: 65,
+                  borderRadius: 'var(--radius-md)',
                   overflow: 'hidden',
                   cursor: 'pointer',
                   border: activeImgIndex === idx ? '2px solid var(--accent-primary)' : '1px solid var(--border-primary)',
@@ -253,6 +242,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                   opacity: activeImgIndex === idx ? 1 : 0.55,
                   transition: 'all 0.2s',
                 }}
+                className="thumb-box"
               >
                 <img
                   src={url}
@@ -260,9 +250,10 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <span style={{
-                  position: 'absolute', bottom: 2, right: 3,
-                  fontSize: '0.62rem', fontFamily: 'var(--font-mono)', fontWeight: 800,
+                  position: 'absolute', bottom: 3, right: 4,
+                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 800,
                   color: '#fff', textShadow: '0 1px 3px #000',
+                  background: 'rgba(0,0,0,0.65)', padding: '1px 5px', borderRadius: '4px',
                 }}>
                   #{idx + 1}
                 </span>
@@ -408,8 +399,9 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
 
       <style>{`
         @media (max-width: 640px) {
-          .modal-banner-box { height: 200px !important; }
+          .modal-banner-box { height: 280px !important; }
           .modal-body-content { padding: 18px 14px !important; }
+          .thumb-box { min-height: 48px !important; }
         }
       `}</style>
     </motion.div>

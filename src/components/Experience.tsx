@@ -27,7 +27,7 @@ export function Experience({ lang }: ExperienceProps) {
           <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
         </motion.div>
 
-        {/* Timeline */}
+        {/* Timeline List */}
         <div style={{ maxWidth: 1040, margin: '0 auto' }}>
           {workExperiences.map((exp, index) => (
             <motion.div
@@ -42,93 +42,99 @@ export function Experience({ lang }: ExperienceProps) {
               <motion.div
                 whileHover={{ scale: 1.01, y: -3 }}
                 className="hud-card"
-                style={{ padding: 32 }}
+                style={{ padding: '28px 32px' }}
               >
                 <div className="hud-corner-tl" />
                 <div className="hud-corner-tr" />
                 <div className="hud-corner-bl" />
                 <div className="hud-corner-br" />
 
-                {/* Header info bar */}
+                {/* Card Header Row 1: Company Title on Left, Period Badge on Right */}
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'flex-start',
+                  alignItems: 'center',
                   flexWrap: 'wrap',
-                  gap: 16,
-                  marginBottom: 20,
+                  gap: 12,
+                  marginBottom: 8,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                    <h3 style={{
+                      fontSize: '1.35rem',
+                      fontWeight: 800,
+                      fontFamily: 'var(--font-display)',
+                      color: 'var(--text-primary)',
+                      lineHeight: 1.25,
+                      margin: 0,
+                    }}>
+                      {exp.company}
+                    </h3>
+                    {exp.companyUrl && (
+                      <a
+                        href={exp.companyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'var(--accent-primary)', display: 'inline-flex', alignItems: 'center' }}
+                        aria-label="Company website"
+                      >
+                        <ExternalLink size={16} />
+                      </a>
+                    )}
+                  </div>
+
+                  {/* Period Badge - Bright Cyber Cyan */}
+                  <span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '5px 14px',
+                    fontSize: '0.83rem',
+                    color: 'var(--accent-cyan)',
+                    background: 'rgba(0, 229, 255, 0.12)',
+                    border: '1px solid rgba(0, 229, 255, 0.35)',
+                    borderRadius: 'var(--radius-full)',
+                    fontFamily: 'var(--font-mono)',
+                    fontWeight: 700,
+                    flexShrink: 0,
+                  }}>
+                    <Calendar size={14} style={{ color: 'var(--accent-cyan)' }} />
+                    {exp.period}
+                  </span>
+                </div>
+
+                {/* Card Header Row 2: Role Title on Left, Location on Right */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: 10,
+                  marginBottom: 18,
                   paddingBottom: 16,
                   borderBottom: '1px solid var(--border-primary)',
                 }}>
-                  {/* Left: Company & Role */}
-                  <div style={{ flex: 1, minWidth: 260 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                      <h3 style={{
-                        fontSize: '1.3rem',
-                        fontWeight: 800,
-                        fontFamily: 'var(--font-display)',
-                        color: 'var(--text-primary)',
-                        lineHeight: 1.3,
-                      }}>
-                        {exp.company}
-                      </h3>
-                      {exp.companyUrl && (
-                        <a
-                          href={exp.companyUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: 'var(--accent-primary)', display: 'inline-flex' }}
-                          aria-label="Company website"
-                        >
-                          <ExternalLink size={16} />
-                        </a>
-                      )}
-                    </div>
-                    <p style={{
-                      color: 'var(--accent-primary)',
-                      fontWeight: 700,
-                      fontSize: '0.98rem',
-                      marginTop: 6,
-                      fontFamily: 'var(--font-sans)',
-                    }}>
-                      {exp.role[lang]}
-                    </p>
-                  </div>
+                  <p style={{
+                    color: 'var(--accent-primary)',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    margin: 0,
+                    fontFamily: 'var(--font-sans)',
+                  }}>
+                    {exp.role[lang]}
+                  </p>
 
-                  {/* Right: Period & Location Badges */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }} className="exp-meta-right">
-                    {/* Period Badge - Bright Cyber Cyan */}
-                    <span style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 6,
-                      padding: '6px 14px',
-                      fontSize: '0.83rem',
-                      color: 'var(--accent-cyan)',
-                      background: 'rgba(0, 229, 255, 0.12)',
-                      border: '1px solid rgba(0, 229, 255, 0.35)',
-                      borderRadius: 'var(--radius-full)',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700,
-                    }}>
-                      <Calendar size={14} style={{ color: 'var(--accent-cyan)' }} />
-                      {exp.period}
-                    </span>
-
-                    {/* Location */}
-                    <span style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 6,
-                      fontSize: '0.85rem',
-                      color: 'var(--text-secondary)',
-                      fontFamily: 'var(--font-sans)',
-                      fontWeight: 500,
-                    }}>
-                      <MapPin size={14} style={{ color: 'var(--accent-primary)' }} />
-                      {exp.location[lang]}
-                    </span>
-                  </div>
+                  <span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: '0.85rem',
+                    color: 'var(--text-secondary)',
+                    fontFamily: 'var(--font-sans)',
+                    fontWeight: 500,
+                  }}>
+                    <MapPin size={14} style={{ color: 'var(--accent-primary)' }} />
+                    {exp.location[lang]}
+                  </span>
                 </div>
 
                 {/* Description */}
@@ -179,8 +185,15 @@ export function Experience({ lang }: ExperienceProps) {
                   </ul>
                 </div>
 
-                {/* Tech stack tags */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', paddingTop: 16, borderTop: '1px solid var(--border-primary)' }}>
+                {/* Tech stack tags - Centered */}
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 8,
+                  justifyContent: 'center',
+                  paddingTop: 16,
+                  borderTop: '1px solid var(--border-primary)',
+                }}>
                   {exp.techStack.map((tech, i) => (
                     <span key={i} className="tech-tag">{tech}</span>
                   ))}
@@ -190,16 +203,6 @@ export function Experience({ lang }: ExperienceProps) {
           ))}
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 640px) {
-          .exp-meta-right {
-            align-items: flex-start !important;
-            width: 100% !important;
-            margin-top: 4px;
-          }
-        }
-      `}</style>
     </section>
   );
 }
