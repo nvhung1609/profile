@@ -11,7 +11,12 @@ interface ProjectModalProps {
 
 export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
   const t = translations.projects;
-  const projectImg = project.image || `./assets/img/projects/${project.id}/preview.png`;
+
+  // Use import.meta.env.BASE_URL for bulletproof asset paths on Vite & GitHub Pages
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+  const projectImg = project.image || `${baseUrl}assets/img/projects/${project.id}/preview.png`;
 
   return (
     <motion.div
@@ -49,10 +54,6 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               objectFit: 'cover',
               objectPosition: 'center',
             }}
-            onError={(e) => {
-              // Fallback if image fails to load
-              e.currentTarget.style.display = 'none';
-            }}
           />
 
           {/* Sci-Fi Overlay Gradient */}
@@ -87,7 +88,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             <X size={18} />
           </motion.button>
 
-          {/* Image folder path notice */}
+          {/* Image folder path notice for the user */}
           <div style={{
             position: 'absolute',
             bottom: 12,
@@ -95,17 +96,17 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             display: 'flex',
             alignItems: 'center',
             gap: 6,
-            fontSize: '0.75rem',
+            fontSize: '0.78rem',
             fontFamily: 'var(--font-mono)',
             color: 'var(--accent-cyan)',
-            background: 'rgba(0,0,0,0.6)',
-            padding: '4px 10px',
+            background: 'rgba(0,0,0,0.65)',
+            padding: '6px 12px',
             borderRadius: 'var(--radius-sm)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0,229,255,0.3)',
+            border: '1px solid rgba(0,229,255,0.35)',
           }}>
-            <FolderOpen size={13} />
-            <span>public/assets/img/projects/{project.id}/</span>
+            <FolderOpen size={14} />
+            <span>📁 Folder ảnh: public/assets/img/projects/{project.id}/</span>
           </div>
         </div>
 

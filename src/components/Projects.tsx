@@ -14,6 +14,10 @@ export function Projects({ lang }: ProjectsProps) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+
   const filtered = activeCategory === 'All'
     ? projects
     : projects.filter(p => p.category === activeCategory);
@@ -86,7 +90,7 @@ export function Projects({ lang }: ProjectsProps) {
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((project, index) => {
-              const projectImg = `./assets/img/projects/${project.id}/preview.png`;
+              const projectImg = `${baseUrl}assets/img/projects/${project.id}/preview.png`;
 
               return (
                 <motion.div
@@ -137,9 +141,6 @@ export function Projects({ lang }: ProjectsProps) {
                           height: '100%',
                           objectFit: 'cover',
                           objectPosition: 'center',
-                        }}
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
                         }}
                       />
                       <div style={{
