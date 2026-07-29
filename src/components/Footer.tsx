@@ -13,7 +13,7 @@ export function Footer({ lang }: FooterProps) {
 
   return (
     <footer style={{
-      padding: '44px 0',
+      padding: '36px 0',
       borderTop: '1px solid var(--border-primary)',
       background: 'var(--bg-secondary)',
       position: 'relative',
@@ -26,8 +26,10 @@ export function Footer({ lang }: FooterProps) {
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: 16,
-        }}>
-          {/* Left */}
+        }}
+        className="footer-content"
+        >
+          {/* Brand Info */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -35,31 +37,30 @@ export function Footer({ lang }: FooterProps) {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 8,
+              gap: 10,
+              flexWrap: 'wrap',
               fontSize: '0.9rem',
-              color: 'var(--text-tertiary)',
+              color: 'var(--text-secondary)',
             }}
           >
-            <span>{t.madeWith[lang]}</span>
-            <span style={{ fontWeight: 800, color: 'var(--accent-primary)', fontFamily: 'var(--font-display)' }}>{personalInfo.name}</span>
-            <span style={{ color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>({t.role[lang]})</span>
-            <Cpu size={18} style={{ color: 'var(--accent-primary)' }} />
+            <Cpu size={18} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
+            <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+              {personalInfo.name}
+            </span>
+            <span style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '0.82rem' }}>
+              • {t.role[lang]}
+            </span>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
+              © {currentYear}. {t.rights[lang]}
+            </span>
           </motion.div>
-
-          {/* Center */}
-          <div style={{
-            fontSize: '0.82rem',
-            color: 'var(--text-tertiary)',
-            fontFamily: 'var(--font-mono)',
-          }}>
-            © {currentYear} {personalInfo.name}. {t.rights[lang]}
-          </div>
 
           {/* Right - Tech Stack Badges */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 8,
+            flexWrap: 'wrap',
+            gap: 6,
           }}>
             {['STM32', 'ESP32-S3', 'FreeRTOS', 'Altium 4L', 'Edge AI'].map(tech => (
               <span
@@ -81,6 +82,19 @@ export function Footer({ lang }: FooterProps) {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .footer-content {
+            flexDirection: column !important;
+            text-align: center !important;
+            justify-content: center !important;
+          }
+          .footer-content > div {
+            justify-content: center !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 }

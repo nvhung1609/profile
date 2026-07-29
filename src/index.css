@@ -431,7 +431,7 @@ button, input, textarea, select {
   :root { --header-height: 68px; }
   
   .hero-visual-frame {
-    max-width: 290px !important;
+    max-width: 330px !important;
   }
 
   .tech-stack-grid, .contact-grid, .about-grid {
@@ -456,7 +456,7 @@ button, input, textarea, select {
   }
 
   .hero-visual-frame {
-    max-width: 240px !important;
+    max-width: 290px !important;
   }
 
   .hud-card {

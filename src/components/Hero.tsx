@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import {
-  Cpu, GraduationCap, Target, Zap, Rocket,
-  Download, MessageCircle, CodeSquare, Globe, MessageSquare, ExternalLink
+  FileText, MessageCircle, Code, Globe, Send, ExternalLink,
+  BookOpen, Sparkles, Target, Zap
 } from 'lucide-react';
 import type { Language } from '@/data/portfolioData';
 import { personalInfo, translations } from '@/data/portfolioData';
@@ -15,60 +15,31 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
   const t = translations.hero;
 
   const socialLinks = [
-    { icon: CodeSquare, label: 'GitHub', href: personalInfo.github, color: '#ff5500' },
-    { icon: Globe, label: 'Facebook', href: personalInfo.facebook, color: '#1877f2' },
-    { icon: MessageSquare, label: 'Zalo', href: personalInfo.zalo, color: '#0068ff' },
-    { icon: ExternalLink, label: 'LinkedIn', href: personalInfo.linkedin, color: '#0a66c2' },
+    { icon: Code, href: personalInfo.github, label: 'GitHub' },
+    { icon: Globe, href: personalInfo.facebook, label: 'Facebook' },
+    { icon: Send, href: personalInfo.zalo, label: 'Zalo' },
+    { icon: ExternalLink, href: personalInfo.website, label: 'Website' },
   ];
 
   return (
-    <section
-      id="home"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 'calc(var(--header-height) + 20px)',
-        paddingBottom: '60px',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Background Cyber Orbs */}
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-        <div style={{
-          position: 'absolute', top: '-5%', left: '-5%',
-          width: '550px', height: '550px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255, 85, 0, 0.25) 0%, transparent 70%)',
-          filter: 'blur(90px)',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: '-5%', right: '-5%',
-          width: '500px', height: '500px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, transparent 70%)',
-          filter: 'blur(90px)',
-        }} />
-      </div>
-
-      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+    <section id="home" className="section" style={{ paddingTop: 'calc(var(--header-height) + 40px)', paddingBottom: 60 }}>
+      <div className="container">
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1.15fr 0.85fr',
-          gap: 48,
+          gridTemplateColumns: '1.2fr 0.8fr',
+          gap: 40,
           alignItems: 'center',
         }}
         className="hero-grid"
         >
-          {/* Left - Hero Copy & Facts Panel */}
+          {/* Left - Hero Text & Facts Panel */}
           <div>
-            {/* HUD Badge */}
+            {/* Cyber Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+              style={{ marginBottom: 16 }}
             >
               <div className="hero-badge" style={{ flexWrap: 'wrap', textAlign: 'center', maxWidth: '100%' }}>
                 <span style={{ color: 'var(--accent-primary)', fontSize: '0.8rem' }}>⚡</span>
@@ -76,42 +47,67 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
               </div>
             </motion.div>
 
-            {/* Headline */}
+            {/* Main Greeting & Name Block (Unbroken Name) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              style={{ marginTop: 16 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              style={{ marginBottom: 16 }}
             >
-              <h1 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
-                fontWeight: 900,
-                lineHeight: 1.15,
-                letterSpacing: '-0.02em',
-              }}>
-                {t.greeting[lang]} <span className="gradient-text">{personalInfo.name}</span>
-              </h1>
-              <h3 style={{
-                fontSize: 'clamp(1.1rem, 2vw, 1.4rem)',
+              <span style={{
+                display: 'block',
+                fontSize: 'clamp(1.25rem, 3.2vw, 1.8rem)',
                 fontWeight: 700,
                 color: 'var(--text-secondary)',
-                marginTop: 8,
-                letterSpacing: '0.02em',
+                fontFamily: 'var(--font-display)',
+                marginBottom: 4,
               }}>
-                {t.rolePrefix[lang]} <strong style={{ color: 'var(--accent-primary)', textTransform: 'uppercase' }}>{t.roleName[lang]}</strong>
-              </h3>
+                {t.greeting[lang]}
+              </span>
+
+              <h1 style={{
+                fontSize: 'clamp(2.1rem, 5.5vw, 4.2rem)',
+                fontWeight: 900,
+                fontFamily: 'var(--font-display)',
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em',
+                margin: 0,
+                whiteSpace: 'nowrap',
+              }}
+              className="gradient-text hero-name-title"
+              >
+                {personalInfo.name}
+              </h1>
             </motion.div>
 
-            {/* Hero Facts Panel Matching Reference Site */}
+            {/* Role Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{
+                fontSize: 'clamp(0.95rem, 2.2vw, 1.3rem)',
+                fontWeight: 700,
+                color: 'var(--text-secondary)',
+                marginBottom: 28,
+                fontFamily: 'var(--font-mono)',
+              }}
+            >
+              {t.rolePrefix[lang]}{' '}
+              <span style={{ color: 'var(--accent-primary)', textDecoration: 'underline var(--border-accent)' }}>
+                {t.roleName[lang]}
+              </span>
+            </motion.p>
+
+            {/* Cyber Facts HUD Box */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               className="hud-card"
               style={{
-                marginTop: 24,
                 padding: 24,
+                marginBottom: 32,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 14,
@@ -122,105 +118,93 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
               <div className="hud-corner-bl" />
               <div className="hud-corner-br" />
 
-              {/* Fact 1: Background */}
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              {/* Fact Item 1 */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: 'var(--radius-sm)',
-                  background: 'var(--accent-glow)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'var(--accent-glow)', border: '1px solid var(--border-accent)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: 'var(--accent-primary)', flexShrink: 0, marginTop: 2,
                 }}>
-                  <GraduationCap size={17} />
+                  <BookOpen size={16} />
                 </div>
-                <div style={{ fontSize: '0.92rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
-                  <span style={{ fontWeight: 700, color: 'var(--accent-primary)' }}>{t.backgroundLabel[lang]}</span>{' '}
-                  {personalInfo.educationBg[lang]}
+                <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <strong style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)' }}>{t.backgroundLabel[lang]}</strong>{' '}
+                  <span style={{ color: 'var(--text-primary)' }}>{personalInfo.educationBg[lang]}</span>
                 </div>
               </div>
 
-              {/* Fact 2: Focus */}
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              {/* Fact Item 2 */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: 'var(--radius-sm)',
-                  background: 'rgba(0, 229, 255, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'rgba(0, 229, 255, 0.12)', border: '1px solid rgba(0, 229, 255, 0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: 'var(--accent-cyan)', flexShrink: 0, marginTop: 2,
                 }}>
-                  <Cpu size={17} />
+                  <Sparkles size={16} />
                 </div>
-                <div style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                  {personalInfo.bio[lang]}
+                <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <strong style={{ color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>{t.interestsLabel[lang]}</strong>{' '}
+                  <span style={{ color: 'var(--text-secondary)' }}>{personalInfo.interests[lang]}</span>
                 </div>
               </div>
 
-              {/* Fact 3: Interests */}
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              {/* Fact Item 3 */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: 'var(--radius-sm)',
-                  background: 'var(--accent-glow)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'rgba(255, 183, 0, 0.12)', border: '1px solid rgba(255, 183, 0, 0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'var(--accent-gold)', flexShrink: 0, marginTop: 2,
+                }}>
+                  <Target size={16} />
+                </div>
+                <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <strong style={{ color: 'var(--accent-gold)', fontFamily: 'var(--font-mono)' }}>{t.goalLabel[lang]}</strong>{' '}
+                  <span style={{ color: 'var(--text-secondary)' }}>{personalInfo.goal[lang]}</span>
+                </div>
+              </div>
+
+              {/* Fact Item 4 */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: 'var(--radius-sm)',
+                  background: 'var(--accent-glow)', border: '1px solid var(--border-accent)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: 'var(--accent-primary)', flexShrink: 0, marginTop: 2,
                 }}>
-                  <Rocket size={17} />
+                  <Zap size={16} />
                 </div>
-                <div style={{ fontSize: '0.92rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
-                  <span style={{ fontWeight: 700, color: 'var(--accent-primary)' }}>{t.interestsLabel[lang]}</span>{' '}
-                  {personalInfo.interests[lang]}
-                </div>
-              </div>
-
-              {/* Fact 4: Goal */}
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div style={{
-                  width: 32, height: 32, borderRadius: 'var(--radius-sm)',
-                  background: 'rgba(0, 229, 255, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--accent-cyan)', flexShrink: 0, marginTop: 2,
-                }}>
-                  <Target size={17} />
-                </div>
-                <div style={{ fontSize: '0.92rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
-                  <span style={{ fontWeight: 700, color: 'var(--accent-cyan)' }}>{t.goalLabel[lang]}</span>{' '}
-                  {personalInfo.goal[lang]}
-                </div>
-              </div>
-
-              {/* Fact 5: Expertise */}
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div style={{
-                  width: 32, height: 32, borderRadius: 'var(--radius-sm)',
-                  background: 'var(--accent-glow)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--accent-primary)', flexShrink: 0, marginTop: 2,
-                }}>
-                  <Zap size={17} />
-                </div>
-                <div style={{ fontSize: '0.92rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
-                  <span style={{ fontWeight: 700, color: 'var(--accent-primary)' }}>{t.expertiseLabel[lang]}</span>{' '}
-                  {personalInfo.expertise[lang]}
+                <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <strong style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)' }}>{t.expertiseLabel[lang]}</strong>{' '}
+                  <span style={{ color: 'var(--text-primary)' }}>{personalInfo.expertise[lang]}</span>
                 </div>
               </div>
             </motion.div>
 
-            {/* Social Icons & Action Buttons */}
+            {/* Social Buttons & Action CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
               style={{
-                marginTop: 28,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                gap: 16,
                 flexWrap: 'wrap',
-                gap: 20,
               }}
             >
-              {/* Social Icons */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                {socialLinks.map((s) => (
+              {/* Quick Social Icon Row */}
+              <div style={{ display: 'flex', gap: 10 }}>
+                {socialLinks.map((s, i) => (
                   <motion.a
-                    key={s.label}
+                    key={i}
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ scale: 1.15, y: -3 }}
-                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                     style={{
                       width: 42,
                       height: 42,
@@ -234,27 +218,23 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                       textDecoration: 'none',
                       transition: 'all 0.2s',
                     }}
-                    title={s.label}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.borderColor = s.color;
-                      e.currentTarget.style.boxShadow = `0 0 15px ${s.color}60`;
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.borderColor = 'var(--border-primary)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
+                    aria-label={s.label}
                   >
-                    <s.icon size={20} />
+                    <s.icon size={18} />
                   </motion.a>
                 ))}
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: 12 }}>
-                <button className="btn-primary" onClick={onOpenCv}>
-                  <Download size={18} />
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <button
+                  className="btn-primary"
+                  onClick={onOpenCv}
+                >
+                  <FileText size={18} />
                   {t.downloadCv[lang]}
                 </button>
+
                 <button
                   className="btn-secondary"
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
@@ -271,7 +251,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            style={{ display: 'flex', justifyContent: 'center' }}
+            style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
           >
             <div className="hero-visual-frame">
               {/* Outer dashed orange orbit */}
@@ -281,33 +261,53 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
 
               {/* Image Box */}
               <div className="hero-img-box">
-                {/* Fallback MCU Cyber graphic if no image */}
+                {/* Fallback MCU Cyber graphic cleanly formatted */}
                 <div style={{
                   position: 'absolute', inset: 0,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                   background: 'linear-gradient(135deg, #0e0e1a 0%, #1a1a2e 100%)',
-                  padding: 24, textAlign: 'center',
+                  padding: '16px 12px', textAlign: 'center', overflow: 'hidden',
                 }}>
                   <div style={{
-                    width: 110, height: 110, borderRadius: '50%',
+                    width: 'clamp(64px, 16vw, 100px)',
+                    height: 'clamp(64px, 16vw, 100px)',
+                    borderRadius: '50%',
                     background: 'var(--gradient-hero)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '2.8rem', fontWeight: 900, color: '#fff',
-                    boxShadow: 'var(--shadow-glow)', marginBottom: 16,
+                    fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 900, color: '#fff',
+                    boxShadow: 'var(--shadow-glow)', marginBottom: 10, flexShrink: 0,
                   }}>
                     VH
                   </div>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#fff' }}>
+
+                  <h3 style={{
+                    fontSize: 'clamp(0.95rem, 2.8vw, 1.25rem)',
+                    fontWeight: 800,
+                    fontFamily: 'var(--font-display)',
+                    color: '#fff',
+                    lineHeight: 1.2,
+                    margin: 0,
+                    whiteSpace: 'nowrap',
+                  }}>
                     NGUYỄN VIỆT HƯNG
                   </h3>
-                  <p style={{ color: 'var(--accent-primary)', fontWeight: 700, fontSize: '0.88rem', marginTop: 4, fontFamily: 'var(--font-mono)' }}>
+
+                  <p style={{
+                    color: 'var(--accent-primary)',
+                    fontWeight: 700,
+                    fontSize: 'clamp(0.72rem, 2vw, 0.85rem)',
+                    marginTop: 3,
+                    fontFamily: 'var(--font-mono)',
+                    lineHeight: 1.2,
+                  }}>
                     SENIOR EMBEDDED ENGINEER
                   </p>
+
                   <div style={{
-                    marginTop: 14, display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center',
+                    marginTop: 10, display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center',
                   }}>
                     {['STM32', 'ESP32-S3', 'FreeRTOS', 'Altium 4L', 'CAN Bus'].map(tag => (
-                      <span key={tag} className="tech-tag" style={{ fontSize: '0.7rem' }}>{tag}</span>
+                      <span key={tag} className="tech-tag" style={{ fontSize: '0.68rem', padding: '2px 8px' }}>{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -321,7 +321,12 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
         @media (max-width: 992px) {
           .hero-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 36px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .hero-name-title {
+            font-size: clamp(1.7rem, 7.5vw, 2.5rem) !important;
           }
         }
       `}</style>
