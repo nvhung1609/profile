@@ -5,6 +5,7 @@ import path from 'path';
 import { telegramApiPlugin } from './server/telegramPlugin.ts';
 
 export default defineConfig({
+  base: './',
   plugins: [react(), tailwindcss(), telegramApiPlugin()],
   resolve: {
     alias: {
