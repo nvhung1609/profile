@@ -23,10 +23,9 @@ export function Services({ lang }: ServicesProps) {
           transition={{ duration: 0.6 }}
           style={{ marginBottom: 60, textAlign: 'center' }}
         >
-          <h2
-            className="section-title"
-            dangerouslySetInnerHTML={{ __html: t.title[lang] }}
-          />
+          <h2 className="section-title">
+            {t.title[lang]}
+          </h2>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
         </motion.div>
 

@@ -28,10 +28,9 @@ export function About({ lang, onOpenCv }: AboutProps) {
           transition={{ duration: 0.6 }}
           style={{ marginBottom: 50, textAlign: 'center' }}
         >
-          <h2
-            className="section-title"
-            dangerouslySetInnerHTML={{ __html: t.title[lang] }}
-          />
+          <h2 className="section-title">
+            {t.title[lang]}
+          </h2>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
         </motion.div>
 
@@ -51,7 +50,7 @@ export function About({ lang, onOpenCv }: AboutProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="hud-card"
-            style={{ padding: 36 }}
+            style={{ padding: 32 }}
           >
             <div className="hud-corner-tl" />
             <div className="hud-corner-tr" />
@@ -59,7 +58,7 @@ export function About({ lang, onOpenCv }: AboutProps) {
             <div className="hud-corner-br" />
 
             <h3 style={{
-              fontSize: '1.4rem',
+              fontSize: '1.35rem',
               fontWeight: 800,
               fontFamily: 'var(--font-display)',
               marginBottom: 16,

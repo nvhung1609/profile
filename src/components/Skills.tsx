@@ -23,17 +23,16 @@ export function Skills({ lang }: SkillsProps) {
           transition={{ duration: 0.6 }}
           style={{ marginBottom: 60, textAlign: 'center' }}
         >
-          <h2
-            className="section-title"
-            dangerouslySetInnerHTML={{ __html: t.title[lang] }}
-          />
+          <h2 className="section-title">
+            {t.title[lang]}
+          </h2>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
         </motion.div>
 
         {/* Technical Stack Grid Cards */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
           gap: 24,
         }}
         className="tech-stack-grid"

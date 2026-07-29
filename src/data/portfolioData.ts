@@ -83,7 +83,7 @@ export interface Education {
   description: Translation;
 }
 
-// ========== TRANSLATIONS ==========
+// ========== TRANSLATIONS (CLEAN PLAIN TEXT, NO SPAN TAGS) ==========
 export const translations = {
   nav: {
     home: { vi: 'Trang chủ', en: 'Home' },
@@ -111,20 +111,20 @@ export const translations = {
     community: { vi: 'Thành viên AI Box Community', en: 'Community Members' },
   },
   about: {
-    title: { vi: 'Về <span>Bản Thân</span>', en: 'About <span>Me</span>' },
+    title: { vi: 'Về Bản Thân', en: 'About Me' },
     subtitle: { vi: 'Hành trình R&D và định hướng trở thành Embedded Architect', en: 'My R&D journey and vision to become an Embedded System Architect' },
     readMore: { vi: 'Xem chi tiết CV', en: 'Read Full CV' },
   },
   services: {
-    title: { vi: 'Dịch Vụ & <span>Năng Lực R&D</span>', en: 'Services & <span>Capabilities</span>' },
+    title: { vi: 'Dịch Vụ & Năng Lực R&D', en: 'Services & Capabilities' },
     subtitle: { vi: 'Cung cấp giải pháp phần cứng & phần mềm nhúng toàn diện từ ý tưởng đến sản xuất hàng loạt', en: 'Providing end-to-end hardware & firmware engineering solutions from concept to mass production' },
   },
   techStack: {
-    title: { vi: 'Kỹ Năng & <span>Công Nghệ</span>', en: 'Technical <span>Stack</span>' },
+    title: { vi: 'Kỹ Năng & Công Nghệ', en: 'Technical Stack' },
     subtitle: { vi: 'Hệ sinh thái vi điều khiển, phần cứng, giao thức và công cụ phát triển thành thạo', en: 'Mastered MCU platforms, hardware design tools, communication protocols, and Edge AI' },
   },
   projects: {
-    title: { vi: 'Dự Án <span>Nổi Bật</span>', en: 'Featured <span>Projects</span>' },
+    title: { vi: 'Dự Án Nổi Bật', en: 'Featured Projects' },
     subtitle: { vi: 'Các sản phẩm IoT, AIoT và thiết bị công nghiệp thực tế đã triển khai thành công', en: 'Real-world commercial IoT, AIoT, and industrial hardware deployed in production' },
     all: { vi: 'Tất cả', en: 'All' },
     viewDetail: { vi: 'Xem chi tiết', en: 'View Details' },
@@ -134,21 +134,21 @@ export const translations = {
     techUsed: { vi: 'Công nghệ & Kỹ thuật sử dụng:', en: 'Technologies & Engineering Stack:' },
   },
   experience: {
-    title: { vi: 'Lịch Sử <span>Làm Việc</span>', en: 'Work <span>Experience</span>' },
+    title: { vi: 'Lịch Sử Làm Việc', en: 'Work Experience' },
     subtitle: { vi: 'Quá trình công tác và nghiên cứu tại doanh nghiệp', en: 'Professional career history & corporate R&D accomplishments' },
     achievements: { vi: 'Đóng góp & Thành tựu nổi bật:', en: 'Key Contributions & Achievements:' },
   },
   contact: {
-    title: { vi: 'Liên Hệ <span>Trực Tiếp</span>', en: 'Contact <span>Me</span>' },
-    subtitle: { vi: 'Gửi tin nhắn trực tiếp đến Telegram cá nhân của tôi (Bảo mật 100%)', en: 'Send a message directly to my Telegram (100% Secure via server API)' },
+    title: { vi: 'Liên Hệ Trực Tiếp', en: 'Contact Me' },
+    subtitle: { vi: 'Gửi tin nhắn trực tiếp cho tôi', en: 'Send me a direct message' },
     name: { vi: 'Họ và tên của bạn', en: 'Your Full Name' },
     contactInfo: { vi: 'Email / Số điện thoại liên hệ', en: 'Your Email / Phone Number' },
     message: { vi: 'Nội dung tin nhắn', en: 'Your Message' },
-    send: { vi: '🚀 Gửi Tin Nhắn Qua Telegram', en: '🚀 Send via Telegram Bot' },
+    send: { vi: '🚀 Gửi Tin Nhắn', en: '🚀 Send Message' },
     sending: { vi: '⏳ Đang gửi tin nhắn...', en: '⏳ Sending message...' },
-    sendSuccess: { vi: '✅ Tin nhắn đã được gửi thành công đến Telegram của Nguyễn Việt Hưng!', en: '✅ Message successfully delivered to Nguyen Viet Hung\'s Telegram!' },
+    sendSuccess: { vi: '✅ Tin nhắn đã được gửi thành công!', en: '✅ Message successfully delivered!' },
     sendError: { vi: '❌ Gửi thất bại. Vui lòng liên hệ qua Zalo/Email!', en: '❌ Failed to send. Please contact via Zalo or Email!' },
-    or: { vi: 'Kênh liên hệ trực tiếp', en: 'Direct Contact Channels' },
+    or: { vi: 'Kênh liên hệ khác', en: 'Other Contact Channels' },
   },
   commandPalette: {
     placeholder: { vi: 'Gõ từ khóa tìm kiếm (ESP32, STM32, CAN Bus, EcoCare, ...)', en: 'Type to search (ESP32, STM32, CAN Bus, EcoCare, ...)' },

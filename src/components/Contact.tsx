@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, CodeSquare, Globe, Send, Phone, Check, MessageSquare, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Mail, CodeSquare, Globe, Send, Phone, Check, MessageSquare, AlertCircle } from 'lucide-react';
 import type { Language } from '@/data/portfolioData';
 import { personalInfo, translations } from '@/data/portfolioData';
 
@@ -21,7 +21,6 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
     setStatus('idle');
 
     try {
-      // Send message securely to backend server proxy
       const res = await fetch('/api/send-telegram', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -37,7 +36,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
         setStatus('success');
         setFormState({ name: '', contactInfo: '', message: '' });
       } else {
-        console.error('Server error dispatching Telegram message:', data);
+        console.error('Server error dispatching message:', data);
         setStatus('error');
       }
     } catch (err) {
@@ -80,10 +79,9 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
           transition={{ duration: 0.6 }}
           style={{ marginBottom: 50, textAlign: 'center' }}
         >
-          <h2
-            className="section-title"
-            dangerouslySetInnerHTML={{ __html: t.title[lang] }}
-          />
+          <h2 className="section-title">
+            {t.title[lang]}
+          </h2>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
         </motion.div>
 
@@ -96,7 +94,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
         }}
         className="contact-grid"
         >
-          {/* Left - Secure Form Sending directly to Telegram Bot */}
+          {/* Form */}
           <motion.form
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -110,24 +108,6 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
             <div className="hud-corner-tr" />
             <div className="hud-corner-bl" />
             <div className="hud-corner-br" />
-
-            {/* Security Badge */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '8px 14px',
-              background: 'rgba(0, 229, 255, 0.1)',
-              border: '1px solid rgba(0, 229, 255, 0.25)',
-              borderRadius: 'var(--radius-md)',
-              color: 'var(--accent-cyan)',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              marginBottom: 24,
-            }}>
-              <ShieldCheck size={16} />
-              <span>{lang === 'vi' ? 'Bảo mật 100%: API Proxy ẩn Bot Token, chống lộ key qua DevTools' : '100% Secure Server Proxy: Bot token hidden from DevTools'}</span>
-            </div>
 
             <div style={{ marginBottom: 20 }}>
               <label style={{
@@ -145,7 +125,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
                 value={formState.name}
                 onChange={e => setFormState(s => ({ ...s, name: e.target.value }))}
                 style={inputStyle}
-                placeholder="Nguyễn Văn A"
+                placeholder="Họ và tên..."
                 onFocus={e => {
                   e.currentTarget.style.borderColor = 'var(--accent-primary)';
                   e.currentTarget.style.boxShadow = '0 0 0 3px var(--accent-glow)';
@@ -293,13 +273,16 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
                 }}>
                   <s.icon size={22} style={{ color: s.color }} />
                 </div>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{s.label}</div>
                   <div style={{
                     fontSize: '0.82rem',
                     color: 'var(--text-secondary)',
                     fontFamily: 'var(--font-mono)',
                     marginTop: 2,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                   }}>
                     {s.value}
                   </div>
@@ -320,7 +303,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
               }}
             >
               <MessageSquare size={18} />
-              📱 {lang === 'vi' ? 'Quét Mã QR Zalo / Danh Bạ' : 'Scan QR Contact'}
+              📱 {lang === 'vi' ? 'Quét Mã QR Zalo' : 'Scan QR Contact'}
             </motion.button>
           </motion.div>
         </div>

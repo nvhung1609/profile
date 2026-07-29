@@ -29,10 +29,9 @@ export function Projects({ lang }: ProjectsProps) {
           transition={{ duration: 0.6 }}
           style={{ marginBottom: 40, textAlign: 'center' }}
         >
-          <h2
-            className="section-title"
-            dangerouslySetInnerHTML={{ __html: t.title[lang] }}
-          />
+          <h2 className="section-title">
+            {t.title[lang]}
+          </h2>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
         </motion.div>
 
@@ -76,7 +75,7 @@ export function Projects({ lang }: ProjectsProps) {
           ))}
         </motion.div>
 
-        {/* Project Rows Matching Reference Site */}
+        {/* Project Rows */}
         <motion.div
           layout
           style={{
@@ -140,10 +139,10 @@ export function Projects({ lang }: ProjectsProps) {
                   </div>
 
                   {/* Right Content */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
                     {/* Category & Period */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                         <span className="tech-tag" style={{ fontSize: '0.72rem' }}>{project.category}</span>
                         {project.highlight && (
                           <span style={{
@@ -212,6 +211,7 @@ export function Projects({ lang }: ProjectsProps) {
                     {/* Buttons */}
                     <div style={{
                       display: 'flex',
+                      flexWrap: 'wrap',
                       gap: 12,
                       marginTop: 12,
                       paddingTop: 14,
