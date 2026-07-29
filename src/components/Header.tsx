@@ -16,13 +16,13 @@ interface HeaderProps {
 }
 
 const navItems = [
-  { id: 'home', icon: Home },
-  { id: 'about', icon: User },
-  { id: 'services', icon: Wrench },
-  { id: 'technical-stack', icon: Cpu },
-  { id: 'projects', icon: Rocket },
-  { id: 'experience', icon: Briefcase },
-  { id: 'contact', icon: Mail },
+  { id: 'home', sectionId: 'home', icon: Home },
+  { id: 'about', sectionId: 'about', icon: User },
+  { id: 'services', sectionId: 'services', icon: Wrench },
+  { id: 'techStack', sectionId: 'technical-stack', icon: Cpu },
+  { id: 'projects', sectionId: 'projects', icon: Rocket },
+  { id: 'experience', sectionId: 'experience', icon: Briefcase },
+  { id: 'contact', sectionId: 'contact', icon: Mail },
 ] as const;
 
 export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand }: HeaderProps) {
@@ -60,10 +60,10 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
         }}
         className="app-header"
       >
-        {/* Logo matching reference */}
+        {/* Logo with full name ALWAYS visible */}
         <motion.div
           whileHover={{ scale: 1.03 }}
-          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', minWidth: 0, flexShrink: 1 }}
+          style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', flexShrink: 0 }}
           onClick={() => scrollTo('home')}
         >
           <div style={{
@@ -83,7 +83,7 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
           }}>
             VH
           </div>
-          <div style={{ minWidth: 0, overflow: 'hidden' }}>
+          <div>
             <span style={{
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
@@ -93,8 +93,6 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
               display: 'block',
               lineHeight: 1.15,
               whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
             }}
             className="header-name-text"
             >
@@ -106,8 +104,6 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
               color: 'var(--accent-primary)',
               fontWeight: 600,
               whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
               display: 'block',
             }}
             className="header-role-text"
@@ -131,11 +127,12 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
         >
           {navItems.map((item) => {
             const Icon = item.icon;
-            const label = t[item.id as keyof typeof t][lang];
+            const labelObj = t[item.id as keyof typeof t] || t.techStack;
+            const label = labelObj ? labelObj[lang] : '';
             return (
               <button
                 key={item.id}
-                onClick={() => scrollTo(item.id)}
+                onClick={() => scrollTo(item.sectionId)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -168,7 +165,7 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
         </nav>
 
         {/* Control Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }} className="header-controls">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }} className="header-controls">
           {/* Quick Command Search Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -187,11 +184,12 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
               justifyContent: 'center',
               cursor: 'pointer',
             }}
+            className="ctrl-btn search-btn"
           >
-            <Search size={17} />
+            <Search size={16} />
           </motion.button>
 
-          {/* Language Toggle */}
+          {/* Premium Flag Badge Language Toggle Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -199,22 +197,26 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
             aria-label="Language toggle"
             style={{
               height: 38,
-              padding: '0 10px',
+              padding: '0 12px',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-primary)',
+              border: '1px solid var(--border-accent)',
               background: 'var(--bg-glass)',
               color: 'var(--text-primary)',
-              fontSize: '0.78rem',
+              fontSize: '0.85rem',
               fontWeight: 800,
               fontFamily: 'var(--font-mono)',
               display: 'flex',
               alignItems: 'center',
-              gap: 4,
+              gap: 6,
               cursor: 'pointer',
+              boxShadow: 'var(--shadow-glow)',
             }}
+            className="ctrl-btn lang-btn"
           >
-            <span>{lang === 'vi' ? 'VN' : 'EN'}</span>
-            <span style={{ color: 'var(--accent-primary)' }}>{lang === 'vi' ? 'VI' : 'EN'}</span>
+            <span>{lang === 'vi' ? '🇻🇳' : '🇺🇸'}</span>
+            <span style={{ color: 'var(--accent-primary)', fontWeight: 800 }}>
+              {lang === 'vi' ? 'VI' : 'EN'}
+            </span>
           </motion.button>
 
           {/* Theme Toggle */}
@@ -235,8 +237,9 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
               justifyContent: 'center',
               cursor: 'pointer',
             }}
+            className="ctrl-btn"
           >
-            {theme === 'dark' ? <Sun size={17} style={{ color: '#ffb700' }} /> : <Moon size={17} style={{ color: 'var(--accent-primary)' }} />}
+            {theme === 'dark' ? <Sun size={16} style={{ color: '#ffb700' }} /> : <Moon size={16} style={{ color: 'var(--accent-primary)' }} />}
           </motion.button>
 
           {/* Mobile Menu Trigger */}
@@ -257,9 +260,9 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
               justifyContent: 'center',
               cursor: 'pointer',
             }}
-            className="mobile-menu-btn"
+            className="mobile-menu-btn ctrl-btn"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </motion.button>
         </div>
       </motion.header>
@@ -288,11 +291,12 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
           >
             {navItems.map((item) => {
               const Icon = item.icon;
-              const label = t[item.id as keyof typeof t][lang];
+              const labelObj = t[item.id as keyof typeof t] || t.techStack;
+              const label = labelObj ? labelObj[lang] : '';
               return (
                 <button
                   key={item.id}
-                  onClick={() => scrollTo(item.id)}
+                  onClick={() => scrollTo(item.sectionId)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -327,8 +331,14 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
         @media (max-width: 540px) {
           .app-header { padding: 0 10px !important; }
           .header-role-text { display: none !important; }
-          .header-name-text { max-width: 110px !important; font-size: 0.92rem !important; }
+          .header-name-text { max-width: none !important; font-size: 0.88rem !important; font-weight: 800 !important; }
           .header-controls { gap: 4px !important; }
+          .ctrl-btn { width: 36px !important; height: 36px !important; }
+          .lang-btn { width: auto !important; padding: 0 8px !important; }
+        }
+        @media (max-width: 380px) {
+          .search-btn { display: none !important; }
+          .header-name-text { font-size: 0.82rem !important; }
         }
       `}</style>
     </>

@@ -95,7 +95,7 @@ export const translations = {
     contact: { vi: 'Liên hệ', en: 'Contact' },
   },
   hero: {
-    badge: { vi: 'Kỹ Sư Nhúng Cấp Cao', en: 'Senior Embedded Engineer' },
+    badge: { vi: 'Embedded & IoT Engineer', en: 'Embedded & IoT Engineer' },
     greeting: { vi: 'Xin chào, tôi là', en: "Hi, It's" },
     rolePrefix: { vi: 'Tôi là', en: "I'm a" },
     roleName: { vi: 'KỸ SƯ HỆ THỐNG NHÚNG', en: 'EMBEDDED SYSTEMS ENGINEER' },
