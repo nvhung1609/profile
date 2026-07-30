@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Printer, Mail, MapPin, Phone, CodeSquare, Globe, ExternalLink, Award, BookOpen, Cpu, Wrench } from 'lucide-react';
+import { X, Printer, Mail, MapPin, Phone, CodeSquare, Globe } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { Language } from '@/data/portfolioData';
 import { personalInfo, workExperiences, projects, techCategories, education, translations } from '@/data/portfolioData';
