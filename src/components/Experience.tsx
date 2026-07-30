@@ -91,6 +91,7 @@ export function Experience({ lang }: ExperienceProps) {
                         rel="noopener noreferrer"
                         style={{ color: 'var(--accent-primary)', display: 'inline-flex', alignItems: 'center' }}
                         aria-label="Company website"
+                        title="Website hệ thống IoT (MUSEN PLUS)"
                       >
                         <ExternalLink size={16} />
                       </a>

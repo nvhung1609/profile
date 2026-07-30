@@ -37,7 +37,7 @@ export function CommandPalette({ lang, onClose, onToggleLang, onToggleTheme, onO
     { id: 'services', label: navT.services[lang], icon: <Wrench size={18} />, action: () => scrollTo('services'), keywords: 'services dich vu pcb firmware r&d' },
     { id: 'technical-stack', label: navT.techStack[lang], icon: <Cpu size={18} />, action: () => scrollTo('technical-stack'), keywords: 'technical stack esp32 stm32 freertos canbus altium' },
     { id: 'projects', label: navT.projects[lang], icon: <Rocket size={18} />, action: () => scrollTo('projects'), keywords: 'projects du an ecocare ai box forklift uav' },
-    { id: 'experience', label: navT.experience[lang], icon: <Briefcase size={18} />, action: () => scrollTo('experience'), keywords: 'experience musen plus japan osaka' },
+    { id: 'experience', label: navT.experience[lang], icon: <Briefcase size={18} />, action: () => scrollTo('experience'), keywords: 'experience jv tech musen plus japan osaka' },
     { id: 'contact', label: navT.contact[lang], icon: <Mail size={18} />, action: () => scrollTo('contact'), keywords: 'contact lien he email telegram zalo' },
     { id: 'toggle-lang', label: t.switchLang[lang], icon: <Globe size={18} />, action: () => { onToggleLang(); onClose(); }, keywords: 'language ngon ngu tieng viet english' },
     { id: 'toggle-theme', label: t.toggleTheme[lang], icon: <Moon size={18} />, action: () => { onToggleTheme(); onClose(); }, keywords: 'theme dark light giao dien' },

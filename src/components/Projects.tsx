@@ -90,7 +90,11 @@ export function Projects({ lang }: ProjectsProps) {
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((project, index) => {
-              const projectImg = `${baseUrl}assets/img/projects/${project.id}/preview.png`;
+              const projectImg = project.image
+                ? (project.image.startsWith('http') || project.image.startsWith('/') ? project.image : `${baseUrl}${project.image}`)
+                : (project.gallery && project.gallery.length > 0
+                    ? (project.gallery[0].startsWith('http') || project.gallery[0].startsWith('/') ? project.gallery[0] : `${baseUrl}${project.gallery[0]}`)
+                    : `${baseUrl}assets/img/projects/${project.id}/preview.png`);
 
               return (
                 <motion.div
@@ -138,6 +142,12 @@ export function Projects({ lang }: ProjectsProps) {
                       <img
                         src={projectImg}
                         alt={project.title}
+                        onError={(e) => {
+                          if (project.gallery && project.gallery.length > 0) {
+                            const first = project.gallery[0];
+                            (e.currentTarget as HTMLImageElement).src = first.startsWith('http') || first.startsWith('/') ? first : `${baseUrl}${first}`;
+                          }
+                        }}
                         style={{
                           width: '100%',
                           height: '100%',
@@ -145,10 +155,6 @@ export function Projects({ lang }: ProjectsProps) {
                           objectPosition: 'center',
                         }}
                       />
-                      <div style={{
-                        position: 'absolute', inset: 0,
-                        background: 'linear-gradient(180deg, transparent 40%, rgba(14,14,26,0.8) 100%)',
-                      }} />
                     </div>
 
                     {/* Right Content */}

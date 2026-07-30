@@ -68,9 +68,9 @@ export function About({ lang, onOpenCv }: AboutProps) {
               gap: 8,
               alignItems: 'center',
             }}>
-              <span style={{ whiteSpace: 'nowrap' }}>MUSEN PLUS Co., Ltd.</span>
-              <span style={{ whiteSpace: 'nowrap', fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                (無線プラス製作所)
+              <span style={{ whiteSpace: 'nowrap' }}>JV TECH</span>
+              <span style={{ whiteSpace: 'nowrap', fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                {lang === 'vi' ? '(HQ Nhật Bản: MUSEN PLUS Co., Ltd.)' : '(Japan HQ: MUSEN PLUS Co., Ltd.)'}
               </span>
             </h3>
 
@@ -87,7 +87,7 @@ export function About({ lang, onOpenCv }: AboutProps) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
                 lang === 'vi' ? 'Thiết kế nguyên lý & PCB 2/4-Layer trên Altium Designer' : 'Schematic capture & 2/4-Layer PCB layout in Altium Designer',
-                lang === 'vi' ? 'Lập trình C/C++ chuẩn sản xuất trên ESP32/S3, STM32, nRF52840' : 'Production C/C++ firmware on ESP32/S3, STM32, nRF52840',
+                lang === 'vi' ? 'Lập trình C/C++ & SBC/Linux: STM32 (ARM), ESP (SoC), CH32 (RISC-V), MSP430, PIC, EC800M, Raspberry Pi, Orange Pi' : 'Production C/C++ & SBC/Linux: STM32 (ARM), ESP (SoC), CH32 (RISC-V), MSP430, PIC, EC800M, Raspberry Pi, Orange Pi',
                 lang === 'vi' ? 'Tích hợp Edge AI (TensorFlow Lite Micro) & ma trận ToF 8x8' : 'Edge AI (TensorFlow Lite Micro) & 8x8 ToF sensor matrix fusion',
                 lang === 'vi' ? 'Chuẩn hóa truyền thông CAN Bus, RS485/Modbus, LoRa, MQTT' : 'Industrial protocol stacks: CAN Bus, RS485/Modbus, LoRa, MQTT',
               ].map((item, i) => (

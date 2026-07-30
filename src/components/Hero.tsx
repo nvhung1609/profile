@@ -308,7 +308,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                   <div style={{
                     marginTop: 10, display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center',
                   }}>
-                    {['STM32', 'ESP32-S3', 'FreeRTOS', 'Altium 4L', 'CAN Bus'].map(tag => (
+                    {['STM32 (ARM)', 'ESP (SoC)', 'CH32 (RISC-V)', 'EC800M 4G', 'FreeRTOS', 'SBC/Linux'].map(tag => (
                       <span key={tag} className="tech-tag" style={{ fontSize: '0.68rem', padding: '2px 8px' }}>{tag}</span>
                     ))}
                   </div>

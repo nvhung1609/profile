@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
+import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, Layers, Sparkles, ZoomIn } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
 import { translations } from '@/data/portfolioData';
 
@@ -14,16 +14,19 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
   const t = translations.projects;
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isFullscreenZoom, setIsFullscreenZoom] = useState(false);
 
   // Base URL for assets
   const baseUrl = import.meta.env.BASE_URL.endsWith('/')
     ? import.meta.env.BASE_URL
     : `${import.meta.env.BASE_URL}/`;
 
-  // 6 Image URLs per project: 1.png, 2.png, 3.png, 4.png, 5.png, 6.png
-  const galleryImages = [1, 2, 3, 4, 5, 6].map(
-    num => `${baseUrl}assets/img/projects/${project.id}/${num}.png`
-  );
+  // Use project.gallery if provided, or fallback to default project images
+  const galleryImages = project.gallery && project.gallery.length > 0
+    ? project.gallery.map(img => img.startsWith('http') || img.startsWith('/') ? img : `${baseUrl}${img}`)
+    : [1, 2, 3, 4, 5, 6].map(
+        num => `${baseUrl}assets/img/projects/${project.id}/${num}.png`
+      );
 
   const nextImg = () => setActiveImgIndex((prev) => (prev + 1) % galleryImages.length);
   const prevImg = () => setActiveImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
@@ -133,34 +136,122 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             background: '#07070d',
             overflow: 'hidden',
             borderBottom: '1px solid var(--border-accent)',
+            cursor: 'zoom-in',
           }}
           className="modal-banner-box"
+          onClick={() => setIsFullscreenZoom(true)}
           >
-            {/* Active Image Render */}
+            {/* Ambient Blurred Background */}
             <AnimatePresence mode="wait">
-              <motion.img
-                key={activeImgIndex}
-                src={galleryImages[activeImgIndex]}
-                alt={`${project.title} render ${activeImgIndex + 1}`}
-                initial={{ opacity: 0, scale: 1.04 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.35 }}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center',
-                }}
-              />
+              {galleryImages[activeImgIndex]?.toLowerCase().endsWith('.mp4') ? (
+                <motion.video
+                  key={`bg-${activeImgIndex}`}
+                  src={galleryImages[activeImgIndex]}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.3 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'blur(30px) brightness(0.6)',
+                    transform: 'scale(1.15)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              ) : (
+                <motion.img
+                  key={`bg-${activeImgIndex}`}
+                  src={galleryImages[activeImgIndex]}
+                  alt=""
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.4 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'blur(30px) brightness(0.7)',
+                    transform: 'scale(1.15)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              )}
             </AnimatePresence>
 
-            {/* Sci-Fi Overlay Gradient */}
+            {/* Active 100% Sharp Media (Image or Video) */}
+            <AnimatePresence mode="wait">
+              {galleryImages[activeImgIndex]?.toLowerCase().endsWith('.mp4') ? (
+                <motion.video
+                  key={`fg-${activeImgIndex}`}
+                  src={galleryImages[activeImgIndex]}
+                  autoPlay
+                  loop
+                  muted
+                  controls
+                  playsInline
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.35 }}
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    position: 'relative',
+                    zIndex: 2,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    objectPosition: 'center',
+                    background: 'rgba(0,0,0,0.5)',
+                  }}
+                />
+              ) : (
+                <motion.img
+                  key={`fg-${activeImgIndex}`}
+                  src={galleryImages[activeImgIndex]}
+                  alt={`${project.title} render ${activeImgIndex + 1}`}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.35 }}
+                  style={{
+                    position: 'relative',
+                    zIndex: 2,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    objectPosition: 'center',
+                  }}
+                />
+              )}
+            </AnimatePresence>
+
+            {/* Zoom Hint Badge */}
             <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(180deg, rgba(7,7,13,0.2) 0%, rgba(14,14,26,0.85) 100%)',
-              pointerEvents: 'none',
-            }} />
+              position: 'absolute', top: 14, left: 14,
+              zIndex: 10,
+            }}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                color: '#fff', background: 'rgba(0,0,0,0.75)',
+                padding: '4px 12px', borderRadius: 'var(--radius-full)',
+                border: '1px solid var(--border-accent)', backdropFilter: 'blur(10px)',
+              }}>
+                <ZoomIn size={14} style={{ color: 'var(--accent-cyan)' }} />
+                <span>{lang === 'vi' ? 'Phóng to full màn hình' : 'Click to Fullscreen Zoom'}</span>
+              </div>
+            </div>
 
             {/* Carousel Arrow Buttons */}
             <motion.button
@@ -179,7 +270,6 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             >
               <ChevronLeft size={22} />
             </motion.button>
-
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -215,50 +305,78 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             </div>
           </div>
 
-          {/* 6 Thumbnail Selector Bar (Squarer & Taller) */}
+          {/* Thumbnail Selector Bar */}
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(6, 1fr)',
-            gap: 8,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: 10,
             padding: '12px 16px',
             background: 'var(--bg-tertiary)',
             borderBottom: '1px solid var(--border-primary)',
           }}>
-            {galleryImages.map((url, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setActiveImgIndex(idx)}
-                style={{
-                  aspectRatio: '4 / 3',
-                  minHeight: 65,
-                  borderRadius: 'var(--radius-md)',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  border: activeImgIndex === idx ? '2px solid var(--accent-primary)' : '1px solid var(--border-primary)',
-                  boxShadow: activeImgIndex === idx ? 'var(--shadow-glow)' : 'none',
-                  position: 'relative',
-                  opacity: activeImgIndex === idx ? 1 : 0.55,
-                  transition: 'all 0.2s',
-                }}
-                className="thumb-box"
-              >
-                <img
-                  src={url}
-                  alt={`Thumb ${idx + 1}`}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <span style={{
-                  position: 'absolute', bottom: 3, right: 4,
-                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 800,
-                  color: '#fff', textShadow: '0 1px 3px #000',
-                  background: 'rgba(0,0,0,0.65)', padding: '1px 5px', borderRadius: '4px',
-                }}>
-                  #{idx + 1}
-                </span>
-              </motion.div>
-            ))}
+            {galleryImages.map((url, idx) => {
+              const isVid = url.toLowerCase().endsWith('.mp4');
+              return (
+                <motion.div
+                  key={idx}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActiveImgIndex(idx)}
+                  style={{
+                    width: 96,
+                    height: 65,
+                    flexShrink: 0,
+                    borderRadius: 'var(--radius-md)',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    border: activeImgIndex === idx ? '2px solid var(--accent-primary)' : '1px solid var(--border-primary)',
+                    boxShadow: activeImgIndex === idx ? 'var(--shadow-glow)' : 'none',
+                    position: 'relative',
+                    opacity: activeImgIndex === idx ? 1 : 0.8,
+                    transition: 'all 0.2s',
+                    background: '#080810',
+                  }}
+                  className="thumb-box"
+                >
+                  {isVid ? (
+                    <video
+                      src={url}
+                      muted
+                      loop
+                      autoPlay
+                      playsInline
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <img
+                      src={url}
+                      alt={`Thumb ${idx + 1}`}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  )}
+                  {isVid && (
+                    <span style={{
+                      position: 'absolute', top: 4, left: 4,
+                      fontSize: '0.6rem', fontWeight: 800,
+                      color: '#ff2d55', background: 'rgba(0,0,0,0.85)',
+                      padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(255,45,85,0.4)',
+                    }}>
+                      VIDEO
+                    </span>
+                  )}
+                  <span style={{
+                    position: 'absolute', bottom: 3, right: 4,
+                    fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 800,
+                    color: '#fff', textShadow: '0 1px 3px #000',
+                    background: 'rgba(0,0,0,0.65)', padding: '1px 5px', borderRadius: '4px',
+                  }}>
+                    #{idx + 1}
+                  </span>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Modal Body Information */}
@@ -396,6 +514,141 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
           </div>
         </div>
       </motion.div>
+
+      {/* Full-Screen Lightbox Zoom Modal */}
+      <AnimatePresence>
+        {isFullscreenZoom && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: 999999,
+              background: '#05050c',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '60px 20px 20px 20px',
+              boxSizing: 'border-box',
+            }}
+            onClick={() => setIsFullscreenZoom(false)}
+          >
+            {/* Top Bar with Title & Close Button */}
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: 'absolute',
+                top: 16,
+                left: 20,
+                right: 20,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                zIndex: 100000,
+              }}
+            >
+              <div style={{ color: '#fff', fontSize: '0.9rem', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+                🔍 {project.title} ({activeImgIndex + 1}/{galleryImages.length})
+              </div>
+              <button
+                onClick={() => setIsFullscreenZoom(false)}
+                aria-label="Close Lightbox"
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: '50%',
+                  background: 'var(--accent-glow)',
+                  border: '1px solid var(--border-accent)',
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  boxShadow: 'var(--shadow-glow)',
+                }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Lightbox Main Media (100% Crisp Full Screen Display) */}
+            {galleryImages[activeImgIndex]?.toLowerCase().endsWith('.mp4') ? (
+              <video
+                key={`lightbox-${activeImgIndex}`}
+                src={galleryImages[activeImgIndex]}
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  maxWidth: '96vw',
+                  maxHeight: '88vh',
+                  objectFit: 'contain',
+                  borderRadius: 'var(--radius-md)',
+                  boxShadow: '0 0 60px rgba(0,0,0,0.9)',
+                  border: '1px solid var(--border-accent)',
+                  background: '#000',
+                }}
+              />
+            ) : (
+              <motion.img
+                key={`lightbox-${activeImgIndex}`}
+                src={galleryImages[activeImgIndex]}
+                alt={`${project.title} full view`}
+                initial={{ scale: 0.94, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.94, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  maxWidth: '96vw',
+                  maxHeight: '88vh',
+                  objectFit: 'contain',
+                  borderRadius: 'var(--radius-md)',
+                  boxShadow: '0 0 60px rgba(0,0,0,0.9)',
+                  border: '1px solid var(--border-accent)',
+                }}
+              />
+            )}
+
+            {/* Left/Right Navigation Controls */}
+            <button
+              onClick={(e) => { e.stopPropagation(); prevImg(); }}
+              aria-label="Previous Image"
+              style={{
+                position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)',
+                width: 48, height: 48, borderRadius: '50%', background: 'rgba(0,0,0,0.85)',
+                border: '1px solid var(--border-accent)', color: '#fff', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 100000,
+                boxShadow: 'var(--shadow-glow)',
+              }}
+            >
+              <ChevronLeft size={28} />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); nextImg(); }}
+              aria-label="Next Image"
+              style={{
+                position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)',
+                width: 48, height: 48, borderRadius: '50%', background: 'rgba(0,0,0,0.85)',
+                border: '1px solid var(--border-accent)', color: '#fff', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 100000,
+                boxShadow: 'var(--shadow-glow)',
+              }}
+            >
+              <ChevronRight size={28} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
         @media (max-width: 640px) {
