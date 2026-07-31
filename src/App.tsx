@@ -9,6 +9,7 @@ import { Services } from '@/components/Services';
 import { Skills } from '@/components/Skills';
 import { Projects } from '@/components/Projects';
 import { Experience } from '@/components/Experience';
+import { Education } from '@/components/Education';
 import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
 import { CommandPalette } from '@/components/CommandPalette';
@@ -87,6 +88,7 @@ export default function App() {
         <Skills lang={lang} />
         <Projects lang={lang} />
         <Experience lang={lang} />
+        <Education lang={lang} />
         <Contact lang={lang} onOpenQr={() => setShowQr(true)} />
       </main>
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Home, User, Wrench, Cpu, Rocket, Briefcase, Mail, Globe, Moon, FileDown } from 'lucide-react';
+import { Search, Home, User, Wrench, Cpu, Rocket, Briefcase, GraduationCap, Mail, Globe, Moon, FileDown } from 'lucide-react';
 import type { Language } from '@/data/portfolioData';
 import { translations } from '@/data/portfolioData';
 
@@ -38,6 +38,7 @@ export function CommandPalette({ lang, onClose, onToggleLang, onToggleTheme, onO
     { id: 'technical-stack', label: (navT.techStack as any)[lang] || navT.techStack.en, icon: <Cpu size={18} />, action: () => scrollTo('technical-stack'), keywords: 'technical stack esp32 stm32 freertos canbus altium' },
     { id: 'projects', label: (navT.projects as any)[lang] || navT.projects.en, icon: <Rocket size={18} />, action: () => scrollTo('projects'), keywords: 'projects du an ecocare ai box forklift uav' },
     { id: 'experience', label: (navT.experience as any)[lang] || navT.experience.en, icon: <Briefcase size={18} />, action: () => scrollTo('experience'), keywords: 'experience jv tech musen plus japan osaka' },
+    { id: 'education', label: lang === 'vi' ? 'Học Vấn & Nền Tảng' : lang === 'ja' ? '学歴 & 背景' : 'Academic Background', icon: <GraduationCap size={18} />, action: () => scrollTo('education'), keywords: 'education hoc van dai hoc can tho ctu degree' },
     { id: 'contact', label: (navT.contact as any)[lang] || navT.contact.en, icon: <Mail size={18} />, action: () => scrollTo('contact'), keywords: 'contact lien he email telegram zalo' },
     { id: 'toggle-lang', label: (t.switchLang as any)[lang] || t.switchLang.en, icon: <Globe size={18} />, action: () => { onToggleLang(); onClose(); }, keywords: 'language ngon ngu tieng viet english' },
     { id: 'toggle-theme', label: (t.toggleTheme as any)[lang] || t.toggleTheme.en, icon: <Moon size={18} />, action: () => { onToggleTheme(); onClose(); }, keywords: 'theme dark light giao dien' },

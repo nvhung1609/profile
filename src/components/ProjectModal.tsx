@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, Layers, Sparkles, ZoomIn, Play } from 'lucide-react';
+import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, Layers, Sparkles, ZoomIn, Play, FileText } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
 import { translations, getLangText } from '@/data/portfolioData';
 
@@ -660,6 +660,26 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                 >
                   <CodeSquare size={16} />
                   {(t.sourceCode as any)[lang] || t.sourceCode.en}
+                </a>
+              )}
+              {project.publicationUrl && (
+                <a
+                  href={project.publicationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary"
+                  style={{
+                    textDecoration: 'none',
+                    background: 'linear-gradient(135deg, rgba(234, 67, 53, 0.15), rgba(66, 133, 244, 0.15))',
+                    borderColor: 'rgba(66, 133, 244, 0.4)',
+                    color: 'var(--text-primary)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}
+                >
+                  <FileText size={16} style={{ color: '#4285F4' }} />
+                  {lang === 'vi' ? '📄 Bài báo Khoa học (Google Scholar)' : lang === 'ja' ? '📄 学術論文 (Google Scholar)' : '📄 Scientific Paper (Google Scholar)'}
                 </a>
               )}
             </div>

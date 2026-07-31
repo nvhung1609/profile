@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, CodeSquare, Eye, Calendar } from 'lucide-react';
+import { ExternalLink, CodeSquare, Eye, Calendar, FileText } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
 import { projects, projectCategories, translations, getLangText } from '@/data/portfolioData';
 import { ProjectModal } from './ProjectModal';
@@ -329,6 +329,29 @@ export function Projects({ lang }: ProjectsProps) {
                         >
                           <CodeSquare size={14} />
                           Code
+                        </a>
+                      )}
+                      {project.publicationUrl && (
+                        <a
+                          href={project.publicationUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="btn-secondary"
+                          style={{
+                            padding: '7px 12px',
+                            fontSize: '0.8rem',
+                            background: 'rgba(66, 133, 244, 0.12)',
+                            borderColor: 'rgba(66, 133, 244, 0.3)',
+                            color: 'var(--text-primary)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                          title="Google Scholar Scientific Paper"
+                        >
+                          <FileText size={14} style={{ color: '#4285F4' }} />
+                          Paper
                         </a>
                       )}
                     </div>

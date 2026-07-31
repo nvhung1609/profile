@@ -52,7 +52,7 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
         <html lang="${lang}">
           <head>
             <meta charset="utf-8" />
-            <title>CV_Nguyen_Viet_Hung_Senior_Embedded_Engineer</title>
+            <title></title>
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -87,8 +87,8 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                 color: #1e293b;
                 background: #ffffff;
                 padding: 20px 28px;
-                font-size: ${isCompactMode ? '8.8pt' : '9.5pt'};
-                line-height: ${isCompactMode ? '1.45' : '1.55'};
+                font-size: ${isCompactMode ? '8.5pt' : '9.5pt'};
+                line-height: ${isCompactMode ? '1.4' : '1.55'};
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
               }
@@ -99,20 +99,26 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
               section {
                 page-break-inside: auto !important;
                 break-inside: auto !important;
-                margin-bottom: ${isCompactMode ? '10px' : '14px'} !important;
+                margin-bottom: ${isCompactMode ? '8px' : '14px'} !important;
               }
               .cv-experience-item {
                 page-break-inside: auto !important;
                 break-inside: auto !important;
-                margin-bottom: ${isCompactMode ? '12px' : '16px'} !important;
+                margin-bottom: ${isCompactMode ? '10px' : '16px'} !important;
                 margin-left: 0 !important;
                 padding-left: 10px !important;
                 border-left: 2.5px solid #ea580c !important;
               }
+              .cv-page-break-item {
+                page-break-before: always !important;
+                break-before: page !important;
+                margin-top: 75px !important;
+                padding-top: 0 !important;
+              }
               .cv-achievement-bullet {
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
-                margin-bottom: ${isCompactMode ? '4px' : '6px'} !important;
+                margin-bottom: ${isCompactMode ? '2px' : '6px'} !important;
               }
               .cv-project-card {
                 page-break-inside: avoid !important;
@@ -141,7 +147,7 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
               @media print {
                 html, body {
                   margin: 0 !important;
-                  padding: ${isCompactMode ? '8mm 12mm' : '10mm 14mm'} !important;
+                  padding: 8mm 12mm !important;
                   background: #ffffff !important;
                 }
               }
@@ -166,10 +172,11 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
     }
   };
 
-  const flagshipProjectIds = ['ecocare-ai', 'forklift-safety', 'smart-agri-lora', 'edge-ai-box', 'ecohotel-smart-hotel'];
-  const featuredCvProjects = isCompactMode 
-    ? projects.filter(p => flagshipProjectIds.includes(p.id))
-    : projects;
+  const compactFlagshipIds = ["ecocare-ai-edge", "ecolift-smart-elevator", "ecosen-smart-sensor", "nrf52840-dc-box", "fire-alarm-system", "beeline-moto-v1"];
+  const allProjectIds = ["nrf52840-dc-box", "fire-alarm-system", "equipment-management-system", "beeline-moto-v1", "dev-kit-msp430-esp32", "ecocare-ai-edge", "ecolift-smart-elevator", "ecosen-smart-sensor", "smart-led-matrix", "ecohotel-smart-hotel", "xiaozhi-voice-ai", "ec200u-kit-dev", "ec800m-dev-kit", "ec800m-tracking-v2", "sim-ver2", "auto-start-pcie", "drone-bridge-board", "auto-relay-v3", "drone-rf-tx-rx", "lora-env-gateway-node", "relay-4-channel", "sensor-relay-30a"];
+  const featuredCvProjects = isCompactMode
+    ? projects.filter(p => compactFlagshipIds.includes(p.id))
+    : projects.filter(p => p.highlight || allProjectIds.includes(p.id));
 
   return (
     <motion.div
@@ -404,22 +411,21 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
             }}
             className="cv-print-area"
           >
-            {/* Header Section: Avatar + Name/Title + Contact Info */}
+            {/* Header Section: 2-Column Layout (Avatar/Name Left, Contact Right) */}
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: 26,
-              paddingBottom: 20,
+              marginBottom: 20,
+              paddingBottom: 16,
               borderBottom: '2.5px solid var(--accent-primary)',
-              gap: 20,
-              flexWrap: 'wrap',
+              gap: 16,
             }}>
               {/* Left Column: Avatar + Name & Subtitle */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 18, flex: '1 1 340px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0, flex: 1 }}>
                 <div style={{
-                  width: 76,
-                  height: 76,
+                  width: 64,
+                  height: 64,
                   borderRadius: '50%',
                   overflow: 'hidden',
                   border: '2.5px solid var(--accent-primary)',
@@ -439,7 +445,7 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                     />
                   ) : (
                     <div style={{
-                      fontSize: '1.45rem',
+                      fontSize: '1.25rem',
                       fontWeight: 900,
                       fontFamily: 'var(--font-display)',
                       color: '#ffffff',
@@ -451,70 +457,72 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                   )}
                 </div>
 
-                <div>
+                <div style={{ minWidth: 0, flex: 1 }}>
                   <h1 style={{
-                    fontSize: '1.85rem',
+                    fontSize: '1.45rem',
                     fontWeight: 900,
                     fontFamily: 'var(--font-display)',
                     letterSpacing: '-0.02em',
                     margin: 0,
                     color: 'var(--text-primary)',
                     lineHeight: 1.15,
+                    whiteSpace: 'nowrap',
                   }}>
                     {personalInfo.name}
                   </h1>
                   <div style={{
-                    fontSize: '0.98rem',
+                    fontSize: '0.88rem',
                     color: 'var(--accent-primary)',
                     fontWeight: 800,
-                    marginTop: 4,
+                    marginTop: 3,
                     textTransform: 'uppercase',
                     letterSpacing: '0.04em',
                     fontFamily: 'var(--font-mono)',
+                    whiteSpace: 'nowrap',
                   }}>
                     {personalInfo.title[lang]}
                   </div>
                   <div style={{
-                    fontSize: '0.78rem',
+                    fontSize: '0.74rem',
                     color: 'var(--text-secondary)',
-                    marginTop: 3,
+                    marginTop: 2,
                     fontWeight: 600,
+                    lineHeight: 1.25,
                   }}>
-                    R&D Firmware & Hardware Design Engineer • Edge AI • IoT/AIoT Systems
+                    R&D Firmware & Hardware Engineer • Edge AI • IoT/AIoT
                   </div>
                 </div>
               </div>
 
-              {/* Right Column: Contact Info Grid */}
+              {/* Right Column: Contact Info */}
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 5,
-                fontSize: '0.82rem',
+                gap: 4,
+                fontSize: '0.78rem',
                 color: 'var(--text-secondary)',
-                alignItems: 'flex-start',
-                flexShrink: 0,
                 borderLeft: '2px solid var(--border-accent)',
-                paddingLeft: 16,
+                paddingLeft: 14,
+                flexShrink: 0,
               }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <Phone size={13} style={{ color: 'var(--accent-cyan)' }} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Phone size={12} style={{ color: 'var(--accent-cyan)' }} />
                   <strong style={{ color: 'var(--text-primary)' }}>{personalInfo.phone}</strong>
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <Mail size={13} style={{ color: 'var(--accent-primary)' }} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Mail size={12} style={{ color: 'var(--accent-primary)' }} />
                   <span>{personalInfo.email}</span>
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <MapPin size={13} style={{ color: 'var(--accent-gold)' }} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <MapPin size={12} style={{ color: 'var(--accent-gold)' }} />
                   <span>{personalInfo.location[lang]}</span>
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <CodeSquare size={13} style={{ color: 'var(--accent-primary)' }} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <CodeSquare size={12} style={{ color: 'var(--accent-primary)' }} />
                   <span>{personalInfo.github.replace('https://', '')}</span>
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <Globe size={13} style={{ color: 'var(--accent-cyan)' }} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Globe size={12} style={{ color: 'var(--accent-cyan)' }} />
                   <span>{personalInfo.website.replace('https://', '')}</span>
                 </span>
               </div>
@@ -631,14 +639,18 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                 <div style={{ flex: 1, height: '1.5px', background: 'var(--border-primary)' }} />
               </div>
 
-              {workExperiences.map(exp => (
-                <div key={exp.id} className="cv-experience-item" style={{
-                  position: 'relative',
-                  paddingLeft: 22,
-                  marginLeft: 10,
-                  borderLeft: '2px solid var(--border-accent)',
-                  marginBottom: 28,
-                }}>
+              {workExperiences.map((exp, expIdx) => (
+                <div 
+                  key={exp.id} 
+                  className={`cv-experience-item ${isCompactMode && expIdx > 0 ? 'cv-page-break-item' : ''}`}
+                  style={{
+                    position: 'relative',
+                    paddingLeft: 22,
+                    marginLeft: 10,
+                    borderLeft: '2px solid var(--border-accent)',
+                    marginBottom: isCompactMode ? 16 : 28,
+                  }}
+                >
                   {/* Timeline Dot */}
                   <div className="cv-timeline-dot" style={{
                     position: 'absolute',
@@ -738,26 +750,26 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                     </p>
                   )}
 
-                  {/* Achievements Project Blueprint List */}
+                  {/* Achievements List */}
                   <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: isCompactMode ? 6 : 12,
+                    gap: isCompactMode ? 3 : 12,
                     marginTop: isCompactMode ? 4 : 8,
                   }}>
-                    {(isCompactMode ? exp.achievements.slice(0, 3) : exp.achievements).map((ach, i) => {
+                    {(isCompactMode ? (exp.id === 'jv-tech' ? exp.achievements.slice(0, 7) : exp.achievements) : exp.achievements).map((ach, i) => {
                       const text = (ach as any)[lang] || ach.en || ach.vi || '';
                       const colonIndex = text.indexOf(': ');
                       let title = '';
                       let content = text;
-                      if (colonIndex > 0 && colonIndex < 120) {
+                      if (!isCompactMode && colonIndex > 0 && colonIndex < 120) {
                         title = text.substring(0, colonIndex).trim();
                         content = text.substring(colonIndex + 2).trim();
                       }
 
                       const renderTextWithLinks = (str: string) => {
                         const urlRegex = /\((https?:\/\/[^\s)]+|[a-zA-Z0-9-]+\.(?:com|vn|net|io|org)[^\s)]*)\)/g;
-                        const parts = [];
+                        const parts: (string | React.ReactNode)[] = [];
                         let lastIndex = 0;
                         let match;
 
@@ -792,6 +804,27 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                         return parts.length > 0 ? parts : str;
                       };
 
+                      /* COMPACT MODE: simple dash bullet like professional CV */
+                      if (isCompactMode) {
+                        return (
+                          <div
+                            key={i}
+                            className="cv-achievement-bullet"
+                            style={{
+                              fontSize: '0.83rem',
+                              color: 'var(--text-secondary)',
+                              lineHeight: 1.5,
+                              paddingLeft: 12,
+                              position: 'relative',
+                            }}
+                          >
+                            <span style={{ position: 'absolute', left: 0, color: 'var(--text-tertiary)' }}>–</span>
+                            {renderTextWithLinks(text)}
+                          </div>
+                        );
+                      }
+
+                      /* FULL MODE: diamond bullet with title:content split */
                       return (
                         <div
                           key={i}
@@ -803,7 +836,7 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                             borderBottom: i === exp.achievements.length - 1 ? 'none' : '1px dashed rgba(255, 255, 255, 0.08)',
                           }}
                         >
-                          {/* Glowing Diamond Bullet Marker */}
+                          {/* Diamond Bullet Marker */}
                           <div style={{
                             position: 'absolute',
                             left: 0,
@@ -849,11 +882,25 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                       );
                     })}
                   </div>
+
+                  {/* Technical Skills embedded under each role (compact mode only) */}
+                  {isCompactMode && exp.techStack && exp.techStack.length > 0 && (
+                    <div style={{
+                      marginTop: 8,
+                      fontSize: '0.82rem',
+                      color: 'var(--text-secondary)',
+                      lineHeight: 1.55,
+                    }}>
+                      <span style={{ fontWeight: 800, color: 'var(--text-primary)' }}>Technical Skills: </span>
+                      {exp.techStack.join(', ')}
+                    </div>
+                  )}
                 </div>
               ))}
             </section>
 
-            {/* SECTION 3: FREELANCE & TYPICAL R&D PROJECTS / DỰ ÁN R&D TIÊU BIỂU */}
+            {/* SECTION 3: FREELANCE & TYPICAL R&D PROJECTS — HIDDEN in compact mode */}
+            {!isCompactMode && (
             <section style={{ marginBottom: 26 }}>
               <div style={{
                 display: 'flex',
@@ -968,6 +1015,7 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                 ))}
               </div>
             </section>
+            )}
 
             {/* SECTION 4: SKILLS & TECHNICAL STACK */}
             <section style={{ marginBottom: 20 }}>
@@ -994,36 +1042,57 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                 <div style={{ flex: 1, height: '1.5px', background: 'var(--border-primary)' }} />
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: isCompactMode ? 9 : 10 }}>
                     {techCategories.map(cat => (
                       <div key={cat.title.en} className="cv-skill-group">
-                        <div style={{
-                          fontSize: '0.82rem',
-                          fontWeight: 800,
-                          color: 'var(--text-primary)',
-                          marginBottom: 4,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 6,
-                        }}>
-                          <span>⚡ {cat.title[lang]}</span>
-                        </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                          {cat.items.map(item => (
-                            <span key={item} style={{
-                              fontSize: '0.72rem',
-                              padding: '2px 7px',
-                              background: 'var(--accent-glow)',
-                              borderRadius: 'var(--radius-sm)',
-                              color: 'var(--accent-primary)',
-                              fontFamily: 'var(--font-mono)',
-                              border: '1px solid var(--border-accent)',
-                              fontWeight: 600,
+                        {isCompactMode ? (
+                          /* Compact: dash bullet format like professional CV */
+                          <div style={{
+                            fontSize: '0.82rem',
+                            color: 'var(--text-secondary)',
+                            lineHeight: 1.55,
+                            paddingLeft: 12,
+                            position: 'relative',
+                          }}>
+                            <span style={{ position: 'absolute', left: 0, color: 'var(--text-tertiary)' }}>–</span>
+                            <span style={{
+                              fontWeight: 700,
+                              color: 'var(--text-primary)',
+                            }}>{cat.title[lang]}: </span>
+                            <span>{cat.items.join(', ')}</span>
+                          </div>
+                        ) : (
+                          /* Full: grid tags layout */
+                          <>
+                            <div style={{
+                              fontSize: '0.82rem',
+                              fontWeight: 800,
+                              color: 'var(--text-primary)',
+                              marginBottom: 4,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 6,
                             }}>
-                              {item}
-                            </span>
-                          ))}
-                        </div>
+                              <span>⚡ {cat.title[lang]}</span>
+                            </div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                              {cat.items.map(item => (
+                                <span key={item} style={{
+                                  fontSize: '0.72rem',
+                                  padding: '2px 7px',
+                                  background: 'var(--accent-glow)',
+                                  borderRadius: 'var(--radius-sm)',
+                                  color: 'var(--accent-primary)',
+                                  fontFamily: 'var(--font-mono)',
+                                  border: '1px solid var(--border-accent)',
+                                  fontWeight: 600,
+                                }}>
+                                  {item}
+                                </span>
+                              ))}
+                            </div>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
