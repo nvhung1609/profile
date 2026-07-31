@@ -97,9 +97,9 @@ export function Services({ lang }: ServicesProps) {
                   justifyContent: 'space-between',
                   position: 'relative',
                   overflow: 'hidden',
-                  background: 'linear-gradient(145deg, rgba(16, 18, 36, 0.85) 0%, rgba(8, 10, 22, 0.95) 100%)',
+                  background: 'var(--bg-card)',
                   border: `1px solid ${theme.border}`,
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+                  boxShadow: 'var(--shadow-card)',
                   transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               >
@@ -161,7 +161,8 @@ export function Services({ lang }: ServicesProps) {
                         fontSize: '1.2rem',
                         fontWeight: 900,
                         fontFamily: 'var(--font-mono)',
-                        color: 'rgba(255, 255, 255, 0.2)',
+                        color: 'var(--text-tertiary)',
+                        opacity: 0.6,
                       }}>
                         {theme.number}
                       </span>
@@ -204,7 +205,7 @@ export function Services({ lang }: ServicesProps) {
                           fontSize: '0.7rem',
                           fontFamily: 'var(--font-mono)',
                           fontWeight: 700,
-                          color: '#fff',
+                          color: 'var(--text-primary)',
                           background: 'var(--bg-tertiary)',
                           border: `1px solid ${theme.color}35`,
                           padding: '3px 8px',

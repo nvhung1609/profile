@@ -267,7 +267,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                 <div style={{
                   position: 'absolute', inset: 0,
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  background: 'linear-gradient(135deg, #0e0e1a 0%, #1a1a2e 100%)',
+                  background: 'var(--bg-secondary)',
                   padding: '16px 12px', textAlign: 'center', overflow: 'hidden',
                 }}>
                   <div style={{
@@ -286,7 +286,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                     fontSize: 'clamp(0.95rem, 2.8vw, 1.25rem)',
                     fontWeight: 800,
                     fontFamily: 'var(--font-display)',
-                    color: '#fff',
+                    color: 'var(--text-primary)',
                     lineHeight: 1.2,
                     margin: 0,
                     whiteSpace: 'nowrap',

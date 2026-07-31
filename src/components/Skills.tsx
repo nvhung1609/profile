@@ -103,9 +103,9 @@ export function Skills({ lang }: SkillsProps) {
                   padding: 22,
                   position: 'relative',
                   overflow: 'hidden',
-                  background: 'linear-gradient(145deg, rgba(16, 18, 36, 0.85) 0%, rgba(8, 10, 22, 0.95) 100%)',
+                  background: 'var(--bg-card)',
                   border: `1px solid ${theme.border}`,
-                  boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
+                  boxShadow: 'var(--shadow-card)',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               >
@@ -194,8 +194,8 @@ export function Skills({ lang }: SkillsProps) {
                         fontSize: '0.78rem',
                         fontWeight: 700,
                         fontFamily: 'var(--font-mono)',
-                        color: theme.color,
-                        background: theme.bg,
+                        color: 'var(--text-primary)',
+                        background: 'var(--bg-tertiary)',
                         border: `1px solid ${theme.border}`,
                         borderRadius: 'var(--radius-sm)',
                         cursor: 'default',
@@ -204,7 +204,6 @@ export function Skills({ lang }: SkillsProps) {
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: 5,
-                        boxShadow: `0 2px 8px ${theme.color}10`,
                       }}
                     >
                       <Sparkles size={11} style={{ color: theme.color, opacity: 0.8 }} />
