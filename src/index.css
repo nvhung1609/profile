@@ -46,7 +46,7 @@
 
   /* Optimized fonts for crisp Vietnamese & English rendering */
   --font-sans: 'Be Vietnam Pro', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Plus Jakarta Sans', 'Outfit', 'Be Vietnam Pro', sans-serif;
+  --font-display: 'Montserrat', 'Plus Jakarta Sans', 'Outfit', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', SFMono-Regular, Consolas, monospace;
 
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -258,6 +258,10 @@ button, input, textarea, select {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  padding-top: 0.12em;
+  padding-bottom: 0.06em;
+  margin-top: -0.12em;
+  display: inline-block;
 }
 
 .gradient-cyan-text {
@@ -265,6 +269,14 @@ button, input, textarea, select {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  padding-top: 0.12em;
+  padding-bottom: 0.06em;
+  margin-top: -0.12em;
+  display: inline-block;
+}
+
+.hero-name-title {
+  line-height: 1.3 !important;
 }
 
 .btn-primary {

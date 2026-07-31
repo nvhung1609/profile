@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Code2, Microchip, Brain, Network } from 'lucide-react';
+import { Code2, Cpu, BrainCircuit, Network, CheckCircle2 } from 'lucide-react';
 import type { Language } from '@/data/portfolioData';
 import { services, translations } from '@/data/portfolioData';
 
@@ -7,13 +7,54 @@ interface ServicesProps {
   lang: Language;
 }
 
-const serviceIcons = [Code2, Microchip, Brain, Network];
+const serviceThemes = [
+  {
+    icon: Code2,
+    number: '01',
+    color: '#ff5500',
+    gradient: 'linear-gradient(135deg, rgba(255, 85, 0, 0.2) 0%, rgba(255, 136, 0, 0.05) 100%)',
+    border: 'rgba(255, 85, 0, 0.4)',
+    glow: '0 0 25px rgba(255, 85, 0, 0.25)',
+    tag: 'PRODUCTION READY',
+    pills: ['C/C++17', 'STM32', 'ESP32', 'FreeRTOS', 'RTOS Multi-Tasking'],
+  },
+  {
+    icon: Cpu,
+    number: '02',
+    color: '#00e5ff',
+    gradient: 'linear-gradient(135deg, rgba(0, 229, 255, 0.2) 0%, rgba(0, 136, 255, 0.05) 100%)',
+    border: 'rgba(0, 229, 255, 0.4)',
+    glow: '0 0 25px rgba(0, 229, 255, 0.25)',
+    tag: 'HIGH-SPEED PCB',
+    pills: ['Altium 2/4-Layer', 'Impedance 50Ω/90Ω', 'EMI/EMC Shield', 'DFM/DFA'],
+  },
+  {
+    icon: BrainCircuit,
+    number: '03',
+    color: '#b026ff',
+    gradient: 'linear-gradient(135deg, rgba(176, 38, 255, 0.2) 0%, rgba(240, 0, 255, 0.05) 100%)',
+    border: 'rgba(176, 38, 255, 0.4)',
+    glow: '0 0 25px rgba(176, 38, 255, 0.25)',
+    tag: 'EDGE AI TFLITE',
+    pills: ['TFLite Micro', 'ToF 8x8 Matrix', '60GHz mmWave Radar', 'Sensor Fusion'],
+  },
+  {
+    icon: Network,
+    number: '04',
+    color: '#00ff9d',
+    gradient: 'linear-gradient(135deg, rgba(0, 255, 157, 0.2) 0%, rgba(0, 184, 101, 0.05) 100%)',
+    border: 'rgba(0, 255, 157, 0.4)',
+    glow: '0 0 25px rgba(0, 255, 157, 0.25)',
+    tag: 'INDUSTRIAL MESH',
+    pills: ['CAN Bus / CAN-FD', 'RS485 Modbus', 'LoRaWAN', 'BLE 5.3 / MQTT'],
+  },
+];
 
 export function Services({ lang }: ServicesProps) {
   const t = translations.services;
 
   return (
-    <section id="services" className="section">
+    <section id="services" className="section" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="container">
         {/* Section Header */}
         <motion.div
@@ -21,12 +62,12 @@ export function Services({ lang }: ServicesProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6 }}
-          style={{ marginBottom: 60, textAlign: 'center' }}
+          style={{ marginBottom: 56, textAlign: 'center' }}
         >
           <h2 className="section-title">
-            {t.title[lang]}
+            {(t.title as any)[lang] || t.title.en}
           </h2>
-          <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
+          <p className="section-subtitle" style={{ margin: '0 auto' }}>{(t.subtitle as any)[lang] || t.subtitle.en}</p>
         </motion.div>
 
         {/* Services Grid */}
@@ -34,10 +75,10 @@ export function Services({ lang }: ServicesProps) {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
           gap: 24,
-        }}>
+        }} className="services-grid-box">
           {services.map((service, index) => {
-            const Icon = serviceIcons[index % serviceIcons.length];
-            const isEven = index % 2 === 0;
+            const theme = serviceThemes[index % serviceThemes.length];
+            const Icon = theme.icon;
 
             return (
               <motion.div
@@ -46,54 +87,139 @@ export function Services({ lang }: ServicesProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-30px' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.03, y: -5 }}
-                className="hud-card"
+                whileHover={{ y: -8 }}
+                className="hud-card service-hud-card"
                 style={{
-                  padding: 32,
+                  padding: 26,
                   display: 'flex',
                   flexDirection: 'column',
                   height: '100%',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(145deg, rgba(16, 18, 36, 0.85) 0%, rgba(8, 10, 22, 0.95) 100%)',
+                  border: `1px solid ${theme.border}`,
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+                  transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               >
-                <div className="hud-corner-tl" />
-                <div className="hud-corner-br" />
+                <div className="hud-corner-tl" style={{ borderColor: theme.color }} />
+                <div className="hud-corner-tr" style={{ borderColor: theme.color }} />
+                <div className="hud-corner-bl" style={{ borderColor: theme.color }} />
+                <div className="hud-corner-br" style={{ borderColor: theme.color }} />
 
-                {/* Icon Box */}
+                {/* Top Accent Line */}
                 <div style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: 'var(--radius-md)',
-                  background: isEven ? 'var(--accent-glow)' : 'rgba(0, 229, 255, 0.12)',
-                  border: `1px solid ${isEven ? 'var(--border-accent)' : 'rgba(0, 229, 255, 0.3)'}`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: isEven ? 'var(--accent-primary)' : 'var(--accent-cyan)',
-                  marginBottom: 20,
-                  boxShadow: isEven ? 'var(--shadow-glow)' : 'var(--shadow-cyan-glow)',
-                }}>
-                  <Icon size={28} />
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 3,
+                  background: `linear-gradient(90deg, ${theme.color} 0%, transparent 100%)`,
+                }} />
+
+                <div>
+                  {/* Top Bar: Icon + Number + HUD Tag */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: 20,
+                  }}>
+                    {/* Glowing Icon Box */}
+                    <div style={{
+                      width: 54,
+                      height: 54,
+                      borderRadius: 'var(--radius-md)',
+                      background: theme.gradient,
+                      border: `1px solid ${theme.border}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: theme.color,
+                      boxShadow: theme.glow,
+                    }}>
+                      <Icon size={26} />
+                    </div>
+
+                    <div style={{ textAlign: 'right' }}>
+                      <span style={{
+                        fontSize: '0.65rem',
+                        fontWeight: 800,
+                        fontFamily: 'var(--font-mono)',
+                        color: theme.color,
+                        background: `${theme.color}15`,
+                        border: `1px solid ${theme.color}40`,
+                        padding: '3px 8px',
+                        borderRadius: 'var(--radius-full)',
+                        display: 'block',
+                        marginBottom: 4,
+                      }}>
+                        {theme.tag}
+                      </span>
+                      <span style={{
+                        fontSize: '1.2rem',
+                        fontWeight: 900,
+                        fontFamily: 'var(--font-mono)',
+                        color: 'rgba(255, 255, 255, 0.2)',
+                      }}>
+                        {theme.number}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <h3 style={{
+                    fontSize: '1.18rem',
+                    fontWeight: 800,
+                    fontFamily: 'var(--font-display)',
+                    marginBottom: 12,
+                    color: 'var(--text-primary)',
+                    lineHeight: 1.35,
+                  }}>
+                    {service.title[lang]}
+                  </h3>
+
+                  {/* Description */}
+                  <p style={{
+                    fontSize: '0.86rem',
+                    color: 'var(--text-secondary)',
+                    lineHeight: 1.65,
+                    marginBottom: 20,
+                  }}>
+                    {service.description[lang]}
+                  </p>
                 </div>
 
-                <h3 style={{
-                  fontSize: '1.2rem',
-                  fontWeight: 800,
-                  fontFamily: 'var(--font-display)',
-                  marginBottom: 12,
-                  color: 'var(--text-primary)',
-                  lineHeight: 1.3,
+                {/* Bottom Tech Pills */}
+                <div style={{
+                  paddingTop: 14,
+                  borderTop: '1px solid var(--border-primary)',
                 }}>
-                  {service.title[lang]}
-                </h3>
-
-                <p style={{
-                  fontSize: '0.92rem',
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.7,
-                  flex: 1,
-                }}>
-                  {service.description[lang]}
-                </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {theme.pills.map((pill, i) => (
+                      <span
+                        key={i}
+                        style={{
+                          fontSize: '0.7rem',
+                          fontFamily: 'var(--font-mono)',
+                          fontWeight: 700,
+                          color: '#fff',
+                          background: 'var(--bg-tertiary)',
+                          border: `1px solid ${theme.color}35`,
+                          padding: '3px 8px',
+                          borderRadius: 'var(--radius-sm)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                        }}
+                      >
+                        <CheckCircle2 size={11} style={{ color: theme.color }} />
+                        {pill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
             );
           })}

@@ -12,9 +12,9 @@ export function About({ lang, onOpenCv }: AboutProps) {
   const t = translations.about;
 
   const stats = [
-    { value: `${personalInfo.yearsExp}+`, label: lang === 'vi' ? 'Năm Kinh Nghiệm R&D' : 'Years R&D Experience', icon: Cpu },
-    { value: `${personalInfo.productsCount}+`, label: lang === 'vi' ? 'Sản Phẩm IoT Thương Mại' : 'Commercial IoT Products', icon: Award },
-    { value: `${personalInfo.communityMembers.toLocaleString()}+`, label: lang === 'vi' ? 'Thành Viên AI Box Kit' : 'Community Developers', icon: Users },
+    { value: `${personalInfo.yearsExp}+`, label: lang === 'vi' ? 'Năm Kinh Nghiệm R&D' : lang === 'ja' ? 'R&D実務経験年数' : 'Years R&D Experience', icon: Cpu },
+    { value: `${personalInfo.productsCount}+`, label: lang === 'vi' ? 'Sản Phẩm IoT Thương Mại' : lang === 'ja' ? '商用IoT製品数' : 'Commercial IoT Products', icon: Award },
+    { value: `${personalInfo.communityMembers.toLocaleString()}+`, label: lang === 'vi' ? 'Thành Viên AI Box Kit' : lang === 'ja' ? 'コミュニティ開発者' : 'Community Developers', icon: Users },
   ];
 
   return (
@@ -29,9 +29,9 @@ export function About({ lang, onOpenCv }: AboutProps) {
           style={{ marginBottom: 50, textAlign: 'center' }}
         >
           <h2 className="section-title">
-            {t.title[lang]}
+            {(t.title as any)[lang] || t.title.en}
           </h2>
-          <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
+          <p className="section-subtitle" style={{ margin: '0 auto' }}>{(t.subtitle as any)[lang] || t.subtitle.en}</p>
         </motion.div>
 
         {/* Grid Content */}
@@ -151,7 +151,7 @@ export function About({ lang, onOpenCv }: AboutProps) {
               style={{ marginTop: 10, justifyContent: 'center' }}
             >
               <FileText size={18} />
-              {t.readMore[lang]}
+              {(t.readMore as any)[lang] || t.readMore.en}
             </button>
           </motion.div>
         </div>

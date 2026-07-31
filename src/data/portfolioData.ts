@@ -1,10 +1,20 @@
 // ========== TYPE DEFINITIONS ==========
-export type Language = 'vi' | 'en';
+export type Language = 'vi' | 'en' | 'ja';
 export type Theme = 'dark' | 'light';
 
 export interface Translation {
   vi: string;
   en: string;
+  ja?: string;
+}
+
+export function getLangText(obj: any, lang: Language): string {
+  if (!obj) return '';
+  if (typeof obj === 'string') return obj;
+  if (obj[lang]) return obj[lang];
+  if (obj.en) return obj.en;
+  if (obj.vi) return obj.vi;
+  return '';
 }
 
 export interface PersonalInfo {
@@ -36,8 +46,8 @@ export interface PersonalInfo {
 
 export interface WorkExperience {
   id: string;
-  company: string;
-  companyJapanese?: string;
+  company: Translation | string;
+  companyJapanese?: Translation | string;
   companyTaxUrl?: string;
   role: Translation;
   period: string;
@@ -57,7 +67,7 @@ export interface ServiceItem {
 
 export interface Project {
   id: string;
-  title: string;
+  title: Translation;
   category: string;
   period: string;
   summary: Translation;
@@ -178,23 +188,28 @@ export const personalInfo: PersonalInfo = {
   title: {
     vi: 'Senior Embedded Engineer',
     en: 'Senior Embedded Engineer',
+    ja: 'Senior Embedded Engineer',
   },
   subtitle: {
     vi: 'R&D Embedded Firmware & Hardware Design Engineer • Edge AI • IoT/AIoT Systems',
     en: 'R&D Embedded Firmware & Hardware Design Engineer • Edge AI • IoT/AIoT Systems',
+    ja: 'R&D Embedded Firmware & Hardware Design Engineer • Edge AI • IoT/AIoT Systems',
   },
   bio: {
     vi: 'Tôi là Kỹ sư R&D Hệ thống Nhúng & Thiết kế Phần cứng Điện tử (Embedded Firmware & Hardware Engineer) với 4+ năm kinh nghiệm chủ trì R&D toàn trình (End-to-End R&D) từ thiết kế sơ đồ nguyên lý (Schematic), đi dây PCB 2/4-Layer chuẩn EMI/EMC trên Altium Designer đến phát triển firmware nhúng cấp Production (C/C++, FreeRTOS, Edge AI) trên STM32 (ARM Cortex-M), ESP SoC, CH32 (RISC-V), MSP430, PIC, Quectel 4G EC800M/EC200U và SBC Linux (Raspberry Pi, Orange Pi) cho 16+ sản phẩm thương mại triển khai thành công tại Nhật Bản và Việt Nam.',
     en: 'R&D Embedded Systems & Electronic Hardware Engineer with 4+ years of end-to-end R&D experience—from schematic capture and multi-layer PCB layout (2/4-Layer EMI/EMC compliance on Altium) to production-grade embedded firmware (C/C++, FreeRTOS, Edge AI) across STM32 (ARM Cortex-M), ESP SoC, CH32 (RISC-V), MSP430, PIC, Quectel 4G LTE, and SBC Linux (Raspberry Pi, Orange Pi) for 16+ commercial IoT/AIoT products deployed in Japan and Vietnam.',
+    ja: 'R&D Embedded Systems & Electronic Hardware Engineer with 4+ years of end-to-end R&D experience—from schematic capture and multi-layer PCB layout (2/4-Layer EMI/EMC compliance on Altium) to production-grade embedded firmware (C/C++, FreeRTOS, Edge AI) across STM32 (ARM Cortex-M), ESP SoC, CH32 (RISC-V), MSP430, PIC, Quectel 4G LTE, and SBC Linux (Raspberry Pi, Orange Pi) for 16+ commercial IoT/AIoT products deployed in Japan and Vietnam.',
   },
   aboutText: {
     vi: 'Chuyên sâu trong thiết kế phần cứng điện tử và lập trình nhúng công nghiệp; thành thạo thiết kế PCB, tối ưu BOM, kiểm soát Impedance, EMI/EMC và phát triển firmware trên FreeRTOS. Có kinh nghiệm với các giao thức CAN Bus, RS485/Modbus, LoRa, MQTT và định hướng phát triển trở thành Embedded & Hardware System Architect.',
     en: 'Specialized in electronic hardware design and industrial embedded programming; proficient in PCB design, BOM optimization, Impedance control, EMI/EMC, and firmware development on FreeRTOS. Experienced with CAN Bus, RS485/Modbus, LoRa, and MQTT protocols, with a career focus on becoming an Embedded & Hardware System Architect.',
+    ja: 'Specialized in electronic hardware design and industrial embedded programming; proficient in PCB design, BOM optimization, Impedance control, EMI/EMC, and firmware development on FreeRTOS. Experienced with CAN Bus, RS485/Modbus, LoRa, and MQTT protocols, with a career focus on becoming an Embedded & Hardware System Architect.',
   },
   avatar: 'assets/img/pic1-hero-cutout.png',
   location: {
     vi: 'Cần Thơ / TP. Hồ Chí Minh, Việt Nam',
     en: 'Can Tho / Ho Chi Minh City, Vietnam',
+    ja: 'Can Tho / Ho Chi Minh City, Vietnam',
   },
   email: 'nvhung16092000@gmail.com',
   phone: '+84 338 812 063',
@@ -211,22 +226,27 @@ export const personalInfo: PersonalInfo = {
   status: {
     vi: '⚡ Kỹ sư R&D (Hardware & Firmware Engineer) @ JV TECH (HQ Nhật Bản: MUSEN PLUS)',
     en: '⚡ R&D Engineer (Hardware & Firmware Engineer) @ JV TECH (Japan HQ: MUSEN PLUS)',
+    ja: '⚡ R&D Engineer (Hardware & Firmware Engineer) @ JV TECH (Japan HQ: MUSEN PLUS)',
   },
   educationBg: {
     vi: 'Đại học Cần Thơ — Kỹ thuật Máy tính (Hệ thống Nhúng)',
     en: 'Can Tho University — Computer Engineering (Embedded Systems)',
+    ja: 'Can Tho University — Computer Engineering (Embedded Systems)',
   },
   interests: {
     vi: 'Embedded Systems, IoT/AIoT, Edge AI, Industrial Automation, CAN Bus/RS485, UAV/Drone, PCB Design',
     en: 'Embedded Systems, IoT/AIoT, Edge AI, Industrial Automation, CAN Bus/RS485, UAV/Drone, PCB Design',
+    ja: 'Embedded Systems, IoT/AIoT, Edge AI, Industrial Automation, CAN Bus/RS485, UAV/Drone, PCB Design',
   },
   goal: {
     vi: 'Trở thành Embedded/Hardware System Architect và phát triển các sản phẩm phần cứng công nghiệp đẳng cấp quốc tế',
     en: 'Become an Embedded/Hardware System Architect building world-class industrial electronic products',
+    ja: 'Become an Embedded/Hardware System Architect building world-class industrial electronic products',
   },
   expertise: {
     vi: 'STM32 (ARM Cortex-M), ESP (SoC), CH32 (RISC-V), MSP430, PIC, EC800M/EC200U 4G, SBC/Linux (Raspberry Pi, Orange Pi), FreeRTOS, Altium 2/4-Layer PCB, CAN Bus, RS485/Modbus, LoRa, Edge AI, C/C++',
     en: 'STM32 (ARM Cortex-M), ESP (SoC), CH32 (RISC-V), MSP430, PIC, EC800M/EC200U 4G, SBC/Linux (Raspberry Pi, Orange Pi), FreeRTOS, Altium 2/4-Layer PCB, CAN Bus, RS485/Modbus, LoRa, Edge AI, C/C++',
+    ja: 'STM32 (ARM Cortex-M), ESP (SoC), CH32 (RISC-V), MSP430, PIC, EC800M/EC200U 4G, SBC/Linux (Raspberry Pi, Orange Pi), FreeRTOS, Altium 2/4-Layer PCB, CAN Bus, RS485/Modbus, LoRa, Edge AI, C/C++',
   },
 };
 
@@ -235,40 +255,52 @@ export const workExperiences: WorkExperience[] = [
   {
     id: 'jv-tech',
     company: 'JV TECH',
-    companyJapanese: '(HQ Nhật Bản: MUSEN PLUS Co., Ltd. / 無線プラス製作所)',
+    companyJapanese: {
+      vi: '(HQ Nhật Bản: MUSEN PLUS Co., Ltd. / 無線プラス製作所)',
+      en: '(Japan HQ: MUSEN PLUS Co., Ltd. / 無線プラス製作所)',
+      ja: '(日本本社: 無線プラス製作所 / MUSEN PLUS Co., Ltd.)',
+    },
     role: {
       vi: 'Kỹ sư R&D (Hardware & Firmware Engineer)',
       en: 'R&D Engineer (Hardware & Firmware Engineer)',
+      ja: 'R&D Engineer (Hardware & Firmware Engineer)',
     },
-    period: '15/08/2024 - Hiện tại',
+    period: '15/08/2024 - Present',
     location: {
       vi: 'TP. HCM & Cần Thơ (JV TECH) • Osaka, Nhật Bản (MUSEN PLUS HQ)',
       en: 'Ho Chi Minh City & Can Tho (JV TECH) • Osaka, Japan (MUSEN PLUS HQ)',
+      ja: 'Ho Chi Minh City & Can Tho (JV TECH) • Osaka, Japan (MUSEN PLUS HQ)',
     },
     description: {
       vi: 'Chủ trì R&D phần cứng điện tử và phát triển firmware nhúng cấp production tại JV TECH thuộc công ty MUSEN PLUS Co., Ltd. (HQ Osaka, Nhật Bản). Trực tiếp thiết kế toàn trình cho 16+ sản phẩm IoT/AIoT thương mại triển khai thực tế tại hệ thống viện dưỡng lão Nhật Bản, nhà máy sản xuất công nghiệp và thiết bị điện tử thông minh.',
       en: 'Leading electronic hardware R&D & production firmware engineering at JV TECH under parent company MUSEN PLUS Co., Ltd. (Osaka HQ, Japan). Primary R&D engineer delivering 16+ commercial IoT/AIoT products deployed across Japanese nursing facilities, industrial plants, and smart devices.',
+      ja: 'Leading electronic hardware R&D & production firmware engineering at JV TECH under parent company MUSEN PLUS Co., Ltd. (Osaka HQ, Japan). Primary R&D engineer delivering 16+ commercial IoT/AIoT products deployed across Japanese nursing facilities, industrial plants, and smart devices.',
     },
     achievements: [
       {
         vi: 'Chủ trì R&D & Thiết kế Mạch Điện Tử toàn trình: Vẽ sơ đồ nguyên lý, lựa chọn linh kiện gốc, tối ưu hóa BOM và đi dây PCB 2/4-Layer (Altium Designer) kiểm soát trở kháng, đáp ứng chuẩn chống nhiễu EMI/EMC và xuất file Gerber sản xuất hàng loạt cho 16+ thiết bị thương mại.',
         en: 'Led end-to-end electronic hardware R&D: schematic capture, component selection, BOM optimization, and 2/4-Layer PCB layout (Altium Designer) with impedance control, EMI/EMC compliance, and mass-production Gerber exports for 16+ commercial products.',
+        ja: 'Led end-to-end electronic hardware R&D: schematic capture, component selection, BOM optimization, and 2/4-Layer PCB layout (Altium Designer) with impedance control, EMI/EMC compliance, and mass-production Gerber exports for 16+ commercial products.',
       },
       {
         vi: 'Nền tảng Y tế EcoCare AI (care.musenplus.com — Thị trường Nhật Bản): R&D bo mạch PCB ESP32 tùy chỉnh & phát triển Firmware nhúng cấp Production: cảm biến ToF 8x8 (VL53L5CX), Radar 60GHz mmWave phát hiện té ngã & tư thế giường/toilet thời gian thực (< 500ms latency), hệ thống Gọi y tá (Nurse Call) không dây triển khai tại các viện dưỡng lão ở Osaka, Nhật Bản.',
         en: 'EcoCare AI Medical Platform (care.musenplus.com — Japan Market): Engineered custom ESP32 PCBs & production C/C++ firmware: 8x8 ToF sensor matrix, 60GHz mmWave radar fall & posture recognition (<500ms latency), and wireless Nurse Call hardware operating in Osaka nursing facilities.',
+        ja: 'EcoCare AI Medical Platform (care.musenplus.com — Japan Market): Engineered custom ESP32 PCBs & production C/C++ firmware: 8x8 ToF sensor matrix, 60GHz mmWave radar fall & posture recognition (<500ms latency), and wireless Nurse Call hardware operating in Osaka nursing facilities.',
       },
       {
         vi: 'Hệ sinh thái Mạng Cảm biến AIoT (sensor.musenplus.com): R&D phần cứng & Firmware C/C++ FreeRTOS thu thập đa cảm biến: điện năng công nghiệp (V, A, cos φ, PT100), cảm biến môi trường (SHT30, CO2, PM2.5), nông nghiệp chính xác (pH/EC đất, NPK, PAR light) truyền thông CAN Bus, RS485/Modbus RTU, LoRaWAN và MQTT Cloud.',
         en: 'AIoT Industrial & AgTech Sensor Ecosystem (sensor.musenplus.com): R&D for multi-sensor IoT hardware & C/C++ FreeRTOS firmware: industrial power monitoring (PT100, current/voltage), environmental sensors (CO2, SHT30), precision agtech (soil pH/EC, NPK, PAR light) over CAN Bus, RS485/Modbus RTU, LoRa, and MQTT Cloud.',
+        ja: 'AIoT Industrial & AgTech Sensor Ecosystem (sensor.musenplus.com): R&D for multi-sensor IoT hardware & C/C++ FreeRTOS firmware: industrial power monitoring (PT100, current/voltage), environmental sensors (CO2, SHT30), precision agtech (soil pH/EC, NPK, PAR light) over CAN Bus, RS485/Modbus RTU, LoRa, and MQTT Cloud.',
       },
       {
         vi: 'Hệ thống Quản lý Khách sạn & Tự động hóa (hotel.musenplus.com): Thiết kế bộ điều khiển IoT phòng khách sạn thông minh: quản lý điện năng, cảm biến hiện diện Radar 24GHz/PIR, điều khiển chiếu sáng RS485/PWM và kết nối hạ tầng Cloud/App giám sát thực tế.',
         en: 'Smart Hotel & Building Automation System (hotel.musenplus.com): Designed smart hotel room IoT controllers: energy management, 24GHz radar room occupancy detection, RS485/PWM lighting control, and real-time Cloud/App integration.',
+        ja: 'Smart Hotel & Building Automation System (hotel.musenplus.com): Designed smart hotel room IoT controllers: energy management, 24GHz radar room occupancy detection, RS485/PWM lighting control, and real-time Cloud/App integration.',
       },
       {
         vi: 'Bộ kit AI Box Plus & An toàn Xe nâng Công nghiệp: Thiết kế PCB 4 lớp AI Box Plus (ESP32-S3, I2S Audio Codec, Voice AI ChatGPT/Gemini) phục vụ 5.000+ lập trình viên; R&D bộ sản phẩm an toàn xe nâng (radar 60GHz mmWave cảnh báo va chạm, tay điều khiển RF IP68 có phản hồi Answerback).',
         en: 'AI Box Plus Dev Kit & Industrial Safety Systems: Engineered 4-layer AI Box Plus PCB (ESP32-S3, I2S Audio, ChatGPT/Gemini Voice AI) powering 5,000+ developers; R&D for forklift safety (60GHz mmWave radar, IP68 RF remote with answerback).',
+        ja: 'AI Box Plus Dev Kit & Industrial Safety Systems: Engineered 4-layer AI Box Plus PCB (ESP32-S3, I2S Audio, ChatGPT/Gemini Voice AI) powering 5,000+ developers; R&D for forklift safety (60GHz mmWave radar, IP68 RF remote with answerback).',
       },
     ],
     techStack: ['C/C++', 'FreeRTOS', 'STM32 (ARM Cortex-M)', 'ESP (SoC)', 'CH32 (RISC-V)', 'MSP430', 'PIC', 'EC800M / EC200U 4G', 'SBC/Linux (Raspberry Pi, Orange Pi)', 'Altium 4-Layer PCB', 'CAN Bus', 'RS485/Modbus', 'LoRa', 'Edge AI'],
@@ -280,32 +312,39 @@ export const workExperiences: WorkExperience[] = [
     role: {
       vi: 'Kỹ sư R&D (Hardware & Firmware Engineer)',
       en: 'R&D Engineer (Hardware & Firmware Engineer)',
+      ja: 'R&D Engineer (Hardware & Firmware Engineer)',
     },
     period: '01/09/2022 - 01/09/2025',
     location: {
-      vi: 'TP. Hồ Chí Minh & Cần Thơ, Việt Nam',
-      en: 'Ho Chi Minh City & Can Tho, Vietnam',
+      vi: 'Cần Thơ, Việt Nam',
+      en: 'Can Tho, Vietnam',
+      ja: 'ベトナム カントー',
     },
     description: {
       vi: 'Nghiên cứu và phát triển toàn trình (Thiết kế phần cứng PCB & lập trình Firmware nhúng) các thiết bị quang trắc phục vụ nông nghiệp công nghệ cao và các nhà màng/nhà kính trồng trọt. Chuyên làm các thiết bị IoT đóng ngắt tải động lực công suất lớn bằng Contactor, máy bơm, quạt thông gió và hệ thống chiếu sáng.',
       en: 'End-to-end R&D (PCB Hardware Design & Embedded Firmware Development) for agricultural telemetry & optical monitoring devices across high-tech greenhouses. Specialized in IoT controllers for high-power industrial load switching via AC Contactors, heavy motors, pumps, and lighting systems.',
+      ja: 'End-to-end R&D (PCB Hardware Design & Embedded Firmware Development) for agricultural telemetry & optical monitoring devices across high-tech greenhouses. Specialized in IoT controllers for high-power industrial load switching via AC Contactors, heavy motors, pumps, and lighting systems.',
     },
     achievements: [
       {
         vi: 'Nghiên cứu & thiết kế các thiết bị quang trắc nông nghiệp chuyên dụng cho nhà màng/nhà kính trồng trọt: đo đạc cường độ ánh sáng quang hợp, nhiệt độ, độ ẩm, pH/EC.',
         en: 'Researched & engineered dedicated agricultural telemetry & optical monitoring devices for greenhouses: sensing PAR light intensity, temp, humidity, and pH/EC.',
+        ja: 'Researched & engineered dedicated agricultural telemetry & optical monitoring devices for greenhouses: sensing PAR light intensity, temp, humidity, and pH/EC.',
       },
       {
         vi: 'Thiết kế sơ đồ nguyên lý (Schematic) & đi dây PCB (Altium Designer) cho các bo mạch IoT điều khiển đóng ngắt thiết bị động lực Contactor công suất lớn cách ly an toàn và chống nhiễu công nghiệp.',
         en: 'Schematic capture & PCB layout (Altium Designer) for isolated noise-immune IoT controllers designed for high-power AC contactor load switching.',
+        ja: 'Schematic capture & PCB layout (Altium Designer) for isolated noise-immune IoT controllers designed for high-power AC contactor load switching.',
       },
       {
         vi: 'Lập trình firmware nhúng C/C++ cho vi xử lý: thuật toán máy trạng thái đóng ngắt tải công suất lớn an toàn, bảo vệ quá dòng/quá áp và truyền dữ liệu giám sát thời gian thực.',
         en: 'Developed production C/C++ MCU firmware: safe high-power load switching state machines, overcurrent/overvoltage protection, and real-time telemetry.',
+        ja: 'Developed production C/C++ MCU firmware: safe high-power load switching state machines, overcurrent/overvoltage protection, and real-time telemetry.',
       },
       {
         vi: 'Trực tiếp thử nghiệm vận hành thực tế tại hệ thống nhà trồng, đo đạc tính tương thích điện từ EMI/EMC, tối ưu hóa nguyên mẫu và hoàn thành các nhiệm vụ R&D mở rộng của công ty.',
         en: 'Field testing in greenhouse cultivation facilities, EMI/EMC profiling, power prototyping optimization, and delivering extended technical R&D assignments.',
+        ja: 'Field testing in greenhouse cultivation facilities, EMI/EMC profiling, power prototyping optimization, and delivering extended technical R&D assignments.',
       },
     ],
     techStack: ['C/C++', 'Altium PCB', 'Contactor Switching', 'Agricultural Telemetry', 'High-Power Driver', 'Sensors (PAR/pH/EC)', 'FreeRTOS'],
@@ -320,10 +359,12 @@ export const services: ServiceItem[] = [
     title: {
       vi: 'Phát Triển Firmware Nhúng Cấp Production',
       en: 'Production-Grade Firmware Engineering',
+      ja: 'Production-Grade Firmware Engineering',
     },
     description: {
       vi: 'Lập trình C/C++ đa nền tảng vi xử lý & máy tính nhúng: STM32 (ARM Cortex-M), ESP (SoC), CH32 (RISC-V), MSP430, PIC, Quectel 4G EC800M/EC200U, nRF52840, Raspberry Pi, Orange Pi. Sử dụng FreeRTOS đa nhiệm, Linux nhúng, quản lý bộ nhớ, DMA, ngắt và máy trạng thái tiết kiệm năng lượng.',
       en: 'Multi-platform C/C++ MCU & SBC programming: STM32 (ARM Cortex-M), ESP (SoC), CH32 (RISC-V), MSP430, PIC, Quectel 4G EC800M/EC200U, nRF52840, Raspberry Pi, Orange Pi. FreeRTOS, Embedded Linux, DMA, interrupts, low-power state machines.',
+      ja: 'Multi-platform C/C++ MCU & SBC programming: STM32 (ARM Cortex-M), ESP (SoC), CH32 (RISC-V), MSP430, PIC, Quectel 4G EC800M/EC200U, nRF52840, Raspberry Pi, Orange Pi. FreeRTOS, Embedded Linux, DMA, interrupts, low-power state machines.',
     },
   },
   {
@@ -332,10 +373,12 @@ export const services: ServiceItem[] = [
     title: {
       vi: 'Thiết Kế Mạch PCB Đa Lớp (Altium / KiCad)',
       en: 'Multi-layer PCB Hardware Design',
+      ja: 'Multi-layer PCB Hardware Design',
     },
     description: {
       vi: 'Thiết kế sơ đồ nguyên lý & layout PCB 2 lớp và 4 lớp chuyên sâu. Đi dây tốc độ cao (High-Speed), kiểm soát trở kháng (Impedance 50Ω/90Ω), xử lý nhiễu EMI/EMC, bảo vệ ESD & quá áp, chuẩn hóa xuất Gerber DFM/DFA.',
       en: 'Schematic capture & 2/4-layer PCB layout expertise in Altium & KiCad. High-speed routing, impedance matching (50Ω/90Ω), EMI/EMC mitigation, ESD protection, and DFM/DFA Gerber production output.',
+      ja: 'Schematic capture & 2/4-layer PCB layout expertise in Altium & KiCad. High-speed routing, impedance matching (50Ω/90Ω), EMI/EMC mitigation, ESD protection, and DFM/DFA Gerber production output.',
     },
   },
   {
@@ -344,10 +387,12 @@ export const services: ServiceItem[] = [
     title: {
       vi: 'Edge AI & Thuật Toán Sensor Fusion',
       en: 'Edge AI & Sensor Fusion Processing',
+      ja: 'Edge AI & Sensor Fusion Processing',
     },
     description: {
       vi: 'Triển khai mô hình TensorFlow Lite Micro trên vi điều khiển. Xử lý ma trận cảm biến ToF 8x8 (VL53L5CX), Radar 60GHz mmWave, IMU, GPS cho ứng dụng nhận diện tư thế người cao tuổi và cảnh báo va chạm xe nâng.',
       en: 'Deploying TensorFlow Lite Micro on MCUs. 8x8 ToF sensor matrix (VL53L5CX), 60GHz mmWave radar, IMU, and GPS signal processing for posture detection & forklift collision avoidance.',
+      ja: 'Deploying TensorFlow Lite Micro on MCUs. 8x8 ToF sensor matrix (VL53L5CX), 60GHz mmWave radar, IMU, and GPS signal processing for posture detection & forklift collision avoidance.',
     },
   },
   {
@@ -356,10 +401,12 @@ export const services: ServiceItem[] = [
     title: {
       vi: 'Bộ Giao Thức Truyền Thông & Wireless',
       en: 'Industrial Protocols & Wireless Networks',
+      ja: 'Industrial Protocols & Wireless Networks',
     },
     description: {
       vi: 'Thành thạo toàn bộ giao thức: CAN Bus (2.0B / CAN-FD), RS485 / Modbus RTU, LoRa / LoRaWAN, BLE / Bluetooth, WiFi, MQTT, HTTP/HTTPS, WebSocket, NFC, OneWire. Thiết kế bộ chuyển đổi giao thức BMS xe nâng.',
       en: 'Complete protocol mastery: CAN Bus (2.0B / CAN-FD), RS485/Modbus RTU, LoRa/LoRaWAN, BLE, WiFi, MQTT, HTTP/HTTPS, WebSocket, NFC, OneWire. Custom BMS & Charger protocol gateway converters.',
+      ja: 'Complete protocol mastery: CAN Bus (2.0B / CAN-FD), RS485/Modbus RTU, LoRa/LoRaWAN, BLE, WiFi, MQTT, HTTP/HTTPS, WebSocket, NFC, OneWire. Custom BMS & Charger protocol gateway converters.',
     },
   },
 ];
@@ -368,20 +415,27 @@ export const services: ServiceItem[] = [
 export const projects: Project[] = [
   {
     id: 'dev-kit-msp430-esp32',
-    title: 'Bo Mạch Nạp & Phát Triển Dev Kit MSP430 Chuẩn Chân Cắm ESP32 (MSP430 Dev Kit - ESP32 Footprint Format)',
+    title: {
+      vi: 'Bo Mạch Nạp & Phát Triển Dev Kit MSP430 Chuẩn Chân Cắm ESP32',
+      en: 'MSP430 Development & Programming Board (ESP32 Pin Footprint)',
+      ja: 'MSP430 開発 & プログラミング基板 (ESP32 互換フットプリント)',
+    },
     category: 'Edge AI & Smart Device',
     period: '07/2023 - 09/2023',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch phát triển Dev Kit cho vi xử lý TI MSP430G2553, chip nạp FTDI FT232RL qua cổng USB-C, mạch gỡ lỗi Spy-Bi-Wire, công tắc chọn luồng UART DIP Switch 4P và hàng chân cọc 30-pin chuẩn kích thước ESP32 DevKit.',
       en: 'Altium PCB design for Texas Instruments MSP430G2553 development board, featuring FTDI FT232RL USB-C bridge, Spy-Bi-Wire debug interface, 4P DIP switch UART selector, and 30-pin header layout aligned with ESP32 DevKit footprint.',
+      ja: 'Altium PCB design for Texas Instruments MSP430G2553 development board, featuring FTDI FT232RL USB-C bridge, Spy-Bi-Wire debug interface, 4P DIP switch UART selector, and 30-pin header layout aligned with ESP32 DevKit footprint.',
     },
     description: {
       vi: 'Dự án R&D thiết kế bo mạch phát triển Dev Kit thử nghiệm vi xử lý 16-bit RISC siêu tiết kiệm điện TI MSP430G2553. Bo mạch sử dụng chip nạp FTDI FT232RL qua cổng USB-C 16P, giao thức nạp Spy-Bi-Wire (TEST/RST), công tắc gạt DIP Switch 4P định tuyến luồng UART, đặc biệt tích hợp 2 hàng chân cọc cái 1x15P chuẩn đệm định dạng chân cắm tương thích kích thước khe cắm cắm trực tiếp vào các đế cắm module ESP32 (ESP32 Footprint Compatible Format) giúp thử nghiệm và phát triển linh hoạt.',
       en: 'R&D project designing a versatile development kit board for Texas Instruments 16-bit low-power RISC MSP430G2553 microcontroller. Features FTDI FT232RL USB-to-UART bridge over USB-C 16P, Spy-Bi-Wire (TEST/RST) programming, 4P DIP switch for UART signal selection, and 2x 1x15P socket headers mapped to standard ESP32 DevKit 30-pin footprint format for breadboard prototyping and modular socket interchangeability.',
+      ja: 'R&D project designing a versatile development kit board for Texas Instruments 16-bit low-power RISC MSP430G2553 microcontroller. Features FTDI FT232RL USB-to-UART bridge over USB-C 16P, Spy-Bi-Wire (TEST/RST) programming, 4P DIP switch for UART signal selection, and 2x 1x15P socket headers mapped to standard ESP32 DevKit 30-pin footprint format for breadboard prototyping and modular socket interchangeability.',
     },
     longDescription: {
       vi: 'Phần cứng Dev Kit: Bo mạch PCB Altium Designer 2 lớp đi dây tín hiệu bus cao tốc sạch nhiễu. Sử dụng đế chip DIP-20 tháo lắp MSP430G2553, chip nạp FTDI FT232RL SSOP28 nạp code cực kỳ ổn định, công tắc gạt 4P định tuyến tín hiệu UART, tụ lọc Tantalum 100uF 16V và hệ thống chân cọc cái 30-pin tương thích kích thước mở rộng ESP32.',
       en: 'Dev Kit Hardware: Altium 2-layer PCB with clean trace layout. Features DIP-20 IC socket for TI MSP430G2553 target MCU, SSOP28 FTDI FT232RL USB bridge for rock-solid programming, 4P DIP switch for UART routing, 100uF 16V Tantalum filter capacitors, and 30-pin header layout aligned with ESP32 DevKit footprint for breadboard prototyping.',
+      ja: 'Dev Kit Hardware: Altium 2-layer PCB with clean trace layout. Features DIP-20 IC socket for TI MSP430G2553 target MCU, SSOP28 FTDI FT232RL USB bridge for rock-solid programming, 4P DIP switch for UART routing, 100uF 16V Tantalum filter capacitors, and 30-pin header layout aligned with ESP32 DevKit footprint for breadboard prototyping.',
     },
     techStack: ['TI MSP430G2553 (16-bit RISC MCU)', 'FTDI FT232RL USB-to-UART Bridge', 'ESP32 Footprint Compatible Headers', 'Spy-Bi-Wire (TEST/RST) Programming', '4-Pos DIP Switch UART Selector', 'USB-C 16P Interface', 'Altium Designer'],
     features: [
@@ -405,20 +459,27 @@ export const projects: Project[] = [
   },
   {
     id: 'esp32-4channel-ac-relay',
-    title: 'Bo Mạch Điều Khiển 4 Kênh Rơ-le Công Nghiệp ESP32 Tích Hợp Nguồn 220V (ESP32 4-Ch Relay Switch)',
+    title: {
+      vi: 'Bo Mạch Điều Khiển 4 Kênh Rơ-le Công Nghiệp ESP32 Tích Hợp Nguồn 220V',
+      en: 'ESP32 Industrial 4-Channel AC Relay Controller Board (Built-in 220V Power)',
+      ja: 'ESP32 産業用 4 チャンネル AC リレー制御基板 (220V 電源内蔵)',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '04/2023 - 07/2023',
     summary: {
       vi: 'Thiết kế bo mạch điều khiển 4 kênh rơ-le công nghiệp 10A tích hợp nguồn AC-DC Hi-Link 5W 220V trực tiếp trên bo, vi xử lý ESP32-WROOM-32UE, cuộn lọc nhiễu UU9.8, tụ chống sét Varistor 14D471K 470V và giắc nối 2EDG5.08.',
       en: 'Hardware PCB design for ESP32-WROOM-32UE 4-channel 10A industrial relay controller, integrating onboard Hi-Link 5W 220VAC AC-DC power module, UU9.8 EMI filter choke, 14D471K 470V MOV surge protection, and 2EDG5.08 terminal block.',
+      ja: 'Hardware PCB design for ESP32-WROOM-32UE 4-channel 10A industrial relay controller, integrating onboard Hi-Link 5W 220VAC AC-DC power module, UU9.8 EMI filter choke, 14D471K 470V MOV surge protection, and 2EDG5.08 terminal block.',
     },
     description: {
       vi: 'Dự án R&D phần cứng thiết kế bo mạch công tắc điều khiển 4 kênh rơ-le độc lập tải 10A chuyên dụng cho tủ điện công nghiệp & tự động hóa tòa nhà Smart Building Relay_4_Channel. Bo mạch tích hợp module nguồn hạ áp AC-DC Hi-Link 5W cắm thẳng điện lưới 220VAC, hệ thống bảo vệ an toàn nguồn điện gồm cầu chì vuông 392, tụ chống sét MOV Varistor 14D471K 470V, cuộn lọc nhiễu dòng chung UU9.8 10mH, vi xử lý ESP32-WROOM-32UE kết nối Wi-Fi/Bluetooth, 4 rơ-le SRD-05VDC 10A đóng ngắt 4 kênh tải điện 220V riêng biệt và giắc cắm Domino 2EDG5.08 bẻ góc 90 độ tiện lợi.',
       en: 'Industrial 4-channel 10A relay controller hardware R&D project for smart building & industrial cabinet automation (Relay_4_Channel). Integrates onboard Hi-Link 5W 220VAC to 5VDC AC-DC converter module, full AC safety & EMI protection suite including 392 square AC fuse, 14D471K 470V MOV varistor surge absorber, UU9.8 10mH common-mode noise filter choke, ESP32-WROOM-32UE Wi-Fi/BLE MCU, 4x SRD-05VDC 10A relays switching independent 220V mains loads, and 90-degree 2EDG5.08 pluggable screw terminal block.',
+      ja: 'Industrial 4-channel 10A relay controller hardware R&D project for smart building & industrial cabinet automation (Relay_4_Channel). Integrates onboard Hi-Link 5W 220VAC to 5VDC AC-DC converter module, full AC safety & EMI protection suite including 392 square AC fuse, 14D471K 470V MOV varistor surge absorber, UU9.8 10mH common-mode noise filter choke, ESP32-WROOM-32UE Wi-Fi/BLE MCU, 4x SRD-05VDC 10A relays switching independent 220V mains loads, and 90-degree 2EDG5.08 pluggable screw terminal block.',
     },
     longDescription: {
       vi: 'Phần cứng & An toàn: Bo mạch PCB Proteus 2 lớp thiết kế đường đi dòng điện cao áp 220VAC khoét rãnh cách ly chống phóng điện, nguồn AC-DC Hi-Link 5W kết hợp LDO AMS1117-3.3V, tụ nhôm 470uF + tụ Tantalum 100uF lọc áp, 4 transistor C1815 kích rơ-le kèm diode dập xung M7, nút bấm cơ điều khiển 4 kênh trực tiếp và LED báo trạng thái từng kênh.',
       en: 'Hardware & Safety: 2-layer Proteus PCB layout with routed isolation slots under 220VAC high-voltage traces preventing arc discharge, Hi-Link 5W AC-DC module paired with AMS1117-3.3V LDO, 470uF electrolytic + 100uF Tantalum caps for ripple suppression, 4x C1815 transistor drivers with M7 flyback diodes, 4x manual tactile channel control buttons, and per-channel LED indicators.',
+      ja: 'Hardware & Safety: 2-layer Proteus PCB layout with routed isolation slots under 220VAC high-voltage traces preventing arc discharge, Hi-Link 5W AC-DC module paired with AMS1117-3.3V LDO, 470uF electrolytic + 100uF Tantalum caps for ripple suppression, 4x C1815 transistor drivers with M7 flyback diodes, 4x manual tactile channel control buttons, and per-channel LED indicators.',
     },
     techStack: ['ESP32-WROOM-32UE Wi-Fi/BLE', 'Hi-Link 5W 220VAC AC-DC Module', '4x 10A SRD-05VDC Power Relays', 'Varistor 14D471K 470V Surge Protection', 'UU9.8 10mH Common Mode Filter', 'Domino 2EDG5.08 10P Connector', 'Proteus PCB Design'],
     features: [
@@ -443,20 +504,27 @@ export const projects: Project[] = [
   },
   {
     id: 'esp32-sht30-relay-30a',
-    title: 'Bo Mạch Quan Trắc Nhiệt Ẩm & Điều Khiển Rơ-le Công Suất 30A (ESP32 SHT30 & 30A Relay)',
+    title: {
+      vi: 'Bo Mạch Quan Trắc Nhiệt Ẩm & Điều Khiển Rơ-le Công Suất 30A',
+      en: 'ESP32 SHT30 Temp-Humidity Telemetry & 30A Heavy-Duty Relay Board',
+      ja: 'ESP32 SHT30 温湿度モニタリング & 30A 大容量リレー制御基板',
+    },
     category: 'AgTech & Environment IoT',
     period: '03/2023 - 06/2023',
     summary: {
       vi: 'Thiết kế bo mạch IoT quan trắc nhiệt độ độ ẩm chính xác cao SHT30 tích hợp rơ-le ngắt tải dòng lớn 30A, vi xử lý ESP32 Wi-Fi/Bluetooth, firmware PlatformIO Arduino và giao diện điều khiển Cloud Dashboard.',
       en: 'Hardware design for high-precision SHT30 temperature & humidity IoT telemetry board with 30A heavy-duty relay, ESP32 Wi-Fi/BLE MCU, PlatformIO C++ firmware, and Cloud Dashboard control.',
+      ja: 'Hardware design for high-precision SHT30 temperature & humidity IoT telemetry board with 30A heavy-duty relay, ESP32 Wi-Fi/BLE MCU, PlatformIO C++ firmware, and Cloud Dashboard control.',
     },
     description: {
       vi: 'Dự án R&D phần cứng bo mạch giám sát khí hậu & tự động hóa nhà kính nông nghiệp / tủ công nghiệp Sensor_Relay_30A. Thiết bị sử dụng vi xử lý ESP32 kết nối Wi-Fi/Bluetooth, cảm biến nhiệt độ & độ ẩm kỹ thuật số chính xác cao SHT30 qua giao tiếp I2C, tầng rơ-le công suất lớn 30A đóng ngắt phụ tải động lực (quạt tản nhiệt, máy phun sương, thiết bị sấy công nghiệp) và mạch cách ly bảo vệ vi xử lý.',
       en: 'Hardware R&D project for agricultural greenhouse climate monitoring & industrial relay automation (Sensor_Relay_30A). Powered by ESP32 MCU with Wi-Fi/Bluetooth, high-precision digital SHT30 temperature & humidity sensor via I2C, heavy-duty 30A power relay switching inductive loads (exhaust fans, misting pumps, industrial heaters), and opto-isolated MCU protection.',
+      ja: 'Hardware R&D project for agricultural greenhouse climate monitoring & industrial relay automation (Sensor_Relay_30A). Powered by ESP32 MCU with Wi-Fi/Bluetooth, high-precision digital SHT30 temperature & humidity sensor via I2C, heavy-duty 30A power relay switching inductive loads (exhaust fans, misting pumps, industrial heaters), and opto-isolated MCU protection.',
     },
     longDescription: {
       vi: 'Phần cứng & Firmware: Bo mạch PCB Proteus / CAD 2 lớp đi dây tải dòng lớn 30A chịu nhiệt, nguồn hạ áp công nghiệp cách ly, cảm biến SHT30 chống ẩm ướt môi trường nông nghiệp, vi xử lý ESP32 chạy firmware C++ PlatformIO điều khiển thuật toán duy trì ngưỡng nhiệt ẩm hysteresis thông minh và gửi dữ liệu telemetry trực tiếp lên máy chủ Web Cloud.',
       en: 'Hardware & Firmware: 2-layer PCB designed for 30A high-current thermal dissipation, isolated industrial power supply, SHT30 sensor with moisture-resistant enclosure, ESP32 running PlatformIO C++ firmware with smart hysteresis climate control algorithms and direct Web Cloud telemetry streaming.',
+      ja: 'Hardware & Firmware: 2-layer PCB designed for 30A high-current thermal dissipation, isolated industrial power supply, SHT30 sensor with moisture-resistant enclosure, ESP32 running PlatformIO C++ firmware with smart hysteresis climate control algorithms and direct Web Cloud telemetry streaming.',
     },
     techStack: ['ESP32 Wi-Fi & Bluetooth', 'SHT30 Temp & Humidity Sensor', '30A Heavy Duty Load Relay', 'PlatformIO C++ Firmware', 'Proteus PCB Design', 'AgTech Smart Greenhouse', 'Cloud Telemetry'],
     features: [
@@ -481,20 +549,27 @@ export const projects: Project[] = [
   },
   {
     id: 'beeline-moto-v1-nav',
-    title: 'Thiết Bị Dẫn Đường & Đồng Hồ Thông Minh Xe Máy Beeline Moto V1 (Smart Navigation Display)',
+    title: {
+      vi: 'Thiết Bị Dẫn Đường & Đồng Hồ Thông Minh Xe Máy Beeline Moto V1',
+      en: 'Beeline Moto V1 Motorcycle Smart Navigation Display & Clock',
+      ja: 'Beeline Moto V1 バイク用スマートナビゲーション & クロックデバイス',
+    },
     category: 'Edge AI & Smart Device',
     period: '01/2024 - 04/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch đồng hồ dẫn đường thông minh xe máy Beeline Moto V1, vi xử lý Nordic nRF52840 (BLE 5.4), cảm biến chuyển động & la bàn 9 trục BNO086, cảm biến ánh sáng BH1750, IC bật nguồn MAX16054 và cổng USB-C IP67 chống nước.',
       en: 'Altium PCB design for Beeline Moto V1 smart motorcycle navigation device, featuring Nordic nRF52840 BLE 5.4 SoC, BNO086 9-axis motion fusion IMU, BH1750 ambient light sensor, MAX16054 power switch, and IP67 waterproof Type-C USB.',
+      ja: 'Altium PCB design for Beeline Moto V1 smart motorcycle navigation device, featuring Nordic nRF52840 BLE 5.4 SoC, BNO086 9-axis motion fusion IMU, BH1750 ambient light sensor, MAX16054 power switch, and IP67 waterproof Type-C USB.',
     },
     description: {
       vi: 'Dự án R&D phần cứng thiết kế bo mạch đồng hồ dẫn đường Turn-by-Turn thông minh chuyên dụng gắn ghi-đông xe máy Beeline Moto V1. Thiết bị sử dụng vi xử lý không dây Nordic nRF52840 (Bluetooth 5.4 BLE), cảm biến 9 trục BNO086 (Gia tốc + Con quay hồi chuyển + La bàn từ trường 3D tích hợp thuật toán Sensor Fusion), cảm biến ánh sáng BH1750 tự động điều chỉnh độ sáng màn hình dưới ánh nắng mặt trời, chip mở nguồn nút bấm MAX16054, mạch nâng áp TPS61023 và cổng USB Type-C IP67 chống nước chống bụi tuyệt đối.',
       en: 'Hardware R&D project designing Beeline Moto V1 smart turn-by-turn motorcycle navigation display mounted on handlebars. Powered by Nordic nRF52840 Bluetooth 5.4 BLE SoC, BNO086 9-axis sensor fusion IMU (3D Accelerometer, Gyroscope & Magnetometer for compass heading & lean angle), ROHM BH1750 ambient light sensor for automatic outdoor screen brightness, MAX16054 push-button power switch controller, TPS61023 boost converter, and IP67 waterproof Type-C USB connector.',
+      ja: 'Hardware R&D project designing Beeline Moto V1 smart turn-by-turn motorcycle navigation display mounted on handlebars. Powered by Nordic nRF52840 Bluetooth 5.4 BLE SoC, BNO086 9-axis sensor fusion IMU (3D Accelerometer, Gyroscope & Magnetometer for compass heading & lean angle), ROHM BH1750 ambient light sensor for automatic outdoor screen brightness, MAX16054 push-button power switch controller, TPS61023 boost converter, and IP67 waterproof Type-C USB connector.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB Altium Designer siêu nhỏ gọn lắp vừa vỏ tròn đồng hồ xe máy, đi dây anten chip 2.4GHz 50Ω tối ưu kết nối Bluetooth với smartphone. Tích hợp IC quản lý sạc pin Li-Po LTC4054, bộ LDO AP2112K-3.3V, cổng FPC 24-pin nối màn hình tròn màu hiển thị chỉ hướng mũi tên và phím bấm vật lý ALPS SKRPABE010 thao tác dễ dàng khi đeo găng tay lái xe.',
       en: 'Hardware: Ultra-compact Altium 2-layer PCB custom-contoured for circular motorcycle handlebar enclosures, 50Ω 2.4GHz ceramic antenna for solid Bluetooth smartphone pairing. Features LTC4054 Li-Po battery charger, AP2112K-3.3V LDO, 24-pin FPC display connector driving color circular arrow display, and ALPS SKRPABE010 tactile buttons operable with heavy motorcycle riding gloves.',
+      ja: 'Hardware: Ultra-compact Altium 2-layer PCB custom-contoured for circular motorcycle handlebar enclosures, 50Ω 2.4GHz ceramic antenna for solid Bluetooth smartphone pairing. Features LTC4054 Li-Po battery charger, AP2112K-3.3V LDO, 24-pin FPC display connector driving color circular arrow display, and ALPS SKRPABE010 tactile buttons operable with heavy motorcycle riding gloves.',
     },
     techStack: ['Nordic nRF52840 (BLE 5.4 SoC)', 'Bosch BNO086 9-Axis IMU Sensor Fusion', 'BH1750 Ambient Light Sensor', 'MAX16054 Push-Button Switch', 'IP67 Waterproof Type-C USB', 'TPS61023 Boost Regulator', 'Altium Designer'],
     features: [
@@ -520,20 +595,27 @@ export const projects: Project[] = [
   },
   {
     id: 'diy-drone-remote-tx-rx',
-    title: 'Bộ Điều Khiển Tay Cầm Tay & Bo Thu Tín Hiệu Máy Bay Drone DIY (2.4GHz TX & RX System)',
+    title: {
+      vi: 'Bộ Điều Khiển Tay Cầm Tay & Bo Thu Tín Hiệu Máy Bay Drone DIY (2.4GHz)',
+      en: 'DIY Drone 2.4GHz TX Handheld Controller & RX Receiver System',
+      ja: '自作ドローン用 2.4GHz TX ハンドヘルド送信機 & RX 受信機システム',
+    },
     category: 'Robotics & UAV',
     period: '09/2023 - 12/2023',
     summary: {
       vi: 'Thiết kế Altium Designer trọn bộ phần cứng tay cầm điều khiển Drone DIY (TX) và Mạch thu tín hiệu trên máy bay (RX): Module 2.4GHz NRF24L01+, vi xử lý ATmega328P, Cần gạt Gimbal 2 trục, màn hình OLED 0.96", pin 18650 tích hợp sạc Type-C TP4056.',
       en: 'Altium PCB design for complete DIY Drone Remote Control Transmitter (TX) & Receiver (RX) hardware system: 2.4GHz NRF24L01+ RF module, ATmega328P MCU, dual 2-axis Gimbal joysticks, 0.96" OLED HUD, built-in 18650 Li-ion battery & TP4056 Type-C charger.',
+      ja: 'Altium PCB design for complete DIY Drone Remote Control Transmitter (TX) & Receiver (RX) hardware system: 2.4GHz NRF24L01+ RF module, ATmega328P MCU, dual 2-axis Gimbal joysticks, 0.96" OLED HUD, built-in 18650 Li-ion battery & TP4056 Type-C charger.',
     },
     description: {
       vi: 'Dự án R&D phần cứng tự thiết kế hệ thống truyền nhận tín hiệu điều khiển bay không dây 2.4GHz hai chiều cho máy bay drone & mô hình bay DIY. Giải pháp gồm 2 bo mạch: Tay cầm điều khiển Remote Control TX (Cần gạt Joystick analog 4 kênh, màn hình OLED 0.96 inch hiển thị Telemetry/Pin, công tắc chuyển chế độ bay, vi xử lý ATmega328P, khay pin 18650 sạc Type-C TP4056 + nguồn Boost PAM2401) và Bo thu sóng RX lắp trên máy bay (Giải mã NRF24L01+ xuất chuẩn PPM/PWM/SBUS điều khiển ESC & Servo).',
       en: 'Hardware R&D project designing 2.4GHz low-latency wireless remote control ecosystem for DIY drones & RC aircraft. Solution includes 2 custom PCBs: Handheld Remote Control Transmitter (TX) featuring dual 2-axis precision Gimbal joysticks, 0.96" OLED HUD displaying real-time telemetry/battery voltage, flight mode toggle switches, ATmega328P MCU, integrated 18650 battery with TP4056 Type-C charger + PAM2401 boost converter; and On-Board Receiver (RX) decoding 2.4GHz NRF24L01+ packets into PPM/PWM/SBUS signals for ESCs & Servos.',
+      ja: 'Hardware R&D project designing 2.4GHz low-latency wireless remote control ecosystem for DIY drones & RC aircraft. Solution includes 2 custom PCBs: Handheld Remote Control Transmitter (TX) featuring dual 2-axis precision Gimbal joysticks, 0.96" OLED HUD displaying real-time telemetry/battery voltage, flight mode toggle switches, ATmega328P MCU, integrated 18650 battery with TP4056 Type-C charger + PAM2401 boost converter; and On-Board Receiver (RX) decoding 2.4GHz NRF24L01+ packets into PPM/PWM/SBUS signals for ESCs & Servos.',
     },
     longDescription: {
       vi: 'Phần cứng: Bộ 2 bo mạch PCB Altium Designer 2 lớp đi dây cao tốc chống nhiễu RF. Tay cầm TX tích hợp 2 cụm Joystick 4 trục độ chính xác cao, màn hình OLED I2C 128x64, module RF 2.4GHz NRF24L01+ Anten ngoài gia cường công suất, chip nạp USB-C CH340C, đế pin 18650 âm vào thân tay cầm và bộ nâng áp PAM2401 5V + LDO AP2112K 3.3V. Mạch RX nhỏ gọn lắp trên drone giải mã tín hiệu điều khiển trực tiếp cho mạch điều khiển bay Flight Controller.',
       en: 'Hardware: Dual 2-layer Altium PCB system optimized for 2.4GHz RF noise rejection. TX Handheld Remote integrates dual 4-axis high-precision Gimbal joystick assemblies, 128x64 I2C OLED HUD, 2.4GHz NRF24L01+ RF module with external high-gain antenna, CH340C USB-C programming interface, built-in 18650 battery holder, PAM2401 5V Boost + AP2112K 3.3V LDO. Compact RX board mounts on drone outputting direct flight commands to Flight Controllers.',
+      ja: 'Hardware: Dual 2-layer Altium PCB system optimized for 2.4GHz RF noise rejection. TX Handheld Remote integrates dual 4-axis high-precision Gimbal joystick assemblies, 128x64 I2C OLED HUD, 2.4GHz NRF24L01+ RF module with external high-gain antenna, CH340C USB-C programming interface, built-in 18650 battery holder, PAM2401 5V Boost + AP2112K 3.3V LDO. Compact RX board mounts on drone outputting direct flight commands to Flight Controllers.',
     },
     techStack: ['NRF24L01+ 2.4GHz RF Transceiver', 'ATmega328P Microcontroller', 'Dual 2-Axis Gimbal Joysticks', 'OLED 0.96" Telemetry HUD', '18650 Li-Ion Battery System', 'TP4056 Type-C Charger', 'PAM2401 Boost & AP2112K LDO', 'Altium Designer'],
     features: [
@@ -559,20 +641,27 @@ export const projects: Project[] = [
   },
   {
     id: 'agri-drone-gnss-dock',
-    title: 'Bo Mạch Đệm & Dock Đọc Mạch Định Vị RTK GNSS Máy Bay Nông Nghiệp (Agri-Drone GNSS Dock)',
+    title: {
+      vi: 'Bo Mạch Đệm & Dock Đọc Mạch Định Vị RTK GNSS Máy Bay Nông Nghiệp',
+      en: 'Agri-Drone Centimeter-Level RTK GNSS Positioning Reader Dock',
+      ja: '農業用ドローン RTK GNSS センチメートル級測位リーダー基板 & ドック',
+    },
     category: 'Robotics & UAV',
     period: '06/2024 - 07/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch đệm đọc dữ liệu định vị RTK GNSS centimet cho máy bay nông nghiệp, tương thích module Unicore UM982, vi xử lý ESP32-WROVER-E (8MB PSRAM), chip nạp kép CH340C, Jack XT30UPB và giắc cắm JST GHS.',
       en: 'Altium PCB design for Agri-Drone centimeter-level RTK GNSS reader dock, featuring Unicore UM982 RTK module, ESP32-WROVER-E (8MB PSRAM), dual CH340C USB bridges, XT30UPB connector, and JST GHS headers.',
+      ja: 'Altium PCB design for Agri-Drone centimeter-level RTK GNSS reader dock, featuring Unicore UM982 RTK module, ESP32-WROVER-E (8MB PSRAM), dual CH340C USB bridges, XT30UPB connector, and JST GHS headers.',
     },
     description: {
       vi: 'Dự án R&D phần cứng thiết kế bo mạch đệm kết nối & dock đọc dữ liệu định vị vệ tinh chính xác cao centimet (RTK GNSS Reader Dock) chuyên dụng cho máy bay phun thuốc nông nghiệp (Agri-Drone). Bo mạch tích hợp module định vị định hướng 2 anten Unicore UM982, vi xử lý trung tâm ESP32-WROVER-E đọc và phát dữ liệu NMEA/UBX qua Wi-Fi/Bluetooth, chip nạp UART kép CH340C qua cổng USB-C 16P, Jack nguồn mạ vàng XT30UPB chịu tải 12V LiPo và giắc nối JST GHS giao tiếp Flight Controller.',
       en: 'Centimeter-level RTK GNSS reader dock hardware R&D project for agricultural spraying drones (Agri-Drone). Integrates Unicore UM982 all-constellation dual-antenna RTK module, ESP32-WROVER-E MCU broadcasting NMEA/UBX telemetry over Wi-Fi/BLE, dual CH340C USB-to-UART bridges over USB-C 16P, gold-plated XT30UPB 12V LiPo battery power connector, and JST GHS flight controller interface.',
+      ja: 'Centimeter-level RTK GNSS reader dock hardware R&D project for agricultural spraying drones (Agri-Drone). Integrates Unicore UM982 all-constellation dual-antenna RTK module, ESP32-WROVER-E MCU broadcasting NMEA/UBX telemetry over Wi-Fi/BLE, dual CH340C USB-to-UART bridges over USB-C 16P, gold-plated XT30UPB 12V LiPo battery power connector, and JST GHS flight controller interface.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB Altium Designer 2 lớp đi dây cao tốc chống nhiễu anten RF cho module RTK GNSS Unicore UM982, vi xử lý ESP32-WROVER-E 8MB PSRAM xử lý dữ liệu vệ tinh đa tần số, hệ thống chip USB UART kép 1CH340C & 2CH340C ghi log trực tiếp, nguồn DCDC công nghiệp LM2596 hạ áp từ ắc quy/pin LiPo drone 12V, giắc cắm JST GHS 1.25mm chống rung và đầu Jack nguồn Amass XT30UPB.',
       en: 'Hardware: Altium 2-layer PCB designed for Unicore UM982 dual-antenna RTK GNSS module, ESP32-WROVER-E with 8MB PSRAM processing multi-frequency satellite streams, dual 1CH340C & 2CH340C USB UART bridges for concurrent raw carrier-phase logging, LM2596 DCDC buck converter stepping down 12V LiPo battery power, vibration-proof JST GHS 1.25mm headers, and Amass XT30UPB power connector.',
+      ja: 'Hardware: Altium 2-layer PCB designed for Unicore UM982 dual-antenna RTK GNSS module, ESP32-WROVER-E with 8MB PSRAM processing multi-frequency satellite streams, dual 1CH340C & 2CH340C USB UART bridges for concurrent raw carrier-phase logging, LM2596 DCDC buck converter stepping down 12V LiPo battery power, vibration-proof JST GHS 1.25mm headers, and Amass XT30UPB power connector.',
     },
     techStack: ['Unicore UM982 Dual-Antenna RTK', 'ESP32-WROVER-E (8MB PSRAM)', 'Dual CH340C USB Bridges', 'Agri-Drone Telematics', 'LM2596 Industrial DCDC', 'XT30UPB Power Connector', 'JST GHS Aviation Header', 'Altium Designer'],
     features: [
@@ -592,20 +681,27 @@ export const projects: Project[] = [
   },
   {
     id: 'lora-gateway-node-ecosystem',
-    title: 'Hệ Thống Mạng Cảm Biến Không Dây LoRa Tầm Xa (LoRa Master Gateway & Sensor End-Node)',
+    title: {
+      vi: 'Hệ Thống Mạng Cảm Biến Không Dây LoRa Tầm Xa (Master Gateway & Sensor End-Node)',
+      en: 'Long-Range LoRa Wireless Sensor Network Ecosystem (Gateway & End-Node)',
+      ja: '長距離 LoRa ワイヤレスセンサーネットワーク (マスターゲートウェイ & ノード)',
+    },
     category: 'AgTech & Environment IoT',
     period: '08/2023 - 11/2023',
     summary: {
       vi: 'Thiết kế Altium Designer trọn bộ giải pháp 2 bo mạch LoRa: Master Gateway (ESP32 Wi-Fi/LoRa, CH340C, nguồn DCDC PAM2401) và Sensor End-Node (ATmega328P siêu tiết kiệm pin, đế pin 18650, sạc TP4056 Type-C).',
       en: 'Altium PCB design for complete 2-board LoRa system: Master Gateway (ESP32 Wi-Fi/LoRa, CH340C, PAM2401 DCDC) and low-power Sensor End-Node (ATmega328P, on-board 18650 battery, TP4056 Type-C).',
+      ja: 'Altium PCB design for complete 2-board LoRa system: Master Gateway (ESP32 Wi-Fi/LoRa, CH340C, PAM2401 DCDC) and low-power Sensor End-Node (ATmega328P, on-board 18650 battery, TP4056 Type-C).',
     },
     description: {
       vi: 'Dự án R&D thiết kế giải pháp phần cứng trọn bộ cho hệ thống thu thập dữ liệu nông nghiệp & môi trường từ xa không dây qua chuẩn truyền thông LoRa Ra-02 (SX1278 433MHz). Hệ thống bao gồm 2 bo mạch phần cứng độc lập: Bo mạch Master Gateway (ESP32 SMD + LoRa Ra-02 + Nguồn Boost PAM2401 + Nối mạng Wi-Fi/MQTT) và Bo mạch Sensor End-Node (ATmega328P + Đế pin Li-ion 18650 sạc Type-C TP4056 + các cổng cắm cảm biến môi trường).',
       en: 'Complete hardware design R&D project for wireless AgTech & environmental telemetry system via LoRa Ra-02 (SX1278 433MHz). Comprises 2 independent hardware boards: Master Gateway PCB (ESP32 SMD + LoRa Ra-02 + PAM2401 Boost + Wi-Fi/MQTT Cloud) and Sensor End-Node PCB (ATmega328P + 18650 Li-ion battery holder + TP4056 Type-C charger + sensor headers).',
+      ja: 'Complete hardware design R&D project for wireless AgTech & environmental telemetry system via LoRa Ra-02 (SX1278 433MHz). Comprises 2 independent hardware boards: Master Gateway PCB (ESP32 SMD + LoRa Ra-02 + PAM2401 Boost + Wi-Fi/MQTT Cloud) and Sensor End-Node PCB (ATmega328P + 18650 Li-ion battery holder + TP4056 Type-C charger + sensor headers).',
     },
     longDescription: {
       vi: 'Phần cứng: Bộ 2 bo mạch PCB Altium Designer 2 lớp tối ưu hóa đường truyền anten RF SMA 50Ω. Gateway sử dụng ESP32 làm trung tâm điều phối dữ liệu LoRa lên Cloud qua Wi-Fi/MQTT. Node sử dụng chip ATmega328P TQFP-32 lập trình chế độ ngủ sâu (Deep Sleep) cực thấp, tích hợp trực tiếp khay pin 18650, mạch sạc năng lượng/Type-C TP4056, bộ quản lý nguồn AP2112K 3.3V cách ly và dải domino KF762 chịu lực.',
       en: 'Hardware: Dual 2-layer Altium PCB system optimized for 50Ω SMA RF antenna traces. Master Gateway utilizes ESP32 relaying LoRa packet data to Cloud via Wi-Fi/MQTT. End-Node utilizes TQFP-32 ATmega328P with deep-sleep power management, on-board 18650 battery holder, TP4056 solar/Type-C charger, isolated AP2112K 3.3V LDO, and KF762 screw terminals.',
+      ja: 'Hardware: Dual 2-layer Altium PCB system optimized for 50Ω SMA RF antenna traces. Master Gateway utilizes ESP32 relaying LoRa packet data to Cloud via Wi-Fi/MQTT. End-Node utilizes TQFP-32 ATmega328P with deep-sleep power management, on-board 18650 battery holder, TP4056 solar/Type-C charger, isolated AP2112K 3.3V LDO, and KF762 screw terminals.',
     },
     techStack: ['LoRa Ra-02 (SX1278 433MHz)', 'ESP32 Wi-Fi / Bluetooth', 'ATmega328P Low-Power MCU', 'TP4056 Type-C Battery Charger', '18650 Li-Ion Battery Holder', 'PAM2401 Boost & AP2112K LDO', 'Domino KF762', 'Altium Designer'],
     features: [
@@ -628,20 +724,27 @@ export const projects: Project[] = [
   },
   {
     id: 'auto-relay-v3',
-    title: 'Bo Mạch Điều Khiển Rơ-le Ô Tô Tải Lớn 30A Cách Ly Opto (Auto Relay V3 Controller)',
+    title: {
+      vi: 'Bo Mạch Điều Khiển Rơ-le Ô Tô Tải Lớn 30A Cách Ly Opto',
+      en: 'Automotive 30A High-Current Opto-Isolated Relay Controller Board (V3)',
+      ja: '車載用 30A 大電流オプトアイソレートリレー制御基板 (V3)',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '05/2024 - 07/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch điều khiển đóng ngắt Rơ-le ô tô công suất lớn 30A, vi xử lý 32-bit RISC-V CH32X033F8P6 (TSSOP20), transistor MOSFET công suất TO-252, cách ly quang Optocoupler, cầu chì ô tô FUSE_3522 và Jack cắm ô tô 8P chuyên dụng.',
       en: 'Altium PCB design for 30A heavy-duty automotive relay controller, featuring 32-bit RISC-V CH32X033F8P6 MCU (TSSOP20), TO-252 power MOSFET drivers, Optocoupler isolation, FUSE_3522 blade fuse holder, and 8P automotive harness connector.',
+      ja: 'Altium PCB design for 30A heavy-duty automotive relay controller, featuring 32-bit RISC-V CH32X033F8P6 MCU (TSSOP20), TO-252 power MOSFET drivers, Optocoupler isolation, FUSE_3522 blade fuse holder, and 8P automotive harness connector.',
     },
     description: {
       vi: 'Dự án R&D phần cứng bo mạch điều khiển đóng ngắt phụ tải động lực dòng lớn 30A chuyên dụng cho ô tô & thiết bị công nghiệp Auto Relay V3. Bo mạch sử dụng vi xử lý 32-bit RISC-V CH32X033F8P6 (TSSOP20) điều khiển thuật toán thông minh, tầng công suất MOSFET TO-252 kết hợp Rơ-le dòng 30A, cách ly quang Optocoupler chống nhiễu xung điện từ, khay cầu chì lưỡi ô tô chống quá dòng và giắc cắm dây ô tô 8-pin chắc chắn.',
       en: 'Heavy-duty 30A load switching hardware R&D project for automotive & industrial Auto Relay V3. Integrates 32-bit RISC-V CH32X033F8P6 MCU (TSSOP20) running smart control algorithms, TO-252 power MOSFET drivers, dual 30A power relays, PC817 optocoupler noise isolation, automotive blade fuse overcurrent protection, and 8-pin vehicle harness connector.',
+      ja: 'Heavy-duty 30A load switching hardware R&D project for automotive & industrial Auto Relay V3. Integrates 32-bit RISC-V CH32X033F8P6 MCU (TSSOP20) running smart control algorithms, TO-252 power MOSFET drivers, dual 30A power relays, PC817 optocoupler noise isolation, automotive blade fuse overcurrent protection, and 8-pin vehicle harness connector.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB Altium Designer 2 lớp đi dây dòng tải lớn 30A chịu nhiệt cao, vi xử lý 32-bit RISC-V CH32X033F8P6, hạ áp DCDC công nghiệp LM2596 chịu điện áp ắc quy 12V/24V, bộ rơ-le công suất 30A 4P, mạch nhận diện chìa khóa xe ACC, cách ly tín hiệu điều khiển bằng Optocoupler, cầu chì ô tô chân cắm FUSE_3522 và giắc cắm xe 8-pin mạ đồng chịu rung lắc.',
       en: 'Hardware: Altium 2-layer PCB designed for high-current 30A thermal dissipation, 32-bit RISC-V CH32X033F8P6 MCU, LM2596 industrial DCDC buck converter accepting 12V/24V vehicle battery inputs, dual 30A 4P heavy-duty relays, ACC ignition state sensing, Optocoupler isolated control signals, FUSE_3522 automotive blade fuse holder, and vibration-resistant 8-pin vehicle connector.',
+      ja: 'Hardware: Altium 2-layer PCB designed for high-current 30A thermal dissipation, 32-bit RISC-V CH32X033F8P6 MCU, LM2596 industrial DCDC buck converter accepting 12V/24V vehicle battery inputs, dual 30A 4P heavy-duty relays, ACC ignition state sensing, Optocoupler isolated control signals, FUSE_3522 automotive blade fuse holder, and vibration-resistant 8-pin vehicle connector.',
     },
     techStack: ['CH32X033F8P6 (32-bit RISC-V MCU)', '30A Heavy Duty Relay', 'LM2596 Industrial DCDC', 'MOSFET Power Driver TO-252', 'Optocoupler PC817 Isolation', 'Automotive Blade Fuse 3522', 'ACC Ignition Sensing', 'Altium Designer'],
     features: [
@@ -669,20 +772,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ec800m-sim-ver2',
-    title: 'Bo Mạch 4G LTE Quectel EC800M Tích Hợp Đổi SIM Kép & Jack Âm Thanh (SIM_Ver2 Gateway)',
+    title: {
+      vi: 'Bo Mạch 4G LTE Quectel EC800M Tích Hợp Đổi SIM Kép & Jack Âm Thanh',
+      en: 'Quectel EC800M 4G LTE Gateway (Dual SIM Switch & Audio Jack)',
+      ja: 'Quectel EC800M 4G LTE ゲートウェイ (デュアル SIM & オーディオジャック)',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '04/2024 - 05/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch truyền thông 4G LTE Quectel EC800M, công tắc chuyển mạch SIM kép vật lý SW OS102011, nguồn hạ áp công nghiệp LM2596, Jack âm thanh 3.5mm đàm thoại và cọc đấu dây KF-041.',
       en: 'Altium PCB design for Quectel EC800M 4G LTE gateway, featuring physical Dual SIM selector switch, LM2596 industrial DCDC buck power supply, 3.5mm voice audio jack, and KF-041 screw terminal block.',
+      ja: 'Altium PCB design for Quectel EC800M 4G LTE gateway, featuring physical Dual SIM selector switch, LM2596 industrial DCDC buck power supply, 3.5mm voice audio jack, and KF-041 screw terminal block.',
     },
     description: {
       vi: 'Dự án R&D phần cứng thiết kế bo mạch IoT Gateway 4G LTE Cat 1 công nghiệp sử dụng module Quectel EC800M-CN. Bo mạch tích hợp công tắc gạt vật lý SW OS102011 chuyển đổi tức thời giữa 2 khay SIM kép, mạch nguồn công suất cao LM2596 cấp áp ổn định +4V cho module 4G từ điện áp công nghiệp 12V/24V, Jack âm thanh 3.5mm cho đàm thoại thoại hai chiều SPK/MIC và ngõ đấu dây KF-041 chắc chắn.',
       en: 'Industrial 4G LTE Cat 1 IoT Gateway hardware R&D project featuring Quectel EC800M-CN module. Integrates SW OS102011 physical slide switch for instant Dual SIM toggling, LM2596 high-power DCDC buck converter stepping down 12V/24V to +4V 4G power rail, 3.5mm 2-way voice audio jack (SPK/MIC), and heavy-duty KF-041 terminal block.',
+      ja: 'Industrial 4G LTE Cat 1 IoT Gateway hardware R&D project featuring Quectel EC800M-CN module. Integrates SW OS102011 physical slide switch for instant Dual SIM toggling, LM2596 high-power DCDC buck converter stepping down 12V/24V to +4V 4G power rail, 3.5mm 2-way voice audio jack (SPK/MIC), and heavy-duty KF-041 terminal block.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB 2 lớp Altium Designer tối ưu hóa đường đi anten SMA 50Ω Edge Launch, nguồn DCDC công nghiệp LM2596 cuộn cảm công suất kết hợp tụ nhôm SMD lọc gợn sóng, công tắc chuyển mạch SIM kép USIM1/USIM2, ngõ USB D+/D- cao tốc, cổng cắm Headset 3.5mm và cọc đấu dây KF-041 bắt vít chống tuột.',
       en: 'Hardware: Altium 2-layer PCB with 50Ω Edge Launch SMA RF antenna trace, LM2596 industrial DCDC buck converter with power inductor + SMD aluminum filter caps, physical Dual SIM toggle switch for USIM1/USIM2 lines, USB D+/D- differential pair, 3.5mm Headset audio jack, and robust KF-041 screw terminal block.',
+      ja: 'Hardware: Altium 2-layer PCB with 50Ω Edge Launch SMA RF antenna trace, LM2596 industrial DCDC buck converter with power inductor + SMD aluminum filter caps, physical Dual SIM toggle switch for USIM1/USIM2 lines, USB D+/D- differential pair, 3.5mm Headset audio jack, and robust KF-041 screw terminal block.',
     },
     techStack: ['Quectel EC800M-CN (4G LTE Cat 1)', 'Dual SIM Switch SW OS102011', 'LM2596 Industrial DCDC', '3.5mm Voice Audio Jack', 'SMA Edge Launch RF 50Ω', 'KF-041 Screw Terminal', 'Altium Designer'],
     features: [
@@ -707,20 +817,27 @@ export const projects: Project[] = [
   },
   {
     id: 'esp32-auto-start',
-    title: 'Bo Mạch Khởi Động & Giám Sát Máy Tính Tự Động Từ Xa Chuẩn PCIe (ESP32 Auto Start Controller)',
+    title: {
+      vi: 'Bo Mạch Khởi Động & Giám Sát Máy Tính Tự Động Từ Xa Chuẩn PCIe',
+      en: 'PCIe ESP32 Remote Computer Auto-Start & Telematics Monitoring Board',
+      ja: 'PCIe 規格 ESP32 リモート PC 自動起動 & テレマティクス監視基板',
+    },
     category: 'Edge AI & Smart Device',
     period: '11/2023 - 01/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch điều khiển tự động bật/tắt máy tính từ xa chuẩn khay cắm PCI Express x1, vi xử lý ESP32 Wi-Fi/Bluetooth, mạch nguồn dự phòng 3.3Vaux, transistor ngắt tải C1815 và cảm biến trạng thái nguồn CHECK/Wakeup.',
       en: 'Altium PCB design for PCIe x1 automatic remote computer power-on controller, featuring ESP32 Wi-Fi/BLE MCU, 3.3Vaux standby power, C1815 switching transistors, and CHECK/Wakeup power state sensing.',
+      ja: 'Altium PCB design for PCIe x1 automatic remote computer power-on controller, featuring ESP32 Wi-Fi/BLE MCU, 3.3Vaux standby power, C1815 switching transistors, and CHECK/Wakeup power state sensing.',
     },
     description: {
       vi: 'Dự án R&D phần cứng bo mạch điều khiển bật/tắt & tự động kích nguồn máy tính từ xa chuẩn khay cắm PCIe x1 (PCI Express slot). Thiết bị sử dụng vi xử lý ESP32 điều khiển qua Wi-Fi/Bluetooth/Web App, mạch đọc trạng thái nguồn dự phòng 3.3Vaux, 3 kênh ngắt tải transistor C1815 điều khiển nút Power / Reset / Wakeup trên mainboard và mạch phát hiện treo máy để tự động khởi động lại (Auto Start / Watchdog).',
       en: 'PCIe x1 slot remote computer power management & auto-restart hardware R&D project. Powered by ESP32 MCU with Wi-Fi/BLE/Web control, 3.3Vaux standby power monitoring, 3-channel C1815 transistor switches for Power/Reset/Wakeup headers, and auto-start system watchdog.',
+      ja: 'PCIe x1 slot remote computer power management & auto-restart hardware R&D project. Powered by ESP32 MCU with Wi-Fi/BLE/Web control, 3.3Vaux standby power monitoring, 3-channel C1815 transistor switches for Power/Reset/Wakeup headers, and auto-start system watchdog.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB 2 lớp Altium Designer chuẩn chân cắm chèn trực tiếp khe PCIe x1 motherboard, nguồn LDO AMS1117 3.3V kết hợp nguồn dự phòng 3.3Vaux, tụ Tantalum 100uF lọc nguồn, 3 mạch kích transistor C1815 cách ly điều khiển Power/Reset/Wakeup, cổng nạp nạp Debug UART riêng và phím bấm BOOT/EN.',
       en: 'Hardware: Altium 2-layer PCB designed for direct PCIe x1 slot insertion, AMS1117 3.3V LDO with 3.3Vaux standby power sensing, 100uF Tantalum power filter, 3-channel C1815 transistor switches controlling Power/Reset/Wakeup headers, dedicated UART debug port, and BOOT/EN buttons.',
+      ja: 'Hardware: Altium 2-layer PCB designed for direct PCIe x1 slot insertion, AMS1117 3.3V LDO with 3.3Vaux standby power sensing, 100uF Tantalum power filter, 3-channel C1815 transistor switches controlling Power/Reset/Wakeup headers, dedicated UART debug port, and BOOT/EN buttons.',
     },
     techStack: ['ESP32 (Wi-Fi & BLE)', 'PCI Express x1 Slot', '3.3Vaux Standby Power', 'Transistor Driver C1815', 'Tantalum 100uF Power Filter', 'UART Debug Interface', 'Altium Designer'],
     features: [
@@ -739,20 +856,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ec800m-tracking-v2',
-    title: 'Thiết Bị Định Vị & Giám Sát Hành Trình Ô Tô / Xe Máy 4G LTE EC800M (Telematics Tracker V2)',
+    title: {
+      vi: 'Thiết Bị Định Vị & Giám Sát Hành Trình Ô Tô / Xe Máy 4G LTE EC800M',
+      en: '4G LTE Quectel EC800M Automotive Telematics GPS Tracker V2',
+      ja: '4G LTE Quectel EC800M 車両 / バイク用 GPS トラッカー V2',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '03/2024 - 05/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bộ định vị xe thông minh 4G LTE EC800M-CN tích hợp cảm biến gia tốc 3 trục KXTJ3-1057, bộ lọc sóng GPS SAW Murata, mạch nhận diện khóa điện ACC, rơ-le ngắt nguồn động cơ từ xa và bảo vệ chống tĩnh điện ESD.',
       en: 'Altium PCB design for 4G LTE EC800M-CN vehicle telematics tracker, featuring KXTJ3-1057 3-axis accelerometer, Murata GPS SAW filter, ACC ignition sense circuit, remote relay engine immobilizer, and ESD protection.',
+      ja: 'Altium PCB design for 4G LTE EC800M-CN vehicle telematics tracker, featuring KXTJ3-1057 3-axis accelerometer, Murata GPS SAW filter, ACC ignition sense circuit, remote relay engine immobilizer, and ESD protection.',
     },
     description: {
       vi: 'Dự án R&D phần cứng thiết bị định vị hành trình xe máy & ô tô chuyên dụng chuẩn Automotive Telematics V2. Mạch tích hợp module 4G LTE Cat 1 Quectel EC800M, chip cảm biến gia tốc KXTJ3-1057 nhận diện va chạm / di chuyển trái phép, mạch phát hiện trạng thái chìa khóa ACC, rơ-le ngắt nguồn / nhiên liệu từ xa, bộ lọc dải tần GPS SAW Murata và 8 diode chống tĩnh điện TVS ESD.',
       en: 'Automotive Telematics V2 vehicle GPS tracker hardware R&D project. Integrates Quectel EC800M 4G LTE Cat 1 module, KXTJ3-1057 3-axis motion accelerometer for crash & motion detection, ACC ignition state sensing, remote fuel/engine cut-off relay, Murata GPS SAW filter, and 8 TVS ESD protection diodes.',
+      ja: 'Automotive Telematics V2 vehicle GPS tracker hardware R&D project. Integrates Quectel EC800M 4G LTE Cat 1 module, KXTJ3-1057 3-axis motion accelerometer for crash & motion detection, ACC ignition state sensing, remote fuel/engine cut-off relay, Murata GPS SAW filter, and 8 TVS ESD protection diodes.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB 2 lớp Altium Designer nhỏ gọn lắp đặt ẩn trên ô tô/xe máy, thiết kế nguồn rộng chịu điện áp ắc quy xe, bộ lọc nhiễu dải tần định vị vệ tinh GPS SAW SAFFB1G56, cảm biến gia tốc KXTJ3-1057 giao tiếp I2C, mạch nhận diện ACC, rơ-le đóng ngắt nguồn động cơ HFKH 12V, khay SIM kép eSIM + Nano SIM, chống tĩnh điện ESD0402 trên toàn bộ ngõ vào/ra.',
       en: 'Hardware: Compact Altium 2-layer PCB designed for covert automotive installation, wide vehicle battery input range, Murata SAFFB1G56 GPS SAW filter, KXTJ3-1057 I2C 3-axis accelerometer, ACC ignition sensing circuit, HFKH 12V engine cut-off relay, dual eSIM + Nano SIM sockets, and TVS ESD0402 protection across all I/O.',
+      ja: 'Hardware: Compact Altium 2-layer PCB designed for covert automotive installation, wide vehicle battery input range, Murata SAFFB1G56 GPS SAW filter, KXTJ3-1057 I2C 3-axis accelerometer, ACC ignition sensing circuit, HFKH 12V engine cut-off relay, dual eSIM + Nano SIM sockets, and TVS ESD0402 protection across all I/O.',
     },
     techStack: ['Quectel EC800M-CN (4G LTE Cat 1)', 'GNSS / GPS / Beidou', 'KXTJ3-1057 Accelerometer', 'Murata GPS SAW Filter', 'ACC Ignition Sensing', 'Automotive Engine Relay', 'TVS ESD Protection', 'Altium Designer'],
     features: [
@@ -771,20 +895,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ec800m-kit-dev',
-    title: 'Bo Mạch Phát Triển 4G LTE Cat 1 Siêu Nhỏ Gọn Quectel EC800M & GNSS',
+    title: {
+      vi: 'Bo Mạch Phát Triển 4G LTE Cat 1 Siêu Nhỏ Gọn Quectel EC800M & GNSS',
+      en: 'Ultra-Compact Quectel EC800M 4G LTE Cat 1 & GNSS Development Board',
+      ja: '超小型 Quectel EC800M 4G LTE Cat 1 & GNSS 開発ボード',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '02/2024 - 04/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch 4G LTE Cat 1 Quectel EC800M siêu nhỏ gọn, hạ áp DCDC cuộn cảm CD74R, chip chuyển mức logic TXS0108E, Dual SIM (Nano SIM & Push-Push SIM), anten RF IPEX kép và cổng USB-C.',
       en: 'Altium PCB design for ultra-compact Quectel EC800M 4G LTE Cat 1 dev kit, featuring CD74R DCDC buck converter, TXS0108E level shifter, Dual SIM (Nano & Push-Push SIM), dual IPEX RF antennas, and USB-C.',
+      ja: 'Altium PCB design for ultra-compact Quectel EC800M 4G LTE Cat 1 dev kit, featuring CD74R DCDC buck converter, TXS0108E level shifter, Dual SIM (Nano & Push-Push SIM), dual IPEX RF antennas, and USB-C.',
     },
     description: {
       vi: 'Dự án thiết kế phần cứng R&D bo mạch phát triển 4G LTE Cat 1 siêu nhỏ gọn sử dụng vi xử lý Quectel EC800M-CN. Bo mạch tối ưu kích thước cho các ứng dụng IoT di động, theo dõi hành trình GNSS/GPS, hạ áp DCDC công suất cao chịu dòng đỉnh 2A, chip dịch mức logic TXS0108E và giao tiếp âm thanh đàm thoại PCM/I2S.',
       en: 'Ultra-compact 4G LTE Cat 1 hardware R&D project utilizing Quectel EC800M-CN module. Optimized compact form factor for mobile IoT & GNSS asset tracking, high-efficiency DCDC buck converter handling 2A peak current, TXS0108E level translator, and PCM/I2S voice audio.',
+      ja: 'Ultra-compact 4G LTE Cat 1 hardware R&D project utilizing Quectel EC800M-CN module. Optimized compact form factor for mobile IoT & GNSS asset tracking, high-efficiency DCDC buck converter handling 2A peak current, TXS0108E level translator, and PCM/I2S voice audio.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB Altium Designer 2 lớp đi dây tối ưu diện tích siêu nhỏ gọn, hạ nguồn DCDC công suất SOP-8 cuộn cảm CD74R 2.2uH kết hợp tụ Tantalum 100uF lọc nhiễu phát sóng 4G, khay SIM kép Nano SIM & MicroSIM Push-Push, chip dịch mức logic TXS0108E 1.8V sang 3.3V/5V, 2 kênh anten IPEX RF 50Ω (4G Main & GNSS GPS) và cổng USB-C 16P.',
       en: 'Hardware: Altium 2-layer PCB with ultra-compact layout, SOP-8 DCDC buck converter with CD74R 2.2uH inductor + 100uF Tantalum capacitors for 4G RF power filtering, dual Nano SIM & Push-Push SIM sockets, TXS0108E 1.8V to 3.3V/5V level translation, dual 50Ω IPEX RF antenna channels (4G Main & GNSS GPS), and USB-C 16P interface.',
+      ja: 'Hardware: Altium 2-layer PCB with ultra-compact layout, SOP-8 DCDC buck converter with CD74R 2.2uH inductor + 100uF Tantalum capacitors for 4G RF power filtering, dual Nano SIM & Push-Push SIM sockets, TXS0108E 1.8V to 3.3V/5V level translation, dual 50Ω IPEX RF antenna channels (4G Main & GNSS GPS), and USB-C 16P interface.',
     },
     techStack: ['Quectel EC800M-CN (4G LTE Cat 1)', 'GNSS / GPS / Beidou', 'TXS0108E Level Shifter', 'Dual SIM (Nano & Push-Push)', 'DCDC Buck CD74R 2.2uH', 'USB-C 16P', 'Dual IPEX RF Antenna', 'Altium Designer'],
     features: [
@@ -810,20 +941,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ec200u-kit-dev',
-    title: 'Bo Mạch Phát Triển 4G LTE Cat 1 Quectel EC200U & Dual SIM (eSIM / Push-Push SIM)',
+    title: {
+      vi: 'Bo Mạch Phát Triển 4G LTE Cat 1 Quectel EC200U & Dual SIM',
+      en: 'Quectel EC200U 4G LTE Cat 1 & Dual SIM (eSIM / Push-Push) Dev Board',
+      ja: 'Quectel EC200U 4G LTE Cat 1 & デュアル SIM 開発ボード',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '01/2024 - 03/2024',
     summary: {
       vi: 'Thiết kế Altium Designer bo mạch phát triển 4G LTE Cat 1 Quectel EC200U, tích hợp Dual SIM (eSIM MFF2 & Khe SIM Push-Push), chip dịch mức TXS0108E, giao tiếp USB-C 16P, anten SMA/IPEX và mạch nguồn chịu dòng đỉnh 2A.',
       en: 'Altium PCB design for Quectel EC200U 4G LTE Cat 1 dev kit, featuring Dual SIM (eSIM MFF2 & Push-Push SIM socket), TXS0108E level shifter, USB-C 16P, SMA/IPEX antenna, and 2A peak power circuit.',
+      ja: 'Altium PCB design for Quectel EC200U 4G LTE Cat 1 dev kit, featuring Dual SIM (eSIM MFF2 & Push-Push SIM socket), TXS0108E level shifter, USB-C 16P, SMA/IPEX antenna, and 2A peak power circuit.',
     },
     description: {
       vi: 'Dự án R&D bo mạch phần cứng phát triển 4G LTE Cat 1 hoàn chỉnh sử dụng module Quectel EC200U. Tích hợp vi xử lý 4G truyền dữ liệu tốc độ cao, định vị vệ tinh GNSS/GPS, giao tiếp USB-C cấp nguồn & debug AT command, chip dịch mức điện áp TXS0108E 1.8V-3.3V/5V cho các giao tiếp I2C/UART/ADC công nghiệp.',
       en: 'Complete 4G LTE Cat 1 cellular hardware R&D project utilizing Quectel EC200U module. Integrates high-speed cellular data, GNSS/GPS positioning, USB-C power & AT debug, and TXS0108E 1.8V to 3.3V/5V level translation for industrial I2C/UART/ADC.',
+      ja: 'Complete 4G LTE Cat 1 cellular hardware R&D project utilizing Quectel EC200U module. Integrates high-speed cellular data, GNSS/GPS positioning, USB-C power & AT debug, and TXS0108E 1.8V to 3.3V/5V level translation for industrial I2C/UART/ADC.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB 2 lớp Altium Designer tối ưu hóa dòng tải 2A cho module EC200U, trang bị hệ thống Dual SIM thông minh (eSIM dán MFF2 kết hợp khay SIM Push-Push), chip chuyển đổi mức logic TXS0108E, tụ Tantalum dung lượng cao 100uF chịu dòng đỉnh khi phát sóng 4G, đầu nối anten SMA/IPEX RF 50Ω và cổng nguồn USB-C / Jack DC 5.5mm.',
       en: 'Hardware: Altium 2-layer PCB optimized for 2A peak current EC200U cellular bursts, featuring Dual SIM redundant system (MFF2 embedded eSIM + Push-Push SIM socket), TXS0108E logic level translator, high-capacity 100uF Tantalum capacitors, 50Ω SMA/IPEX RF connectors, and dual USB-C / DC 5.5mm power inputs.',
+      ja: 'Hardware: Altium 2-layer PCB optimized for 2A peak current EC200U cellular bursts, featuring Dual SIM redundant system (MFF2 embedded eSIM + Push-Push SIM socket), TXS0108E logic level translator, high-capacity 100uF Tantalum capacitors, 50Ω SMA/IPEX RF connectors, and dual USB-C / DC 5.5mm power inputs.',
     },
     techStack: ['Quectel EC200U (4G LTE Cat 1)', 'GNSS / GPS / Beidou', 'Dual SIM (eSIM MFF2 & Push-Push)', 'TXS0108E Level Shifter', 'USB-C 16P', 'SMA / IPEX RF Antenna', 'Tantalum 100uF Power Filter', 'Altium Designer'],
     features: [
@@ -850,20 +988,27 @@ export const projects: Project[] = [
   },
   {
     id: 'nrf52840-box-dc',
-    title: 'Bo Mạch Điều Khiển Không Dây nRF52840 & Mạch Cách Ly Tín Hiệu',
+    title: {
+      vi: 'Bo Mạch Điều Khiển Không Dây nRF52840 & Mạch Cách Ly Tín Hiệu',
+      en: 'nRF52840 Wireless Control Board & Signal Isolation Circuitry',
+      ja: 'nRF52840 ワイヤレス制御 & 信号絶縁回路基板',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '03/2024 - 04/2024',
     summary: {
       vi: 'Thiết kế Altium Designer vi xử lý nRF52840 (AQFN74 0.5mm pitch), anten BLE 5.0 2.4GHz, nguồn DCDC FR9886 (4.5-23V input), 6 kênh Optocoupler PC817 cách ly tín hiệu và cầu chì tự phục hồi PTC.',
       en: 'Altium PCB design for nRF52840 MCU (0.5mm pitch AQFN74), 2.4GHz BLE 5.0 antenna, FR9886 DCDC buck converter (4.5-23V input), 6-ch PC817 optocoupler signal isolation, and PTC resettable fuse.',
+      ja: 'Altium PCB design for nRF52840 MCU (0.5mm pitch AQFN74), 2.4GHz BLE 5.0 antenna, FR9886 DCDC buck converter (4.5-23V input), 6-ch PC817 optocoupler signal isolation, and PTC resettable fuse.',
     },
     description: {
       vi: 'Dự án thiết kế phần cứng điện tử công nghiệp hoàn chỉnh cho bộ điều khiển không dây nRF52840. Mạch điện tích hợp vi xử lý nRF52840-QIAA (ARM Cortex-M4F 64MHz, BLE 5.0/Mesh), hạ nguồn DCDC công suất cao FR9886, các kênh I/O cách ly quang PC817 chống nhiễu công nghiệp và giao tiếp USB D+/D-.',
       en: 'Complete industrial electronic hardware design for nRF52840 wireless controller. Integrates nRF52840-QIAA MCU (ARM Cortex-M4F 64MHz, BLE 5.0/Mesh), high-efficiency FR9886 DCDC step-down converter, PC817 optocoupler isolated I/O, and USB D+/D- interface.',
+      ja: 'Complete industrial electronic hardware design for nRF52840 wireless controller. Integrates nRF52840-QIAA MCU (ARM Cortex-M4F 64MHz, BLE 5.0/Mesh), high-efficiency FR9886 DCDC step-down converter, PC817 optocoupler isolated I/O, and USB D+/D- interface.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB Altium Designer 2 lớp đi dây chuẩn tối ưu cho chip nRF52840 gói chân AQFN 0.5mm pitch, mạng phối trở kháng anten 2.4GHz, 2 thạch anh (32MHz & 32.768kHz RTC sleep), nguồn hạ áp DCDC FR9886 (4.5-23V) kết hợp LDO AMS1117, tụ nhôm SMD chịu nhiệt và mạch cách ly quang 6 kênh PC817.',
       en: 'Hardware: Altium 2-layer PCB with optimized 0.5mm pitch AQFN nRF52840 layout, 2.4GHz RF impedance matching, dual crystals (32MHz & 32.768kHz RTC sleep), FR9886 DCDC step-down (4.5-23V input) + AMS1117 LDO, SMD aluminum caps, and 6-channel PC817 optoisolators.',
+      ja: 'Hardware: Altium 2-layer PCB with optimized 0.5mm pitch AQFN nRF52840 layout, 2.4GHz RF impedance matching, dual crystals (32MHz & 32.768kHz RTC sleep), FR9886 DCDC step-down (4.5-23V input) + AMS1117 LDO, SMD aluminum caps, and 6-channel PC817 optoisolators.',
     },
     techStack: ['nRF52840 (ARM Cortex-M4F)', 'BLE 5.0 / Mesh', 'Altium Designer', 'AQFN74 0.5mm Pitch', 'FR9886 DCDC Buck', 'Optocoupler PC817', '2.4GHz RF Antenna', 'Industrial Isolated I/O'],
     features: [
@@ -890,20 +1035,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ecocare-ai',
-    title: 'EcoCare AI — Hệ thống Giám sát Người cao tuổi',
+    title: {
+      vi: 'EcoCare AI — Hệ Thống Giám Sát Người Cao Tuổi',
+      en: 'EcoCare AI — Elderly Posture & Fall Detection System',
+      ja: 'EcoCare AI — 高齢者姿態 & 転倒検知見守りシステム',
+    },
     category: 'AIoT & Medical Device',
     period: '2024 - 2026',
     summary: {
       vi: 'PCB ESP32 tùy chỉnh, ma trận cảm biến ToF 8×8 (VL53L5CX), nhận diện tư thế Edge AI (giường/toilet), cảnh báo MQTT thời gian thực, dashboard đa người dùng. Triển khai tại viện dưỡng lão Nhật Bản.',
       en: 'Custom ESP32 PCB, 8×8 ToF sensor matrix (VL53L5CX), Edge AI posture recognition (bed/toilet), real-time MQTT alerting, multi-user dashboard. Deployed in Japanese nursing homes.',
+      ja: 'Custom ESP32 PCB, 8×8 ToF sensor matrix (VL53L5CX), Edge AI posture recognition (bed/toilet), real-time MQTT alerting, multi-user dashboard. Deployed in Japanese nursing homes.',
     },
     description: {
       vi: 'EcoCare AI là hệ thống phần cứng AIoT chăm sóc y tế hàng đầu triển khai tại các viện dưỡng lão tại Osaka, Nhật Bản. Thiết bị sử dụng ma trận ToF 8x8 bảo vệ quyền riêng tư, xử lý thuật toán Edge AI nhận diện tư thế giường/toilet và phát hiện té ngã tức thì.',
       en: 'EcoCare AI is a flagship medical AIoT hardware deployed across elder care homes in Osaka, Japan. Utilizing privacy-preserving 8x8 ToF matrix, Edge AI algorithms recognize bed/toilet posture and detect falls in real time.',
+      ja: 'EcoCare AI is a flagship medical AIoT hardware deployed across elder care homes in Osaka, Japan. Utilizing privacy-preserving 8x8 ToF matrix, Edge AI algorithms recognize bed/toilet posture and detect falls in real time.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB ESP32 tùy chỉnh tích hợp module ToF VL53L5CX, mạch nguồn cách ly y tế, truyền thông WiFi/Ethernet/MQTT < 500ms. Hạ tầng cloud đi kèm bao gồm Web Dashboard (care.musenplus.com) xuất báo cáo PDF/PNG và API Playground.',
       en: 'Hardware: Custom ESP32 PCB with VL53L5CX ToF module, medical isolated DCDC power, sub-500ms WiFi/Ethernet/MQTT comms. Cloud infrastructure includes Web Dashboard (care.musenplus.com) with PDF/PNG reporting and API Playground.',
+      ja: 'Hardware: Custom ESP32 PCB with VL53L5CX ToF module, medical isolated DCDC power, sub-500ms WiFi/Ethernet/MQTT comms. Cloud infrastructure includes Web Dashboard (care.musenplus.com) with PDF/PNG reporting and API Playground.',
     },
     techStack: ['ESP32', 'ToF VL53L5CX 8x8', 'Edge AI', 'TensorFlow Lite Micro', 'MQTT Mosquitto', 'Altium 2-Layer PCB', 'FreeRTOS', 'C/C++'],
     features: [
@@ -918,20 +1070,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ai-box-plus',
-    title: 'AI Box Plus — Bộ phát triển AI IoT mã nguồn mở',
+    title: {
+      vi: 'AI Box Plus — Bộ Phát Triển AI IoT Mã Nguồn Mở',
+      en: 'AI Box Plus — Open-Source AIoT Edge Development Hardware Kit',
+      ja: 'AI Box Plus — オープンソース AIoT エッジ開発ハードウェアキット',
+    },
     category: 'Edge AI & Smart Device',
     period: '2024 - 2026',
     summary: {
       vi: 'Trợ lý thông minh ESP32-S3: màn hình cảm ứng, loa, AI giọng nói ChatGPT/Gemini, firmware OTA, nền tảng web Next.js (ai-box-plus.com), cộng đồng 5.000+ thành viên.',
       en: 'ESP32-S3 smart AI assistant: touchscreen, speaker, ChatGPT/Gemini voice AI, OTA firmware, Next.js web platform (ai-box-plus.com), 5,000+ member community.',
+      ja: 'ESP32-S3 smart AI assistant: touchscreen, speaker, ChatGPT/Gemini voice AI, OTA firmware, Next.js web platform (ai-box-plus.com), 5,000+ member community.',
     },
     description: {
       vi: 'AI Box Plus là bộ kit phát triển AI IoT nguồn mở nổi tiếng do Nguyễn Việt Hưng thiết kế phần cứng và firmware. Thiết bị giao tiếp giọng nói hai chiều trực tiếp với ChatGPT & Gemini AI.',
       en: 'AI Box Plus is an open-source AI IoT dev kit designed by Nguyen Viet Hung. Features bidirectional voice interaction with ChatGPT & Gemini AI directly on the device.',
+      ja: 'AI Box Plus is an open-source AI IoT dev kit designed by Nguyen Viet Hung. Features bidirectional voice interaction with ChatGPT & Gemini AI directly on the device.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB 4 lớp thiết kế trên Altium Designer, chip ESP32-S3 N16R8, codec âm thanh I2S, micro thu âm, chip quản lý nguồn PMIC AXP2101, màn hình cảm ứng SPI. Nền tảng web ai-box-plus.com hỗ trợ OTA firmware.',
       en: 'Hardware: 4-layer PCB designed in Altium Designer, ESP32-S3 N16R8, I2S audio codec, microphone, AXP2101 PMIC, SPI touchscreen display. Web platform ai-box-plus.com supports OTA firmware updates.',
+      ja: 'Hardware: 4-layer PCB designed in Altium Designer, ESP32-S3 N16R8, I2S audio codec, microphone, AXP2101 PMIC, SPI touchscreen display. Web platform ai-box-plus.com supports OTA firmware updates.',
     },
     techStack: ['ESP32-S3', 'Altium 4-Layer PCB', 'I2S Audio Codec', 'TFT Display SPI', 'ChatGPT / Gemini Voice AI', 'PlatformIO', 'C++', 'FreeRTOS'],
     features: [
@@ -947,20 +1106,27 @@ export const projects: Project[] = [
   },
   {
     id: 'forklift-safety',
-    title: 'Hệ thống An toàn Xe nâng Công nghiệp & Fleet Management',
+    title: {
+      vi: 'Hệ Thống An Toàn Xe Nâng Công Nghiệp & Fleet Management',
+      en: 'Industrial Forklift Collision Avoidance & Telematics Fleet Management',
+      ja: '産業用フォークリフト衝突防止 & 運行管理テレマティクスシステム',
+    },
     category: 'Industrial Hardware & Automotive',
     period: '2025 - 2026',
     summary: {
       vi: 'Cảnh báo va chạm radar 60GHz, PCB tùy chỉnh ESP32 + CAN Bus + RS485, truyền thông LoRa, dashboard quản lý đội xe, vỏ công nghiệp chống nước.',
       en: '60GHz radar collision warning, custom ESP32 + CAN Bus + RS485 PCB, LoRa comms, fleet dashboard, waterproof industrial enclosure.',
+      ja: '60GHz radar collision warning, custom ESP32 + CAN Bus + RS485 PCB, LoRa comms, fleet dashboard, waterproof industrial enclosure.',
     },
     description: {
       vi: 'Bộ điều khiển an toàn xe nâng điện công nghiệp. Mạch giao tiếp CAN Bus / RS485 đọc thông số Lithium BMS (điện áp, dòng điện, SOC, SOH, lỗi), kết hợp Radar 60GHz mmWave phát hiện chướng ngại vật để ngắt relay nâng hạ an toàn.',
       en: 'Industrial electric forklift safety controller. Interfacing lithium BMS over CAN Bus/RS485 (voltage, current, SOC, SOH, faults), integrated 60GHz mmWave radar actively trips lifting relays upon obstacle detection.',
+      ja: 'Industrial electric forklift safety controller. Interfacing lithium BMS over CAN Bus/RS485 (voltage, current, SOC, SOH, faults), integrated 60GHz mmWave radar actively trips lifting relays upon obstacle detection.',
     },
     longDescription: {
       vi: 'Phần cứng: Thiết kế PCB chịu rung lắc công nghiệp, mạch chống ngược cực, cách ly quang RS485, CAN transceiver SN65HVD230. Màn hình LCD SPI hiển thị sự cố và lưu nhật ký lỗi vào bộ nhớ EEPROM.',
       en: 'Hardware: Vibration-resistant industrial PCB layout, reverse polarity protection, opto-isolated RS485, SN65HVD230 CAN transceiver. SPI LCD display with EEPROM fault logging.',
+      ja: 'Hardware: Vibration-resistant industrial PCB layout, reverse polarity protection, opto-isolated RS485, SN65HVD230 CAN transceiver. SPI LCD display with EEPROM fault logging.',
     },
     techStack: ['ESP32', 'CAN Bus', 'RS485 Modbus', '60GHz mmWave Radar', 'EEPROM', 'Altium 2-Layer PCB', 'FreeRTOS', 'Relay Protection'],
     features: [
@@ -973,20 +1139,27 @@ export const projects: Project[] = [
   },
   {
     id: 'smart-agri-lora',
-    title: 'IoT Nông nghiệp Thông minh — Quan trắc Môi trường LoRa',
+    title: {
+      vi: 'IoT Nông Nghiệp Thông Minh — Quan Trắc Môi Trường LoRa',
+      en: 'Smart Agriculture AIoT — Long-Range LoRa Environmental Sensor Mesh',
+      ja: 'スマート農業 AIoT — 長距離 LoRa 環境センサネットワーク',
+    },
     category: 'IoT & Agriculture',
     period: '2023 - 2024',
     summary: {
       vi: 'Mạng cảm biến không dây LoRa, quan trắc pH/DO/EC/nhiệt độ, tưới tự động, cloud Firebase/MQTT, PCB tùy chỉnh, ứng dụng di động tích hợp bản đồ.',
       en: 'Wireless LoRa sensor network, pH/DO/EC/temp monitoring, auto irrigation, Firebase/MQTT cloud, custom PCB, mobile app with map integration.',
+      ja: 'Wireless LoRa sensor network, pH/DO/EC/temp monitoring, auto irrigation, Firebase/MQTT cloud, custom PCB, mobile app with map integration.',
     },
     description: {
       vi: 'Hệ thống quan trắc môi trường và tự động hóa nông nghiệp diện rộng. Các trạm cảm biến năng lượng mặt trời đo chỉ số đất/nước gửi dữ liệu không dây LoRa bán kính 3-5km về trạm Gateway.',
       en: 'Wide-area agricultural environment monitoring & automation system. Solar-powered sensor nodes measure soil/water parameters, sending LoRa wireless data (3-5km range) to Gateway.',
+      ja: 'Wide-area agricultural environment monitoring & automation system. Solar-powered sensor nodes measure soil/water parameters, sending LoRa wireless data (3-5km range) to Gateway.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch PCB chống ăn mòn hóa chất, mạch sạc pin năng lượng mặt trời Solar MPPT, đầu dò công nghiệp RS485 Modbus RTU (pH, DO oxy hòa tan, EC độ dẫn điện). Gateway ESP32/4G đẩy dữ liệu lên Firebase & Web App đồ thị real-time.',
       en: 'Hardware: Anti-corrosion PCB design, Solar MPPT battery charger, industrial RS485 Modbus probes (pH, DO, EC). ESP32/4G Gateway pushing telemetry to Firebase & real-time Web App.',
+      ja: 'Hardware: Anti-corrosion PCB design, Solar MPPT battery charger, industrial RS485 Modbus probes (pH, DO, EC). ESP32/4G Gateway pushing telemetry to Firebase & real-time Web App.',
     },
     techStack: ['ESP32', 'LoRa SX1276', 'RS485 Modbus', 'Solar MPPT', 'Altium PCB', 'MQTT / Firebase', 'React Native App'],
     features: [
@@ -997,20 +1170,27 @@ export const projects: Project[] = [
   },
   {
     id: 'wireless-remote',
-    title: 'Điều khiển từ xa không dây (Chống nước + Phản hồi Answerback)',
+    title: {
+      vi: 'Điều Khiển Từ Xa Không Dây (Chống Nước + Phản Hồi Answerback)',
+      en: 'Industrial Waterproof Wireless Remote (Two-Way Answerback Telemetry)',
+      ja: '産業用防水ワイヤレスリモコン (双方向アンサーバック機能搭載)',
+    },
     category: 'Industrial Wireless',
     period: '2024',
     summary: {
       vi: 'Thiết kế PCB RF tùy chỉnh, truyền thông hai chiều, điều khiển đa kênh, chống nước, độ tin cậy cấp công nghiệp, xác nhận phản hồi answerback.',
       en: 'Custom RF PCB design, bidirectional communication, multi-channel control, waterproof, industrial-grade reliability, answerback confirmation.',
+      ja: 'Custom RF PCB design, bidirectional communication, multi-channel control, waterproof, industrial-grade reliability, answerback confirmation.',
     },
     description: {
       vi: 'Sản phẩm điều khiển từ xa không dây chuyên dụng cho môi trường công nghiệp và hàng hải. Tay điều khiển vỏ chống nước, mạch RF 2 chiều đảm bảo tín hiệu được xác nhận thành công.',
       en: 'Specialized wireless remote control for industrial & marine environments. Waterproof casing, bidirectional RF circuit ensuring 100% confirmed command execution.',
+      ja: 'Specialized wireless remote control for industrial & marine environments. Waterproof casing, bidirectional RF circuit ensuring 100% confirmed command execution.',
     },
     longDescription: {
       vi: 'Sử dụng chip RF Sub-1GHz (CC1101/SX1278), vi điều khiển MSP430 siêu tiết kiệm năng lượng (tuổi thọ pin > 2 năm). Khi bộ thu bật relay thành công sẽ phát tín hiệu RF phản hồi lại tay cầm để bíp loa xác nhận.',
       en: 'Powered by Sub-1GHz RF transceiver (CC1101/SX1278), MSP430 ultra-low power MCU (> 2 years battery life). Buzzer & LED answerback confirmation upon relay activation.',
+      ja: 'Powered by Sub-1GHz RF transceiver (CC1101/SX1278), MSP430 ultra-low power MCU (> 2 years battery life). Buzzer & LED answerback confirmation upon relay activation.',
     },
     techStack: ['MSP430', 'RF Sub-1GHz', 'Altium 2-Layer PCB', 'Answerback RF Protocol', 'Low-Power Sleep Mode', 'IP68 Waterproof'],
     features: [
@@ -1021,20 +1201,27 @@ export const projects: Project[] = [
   },
   {
     id: 'uav-drone',
-    title: 'Bộ điều khiển bay UAV & Thiết kế Khung máy bay (Flight Controller PCB)',
+    title: {
+      vi: 'Bộ Điều Khiển Bay UAV & Thiết Kế Khung Máy Bay (Flight Controller PCB)',
+      en: 'UAV Flight Controller Hardware PCB & Custom Airframe Architecture',
+      ja: 'UAV フライトコントローラ ハードウェア PCB & 機体構造設計',
+    },
     category: 'Robotics & UAV',
     period: '2024 - 2025',
     summary: {
       vi: 'PCB điều khiển bay 4 lớp, tích hợp GPS/IMU/khí áp, driver ESC motor, telemetry, điều hướng tự hành waypoint, chế tạo nguyên mẫu khung máy bay.',
       en: '4-layer flight controller PCB, integrated GPS/IMU/barometer, ESC motor drivers, telemetry, autonomous waypoint navigation, airframe prototyping.',
+      ja: '4-layer flight controller PCB, integrated GPS/IMU/barometer, ESC motor drivers, telemetry, autonomous waypoint navigation, airframe prototyping.',
     },
     description: {
       vi: 'Bo mạch phần cứng điều khiển máy bay không người lái (UAV/Drone). PCB 4 lớp đi dây cao tốc hạn chế nhiễu từ động cơ, chạy thuật toán lọc Kalman ước lượng góc nghiêng và độ cao.',
       en: 'Autonomous UAV/Drone flight controller hardware. 4-layer PCB with high-speed noise-isolated routing, running Kalman filtering for orientation & altitude estimation.',
+      ja: 'Autonomous UAV/Drone flight controller hardware. 4-layer PCB with high-speed noise-isolated routing, running Kalman filtering for orientation & altitude estimation.',
     },
     longDescription: {
       vi: 'Vi xử lý STM32F407 168MHz, cảm biến IMU MPU6000 giao tiếp SPI 20MHz, Barometer MS5611, module GPS Neo-M8N, mạch lái xung PWM cho ESC và truyền tin Telemetry 915MHz.',
       en: 'STM32F407 168MHz MCU, MPU6000 6-axis IMU over 20MHz SPI, MS5611 Barometer, Neo-M8N GPS, PWM ESC motor control, and 915MHz Telemetry link.',
+      ja: 'STM32F407 168MHz MCU, MPU6000 6-axis IMU over 20MHz SPI, MS5611 Barometer, Neo-M8N GPS, PWM ESC motor control, and 915MHz Telemetry link.',
     },
     techStack: ['STM32F4', 'Altium 4-Layer PCB', 'SPI / I2C / UART', 'IMU MPU6000', 'Barometer', 'GPS Neo-M8N', 'Kalman Filter', 'PWM ESC'],
     features: [
@@ -1046,20 +1233,27 @@ export const projects: Project[] = [
   },
   {
     id: 'iot-auto-irrigation',
-    title: 'IoT Giám sát & Điều khiển Tưới Tự động',
+    title: {
+      vi: 'IoT Giám Sát & Điều Khiển Tưới Tự Động',
+      en: 'IoT Automated Irrigation System & Precision Moisture Control',
+      ja: 'IoT 自動灌水制御 & 精密土壌水分モニタリングシステム',
+    },
     category: 'IoT & Agriculture',
     period: '03/2022 - 05/2022',
     summary: {
       vi: 'Mạng cảm biến LoRa, dữ liệu Firebase, ứng dụng & Web GIS Map, phát phản hồi cảnh báo sự cố thiết bị.',
       en: 'LoRa sensor network, Firebase data sync, GIS Map Web/App, and automated fault alert dispatch.',
+      ja: 'LoRa sensor network, Firebase data sync, GIS Map Web/App, and automated fault alert dispatch.',
     },
     description: {
       vi: 'Lập trình cho hệ thống nhúng, thiết kế Layout & PCB bộ điều khiển tưới tự động nông nghiệp thông minh. Xây dựng mạng cảm biến không dây LoRa, cập nhật dữ liệu lên CSDL Firebase, phát triển Web/App tích hợp tiện ích bản đồ GIS và tự động phát cảnh báo khi thiết bị gặp sự cố.',
       en: 'Embedded programming, schematic layout & PCB design for smart automated irrigation. Built LoRa wireless sensor network, Firebase DB sync, GIS map Web/App, and automated fault alert response system.',
+      ja: 'Embedded programming, schematic layout & PCB design for smart automated irrigation. Built LoRa wireless sensor network, Firebase DB sync, GIS map Web/App, and automated fault alert response system.',
     },
     longDescription: {
       vi: 'Dự án nghiên cứu & triển khai Freelance: Xây dựng mạng cảm biến không dây công nghệ LoRa thu thập độ ẩm/nhiệt độ đất, đồng bộ CSDL Firebase, giao diện giám sát bản đồ GIS và hệ thống phát cảnh báo sự cố tự động.',
       en: 'Freelance R&D project: Built LoRa wireless sensor network collecting soil temp/humidity, synced with Firebase DB, GIS map UI, and automated fault alert response.',
+      ja: 'Freelance R&D project: Built LoRa wireless sensor network collecting soil temp/humidity, synced with Firebase DB, GIS map UI, and automated fault alert response.',
     },
     techStack: ['LoRa Mesh', 'Firebase DB', 'Altium PCB', 'Web GIS / Map', 'ESP32 / MCU', 'C/C++'],
     features: [
@@ -1071,20 +1265,27 @@ export const projects: Project[] = [
   },
   {
     id: 'water-leak-alarm',
-    title: 'Hệ thống Cảnh báo Rò rỉ Nước Thời gian thực',
+    title: {
+      vi: 'Hệ Thống Cảnh Báo Rò Rỉ Nước Thời Gian Thực',
+      en: 'Real-Time Water Leak Sensor & Emergency Alarm Telemetry System',
+      ja: 'リアルタイム水漏れ検知 & 緊急アラームテレメトリシステム',
+    },
     category: 'IoT & Smart Building',
     period: '06/2022 - 08/2022',
     summary: {
       vi: 'Cảm biến rò rỉ nước, đồng bộ CSDL Firebase, phát phản hồi cảnh báo sự cố khẩn cấp.',
       en: 'Water leak sensor, Firebase DB sync, instant emergency fault warning response.',
+      ja: 'Water leak sensor, Firebase DB sync, instant emergency fault warning response.',
     },
     description: {
       vi: 'Lập trình cho hệ thống nhúng, thiết kế Layout & PCB bộ cảnh báo rò rỉ nước. Thu thập dữ liệu cảm biến thời gian thực, đồng bộ lên cơ sở dữ liệu Firebase và phát cảnh báo phản hồi sự cố khẩn cấp.',
       en: 'Embedded programming, layout & PCB design for water leak warning system. Real-time sensor collection, Firebase database sync, and instant emergency alert dispatch.',
+      ja: 'Embedded programming, layout & PCB design for water leak warning system. Real-time sensor collection, Firebase database sync, and instant emergency alert dispatch.',
     },
     longDescription: {
       vi: 'Phần cứng PCB tối ưu kích thước chống ẩm ướt, mạch vi xử lý phát hiện rò rỉ nước và truyền dữ liệu cảnh báo khẩn cấp tức thời.',
       en: 'Compact moisture-resistant PCB hardware design, MCU circuit detecting water leaks and instantly transmitting emergency alert data.',
+      ja: 'Compact moisture-resistant PCB hardware design, MCU circuit detecting water leaks and instantly transmitting emergency alert data.',
     },
     techStack: ['ESP32 / MCU', 'Firebase DB', 'Water Leak Sensor', 'Altium PCB', 'C/C++'],
     features: [
@@ -1095,20 +1296,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ctu-device-management',
-    title: 'Hệ thống Quản lý Thiết bị — ĐH Cần Thơ (CTU)',
+    title: {
+      vi: 'Hệ Thống Quản Lý Thiết Bị — ĐH Cần Thơ (CTU)',
+      en: 'CTU Smart Facility & Laboratory Equipment Management System',
+      ja: 'カントー大学 施設・研究設備管理システム (CTU)',
+    },
     category: 'Industrial IoT & Facility',
     period: '08/2023 - 11/2023',
     summary: {
       vi: 'Giám sát & kiểm soát thiết bị MQTT, theo dõi thời gian vận hành, PCB tùy chỉnh nghiệm thu tại Trường Bách Khoa - CTU.',
       en: 'MQTT device monitoring & control, runtime tracking, custom PCB deployed at CTU College of Engineering.',
+      ja: 'MQTT device monitoring & control, runtime tracking, custom PCB deployed at CTU College of Engineering.',
     },
     description: {
       vi: 'Lập trình cho hệ thống nhúng, thiết kế Layout & PCB hoàn chỉnh. Cập nhật dữ liệu trạng thái thiết bị lên CSDL qua giao thức MQTT, kiểm soát bật/tắt từ xa và theo dõi chính xác thời gian hoạt động của các thiết bị tại Trường Bách Khoa - Đại học Cần Thơ.',
       en: 'Embedded system programming, layout & PCB hardware design. Device data update via MQTT protocol, remote control, and operating runtime tracking at CTU College of Engineering.',
+      ja: 'Embedded system programming, layout & PCB hardware design. Device data update via MQTT protocol, remote control, and operating runtime tracking at CTU College of Engineering.',
     },
     longDescription: {
       vi: 'Hệ thống IoT quản lý tài sản & thiết bị phòng lab/xưởng thực hành Trường Bách Khoa - CTU: Bo mạch PCB điều khiển công suất, giao thức MQTT bảo mật và theo dõi duty cycle thiết bị.',
       en: 'IoT asset & equipment management for CTU College of Engineering labs: Power control PCB, secure MQTT protocol, and equipment duty cycle tracking.',
+      ja: 'IoT asset & equipment management for CTU College of Engineering labs: Power control PCB, secure MQTT protocol, and equipment duty cycle tracking.',
     },
     techStack: ['MQTT Protocol', 'ESP32 / STM32', 'Altium PCB', 'Device Telemetry', 'C/C++'],
     features: [
@@ -1119,20 +1327,27 @@ export const projects: Project[] = [
   },
   {
     id: 'ctu-early-fire-warning',
-    title: 'Hệ thống Cảnh báo Cháy sớm — ĐH Cần Thơ (CTU)',
+    title: {
+      vi: 'Hệ Thống Cảnh Báo Cháy Sớm — ĐH Cần Thơ (CTU)',
+      en: 'CTU Early Fire Warning & Sensor Telemetry System',
+      ja: 'カントー大学 早期火災検知 & アラームテレメトリシステム (CTU)',
+    },
     category: 'IoT & Safety',
     period: '11/2023 - 03/2024',
     summary: {
       vi: 'Mạng cảm biến LoRa Mesh, MQTT cloud, pin hoạt động 15 ngày khi mất điện, triển khai tại Trường Bách Khoa - CTU.',
       en: 'LoRa Mesh sensor network, MQTT cloud, 15-day battery autonomy during power outages, deployed at CTU College of Engineering.',
+      ja: 'LoRa Mesh sensor network, MQTT cloud, 15-day battery autonomy during power outages, deployed at CTU College of Engineering.',
     },
     description: {
       vi: 'Lập trình cho hệ thống, thiết kế Layout & PCB hoàn chỉnh hệ thống cảnh báo cháy sớm. Thu thập dữ liệu môi trường (nhiệt độ, khói) tại các phòng học/lab, xây dựng mạng cảm biến không dây diện rộng LoRa Mesh, tích hợp mạch nguồn tiết kiệm điện cho phép duy trì hoạt động 15 ngày khi mất điện.',
       en: 'System programming, layout & PCB hardware design for early fire warning system. Collects environmental data across rooms, builds LoRa Mesh network, with 15-day backup power during grid blackouts at CTU.',
+      ja: 'System programming, layout & PCB hardware design for early fire warning system. Collects environmental data across rooms, builds LoRa Mesh network, with 15-day backup power during grid blackouts at CTU.',
     },
     longDescription: {
       vi: 'Hệ thống cảnh báo hỏa hoạn thông minh cho các tòa nhà Trường Bách Khoa - CTU: Truyền tin LoRa Mesh giữa các tầng, hạ tầng MQTT Cloud và mạch quản lý pin dự phòng 15 ngày.',
       en: 'Smart fire warning system for CTU College of Engineering buildings: Inter-floor LoRa Mesh transmission, MQTT Cloud backend, and 15-day backup battery management.',
+      ja: 'Smart fire warning system for CTU College of Engineering buildings: Inter-floor LoRa Mesh transmission, MQTT Cloud backend, and 15-day backup battery management.',
     },
     techStack: ['LoRa Mesh', 'MQTT Protocol', 'Low Power (15-Day Battery)', 'Environmental Sensors', 'Altium PCB', 'C/C++'],
     features: [
@@ -1145,20 +1360,27 @@ export const projects: Project[] = [
   },
   {
     id: 'smart-stair-solar-gate',
-    title: 'LED Cầu thang Thông minh & Cổng Năng lượng Mặt trời',
+    title: {
+      vi: 'LED Cầu Thang Thông Minh & Cổng Năng Lượng Mặt Trời',
+      en: 'Smart Motion Stairway LED & Solar-Powered Automatic Gate Controller',
+      ja: 'スマート人感 LED 階段灯 & 太陽光自動ゲート制御機',
+    },
     category: 'Smart Home & Automation',
     period: '2022 - 2023',
     summary: {
       vi: 'LED đa màu với phát hiện chuyển động PIR/radar, hiệu ứng tuần tự, điều khiển ESP32; Cổng thông minh năng lượng mặt trời tự động đóng/mở và giám sát từ xa.',
       en: 'Multi-color LED with PIR/radar motion detection, sequential effects, ESP32 control; Solar-powered smart gate with auto open/close and remote monitoring.',
+      ja: 'Multi-color LED with PIR/radar motion detection, sequential effects, ESP32 control; Solar-powered smart gate with auto open/close and remote monitoring.',
     },
     description: {
       vi: 'Bộ đôi sản phẩm tự động hóa nhà thông minh. Hệ thống LED cầu thang cảm ứng chuyển động đổi màu theo bước chân và cổng thông minh sạc pin Solar tự động nhận diện xe.',
       en: 'Smart home automation product pair. Motion-sensing staircase LED lighting animating steps, and solar-powered automatic gate controller.',
+      ja: 'Smart home automation product pair. Motion-sensing staircase LED lighting animating steps, and solar-powered automatic gate controller.',
     },
     longDescription: {
       vi: 'Phần cứng: Bo mạch điều khiển ESP32 lái dải LED WS2812B qua chuẩn PWM, cảm biến Radar 24GHz phát hiện bước chân. Cổng tự động dùng mạch sạc Solar DCDC lái motor DC 12V.',
       en: 'Hardware: ESP32 controller driving WS2812B addressable LEDs via PWM, 24GHz radar step detection. Auto gate utilizes Solar DCDC charger driving 12V DC motor.',
+      ja: 'Hardware: ESP32 controller driving WS2812B addressable LEDs via PWM, 24GHz radar step detection. Auto gate utilizes Solar DCDC charger driving 12V DC motor.',
     },
     techStack: ['ESP32', 'Radar 24GHz / PIR', 'WS2812B LED PWM', 'Solar Charging DCDC', 'Altium PCB', 'C++'],
     features: [
@@ -1219,25 +1441,28 @@ export const education: Education[] = [
     school: {
       vi: 'Trường Đại Học Cần Thơ (Can Tho University - CTU)',
       en: 'Can Tho University (CTU)',
+      ja: 'Can Tho University (CTU)',
     },
     degree: {
       vi: 'Kỹ sư Kỹ Thuật Máy Tính — Chuyên ngành Hệ Thống Nhúng & Phần Cứng',
       en: 'Bachelor of Engineering in Computer Engineering — Embedded Systems & Hardware',
+      ja: 'Bachelor of Engineering in Computer Engineering — Embedded Systems & Hardware',
     },
     period: '08/2018 - 06/2022',
     description: {
-      vi: 'Tốt nghiệp loại Giỏi (GPA: 3.4 / 4.0). Nghiên cứu chuyên sâu về Kiến trúc máy tính, Hệ thống Nhúng, Thiết kế Mạch viễn thông, Vi điều khiển ARM/AVR/RISC-V, Hệ điều hành thời gian thực (FreeRTOS) và Mạng cảm biến không dây diện rộng LoRa Mesh.',
-      en: 'Graduated with Distinction (GPA: 3.4 / 4.0). Specializing in Computer Architecture, Embedded Systems, Telecommunication Hardware, ARM/AVR/RISC-V Microcontrollers, Real-Time Operating Systems (FreeRTOS), and LoRa Mesh Wireless Sensor Networks.',
+      vi: '',
+      en: '',
+      ja: '',
     },
   },
 ];
 
 // ========== PROJECT CATEGORIES ==========
 export const projectCategories = [
-  { key: 'All', label: { vi: 'Tất cả 8 Dự Án', en: 'All 8 Projects' } },
-  { key: 'AIoT & Medical Device', label: { vi: 'AIoT & Y Tế', en: 'AIoT & Medical' } },
-  { key: 'Edge AI & Smart Device', label: { vi: 'Edge AI & Thiết Bị', en: 'Edge AI' } },
-  { key: 'Industrial Hardware & Automotive', label: { vi: 'Công Nghiệp & Xe Nâng', en: 'Industrial' } },
-  { key: 'Robotics & UAV', label: { vi: 'Robotics & UAV', en: 'UAV & Robotics' } },
-  { key: 'IoT & Agriculture', label: { vi: 'Nông Nghiệp IoT', en: 'Agriculture' } },
+  { key: 'All', label: { vi: 'Tất cả Dự Án', en: 'All Projects', ja: 'すべてのプロジェクト' } },
+  { key: 'AIoT & Medical Device', label: { vi: 'AIoT & Y Tế', en: 'AIoT & Medical', ja: 'AIoT & 医療機器' } },
+  { key: 'Edge AI & Smart Device', label: { vi: 'Edge AI & Thiết Bị', en: 'Edge AI & Smart Devices', ja: 'エッジ AI & スマート機器' } },
+  { key: 'Industrial Hardware & Automotive', label: { vi: 'Công Nghiệp & Xe Nâng', en: 'Industrial & Automotive', ja: '産業用ハードウェア & 自動車' } },
+  { key: 'Robotics & UAV', label: { vi: 'Robotics & UAV', en: 'Robotics & UAV', ja: 'ロボティクス & UAV' } },
+  { key: 'IoT & Agriculture', label: { vi: 'Nông Nghiệp IoT', en: 'IoT & Agriculture', ja: 'IoT & スマート農業' } },
 ];

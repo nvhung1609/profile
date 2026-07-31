@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, CodeSquare, Eye, Calendar } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
-import { projects, projectCategories, translations } from '@/data/portfolioData';
+import { projects, projectCategories, translations, getLangText } from '@/data/portfolioData';
 import { ProjectModal } from './ProjectModal';
 
 interface ProjectsProps {
@@ -34,9 +34,9 @@ export function Projects({ lang }: ProjectsProps) {
           style={{ marginBottom: 40, textAlign: 'center' }}
         >
           <h2 className="section-title">
-            {t.title[lang]}
+            {(t.title as any)[lang] || t.title.en}
           </h2>
-          <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
+          <p className="section-subtitle" style={{ margin: '0 auto' }}>{(t.subtitle as any)[lang] || t.subtitle.en}</p>
         </motion.div>
 
         {/* Category Filter Tabs */}
@@ -74,18 +74,19 @@ export function Projects({ lang }: ProjectsProps) {
                 boxShadow: activeCategory === cat.key ? 'var(--shadow-glow)' : 'none',
               }}
             >
-              {cat.label[lang]}
+              {(cat.label as any)[lang] || cat.label.en}
             </motion.button>
           ))}
         </motion.div>
 
-        {/* Project Rows */}
+        {/* Project Grid */}
         <motion.div
           layout
+          className="projects-grid-container"
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 32,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: 24,
           }}
         >
           <AnimatePresence mode="popLayout">
@@ -103,17 +104,20 @@ export function Projects({ lang }: ProjectsProps) {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.3) }}
+                  whileHover={{ y: -6 }}
+                  style={{ height: '100%' }}
                 >
                   <div
                     className="hud-card"
                     style={{
-                      padding: 28,
-                      display: 'grid',
-                      gridTemplateColumns: '180px 1fr',
-                      gap: 28,
-                      alignItems: 'center',
+                      padding: 20,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
                       cursor: 'pointer',
+                      justifyContent: 'space-between',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     }}
                     onClick={() => setSelectedProject(project)}
                   >
@@ -122,98 +126,144 @@ export function Projects({ lang }: ProjectsProps) {
                     <div className="hud-corner-bl" />
                     <div className="hud-corner-br" />
 
-                    {/* Left Media Preview Image */}
-                    <div
-                      className="project-row-img-box"
-                      style={{
-                        width: 180,
-                        height: 140,
-                      borderRadius: 'var(--radius-lg)',
-                      overflow: 'hidden',
-                      position: 'relative',
-                      background: 'var(--gradient-card)',
-                      border: '1px solid var(--border-accent)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                      boxShadow: 'var(--shadow-glow)',
-                    }}>
-                      <img
-                        src={projectImg}
-                        alt={project.title}
-                        onError={(e) => {
-                          if (project.gallery && project.gallery.length > 0) {
-                            const first = project.gallery[0];
-                            (e.currentTarget as HTMLImageElement).src = first.startsWith('http') || first.startsWith('/') ? first : `${baseUrl}${first}`;
-                          }
-                        }}
+                    <div>
+                      {/* Top Media Preview Image */}
+                      <div
+                        className="project-row-img-box"
                         style={{
                           width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          objectPosition: 'center',
+                          height: 200,
+                          borderRadius: 'var(--radius-lg)',
+                          overflow: 'hidden',
+                          position: 'relative',
+                          background: 'var(--gradient-card)',
+                          border: '1px solid var(--border-accent)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginBottom: 16,
+                          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
                         }}
-                      />
-                    </div>
+                      >
+                        {projectImg.toLowerCase().endsWith('.mp4') ? (
+                          <video
+                            src={projectImg}
+                            muted
+                            loop
+                            autoPlay
+                            playsInline
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              objectPosition: 'center',
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src={projectImg}
+                            alt={getLangText(project.title, lang)}
+                            onError={(e) => {
+                              if (project.gallery && project.gallery.length > 0) {
+                                const first = project.gallery[0];
+                                (e.currentTarget as HTMLImageElement).src = first.startsWith('http') || first.startsWith('/') ? first : `${baseUrl}${first}`;
+                              }
+                            }}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              objectPosition: 'center',
+                              transition: 'transform 0.5s ease',
+                            }}
+                          />
+                        )}
+                      </div>
 
-                    {/* Right Content */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
-                      {/* Category & Period */}
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                          <span className="tech-tag" style={{ fontSize: '0.72rem' }}>{project.category}</span>
-                          {project.highlight && (
-                            <span style={{
-                              padding: '3px 10px',
-                              fontSize: '0.7rem',
-                              fontWeight: 800,
-                              color: '#ffb700',
-                              background: 'rgba(255, 183, 0, 0.15)',
-                              border: '1px solid rgba(255, 183, 0, 0.35)',
-                              borderRadius: 'var(--radius-full)',
-                            }}>
-                              ⭐ FLAGSHIP
-                            </span>
-                          )}
-                        </div>
-                        <span style={{
-                          display: 'flex', alignItems: 'center', gap: 6,
-                          fontSize: '0.82rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)',
+                      {/* Category & Flagship Badges */}
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        flexWrap: 'wrap',
+                        gap: 8,
+                        marginBottom: 10,
+                      }}>
+                        <span className="tech-tag" style={{
+                          fontSize: '0.72rem',
+                          padding: '3px 10px',
+                          whiteSpace: 'nowrap',
+                          maxWidth: '70%',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                         }}>
-                          <Calendar size={14} />
-                          {project.period}
+                          {project.category}
                         </span>
+                        {project.highlight && (
+                          <span style={{
+                            padding: '3px 10px',
+                            fontSize: '0.68rem',
+                            fontWeight: 800,
+                            color: '#ffb700',
+                            background: 'rgba(255, 183, 0, 0.12)',
+                            border: '1px solid rgba(255, 183, 0, 0.4)',
+                            borderRadius: 'var(--radius-full)',
+                            boxShadow: '0 0 10px rgba(255, 183, 0, 0.2)',
+                            whiteSpace: 'nowrap',
+                          }}>
+                            ⭐ FLAGSHIP
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Period */}
+                      <div style={{
+                        display: 'flex', alignItems: 'center', gap: 6,
+                        fontSize: '0.78rem', color: 'var(--accent-cyan)',
+                        fontFamily: 'var(--font-mono)', marginBottom: 8, fontWeight: 600,
+                      }}>
+                        <Calendar size={13} />
+                        {project.period}
                       </div>
 
                       {/* Title */}
                       <h3 style={{
-                        fontSize: '1.3rem',
+                        fontSize: '1.15rem',
                         fontWeight: 800,
                         fontFamily: 'var(--font-display)',
                         color: 'var(--text-primary)',
-                        lineHeight: 1.3,
+                        lineHeight: 1.35,
+                        marginBottom: 10,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        minHeight: '3.1rem',
                       }}>
-                        {project.title}
+                        {getLangText(project.title, lang)}
                       </h3>
 
                       {/* Summary */}
                       <p style={{
-                        fontSize: '0.92rem',
+                        fontSize: '0.86rem',
                         color: 'var(--text-secondary)',
-                        lineHeight: 1.65,
+                        lineHeight: 1.6,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
                       }}>
-                        {project.summary[lang]}
+                        {getLangText(project.summary, lang)}
                       </p>
 
                       {/* Tech Stack Tags */}
-                      <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                        {project.techStack.map((tech, i) => (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 16 }}>
+                        {project.techStack.slice(0, 5).map((tech, i) => (
                           <span
                             key={i}
                             style={{
-                              padding: '3px 9px',
-                              fontSize: '0.73rem',
+                              padding: '2px 8px',
+                              fontSize: '0.7rem',
                               fontFamily: 'var(--font-mono)',
                               fontWeight: 600,
                               color: 'var(--text-secondary)',
@@ -225,52 +275,62 @@ export function Projects({ lang }: ProjectsProps) {
                             {tech}
                           </span>
                         ))}
+                        {project.techStack.length > 5 && (
+                          <span style={{
+                            padding: '2px 6px',
+                            fontSize: '0.68rem',
+                            fontFamily: 'var(--font-mono)',
+                            color: 'var(--text-tertiary)',
+                          }}>
+                            +{project.techStack.length - 5}
+                          </span>
+                        )}
                       </div>
+                    </div>
 
-                      {/* Buttons */}
-                      <div style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: 12,
-                        marginTop: 10,
-                        paddingTop: 12,
-                        borderTop: '1px solid var(--border-primary)',
-                      }}>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); setSelectedProject(project); }}
-                          className="btn-primary"
-                          style={{ padding: '8px 18px', fontSize: '0.82rem' }}
+                    {/* Bottom Action Buttons */}
+                    <div style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 10,
+                      paddingTop: 12,
+                      borderTop: '1px solid var(--border-primary)',
+                      marginTop: 'auto',
+                    }}>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setSelectedProject(project); }}
+                        className="btn-primary"
+                        style={{ padding: '7px 14px', fontSize: '0.8rem', flex: 1, justifyContent: 'center' }}
+                      >
+                        <Eye size={14} />
+                        {(t.viewDetail as any)[lang] || t.viewDetail.en}
+                      </button>
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="btn-secondary"
+                          style={{ padding: '7px 12px', fontSize: '0.8rem' }}
                         >
-                          <Eye size={15} />
-                          {t.viewDetail[lang]}
-                        </button>
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={e => e.stopPropagation()}
-                            className="btn-secondary"
-                            style={{ padding: '8px 18px', fontSize: '0.82rem' }}
-                          >
-                            <ExternalLink size={15} />
-                            Live Demo
-                          </a>
-                        )}
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={e => e.stopPropagation()}
-                            className="btn-secondary"
-                            style={{ padding: '8px 18px', fontSize: '0.82rem' }}
-                          >
-                            <CodeSquare size={15} />
-                            GitHub
-                          </a>
-                        )}
-                      </div>
+                          <ExternalLink size={14} />
+                          Demo
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="btn-secondary"
+                          style={{ padding: '7px 12px', fontSize: '0.8rem' }}
+                        >
+                          <CodeSquare size={14} />
+                          Code
+                        </a>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -292,14 +352,16 @@ export function Projects({ lang }: ProjectsProps) {
       </AnimatePresence>
 
       <style>{`
-        @media (max-width: 768px) {
-          #projects .hud-card {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
+        @media (max-width: 1024px) {
+          .projects-grid-container {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+            gap: 18px !important;
           }
-          .project-row-img-box {
-            width: 100% !important;
-            height: 200px !important;
+        }
+        @media (max-width: 640px) {
+          .projects-grid-container {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
           }
         }
       `}</style>

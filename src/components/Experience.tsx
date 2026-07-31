@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Calendar, MapPin } from 'lucide-react';
 import type { Language } from '@/data/portfolioData';
-import { workExperiences, translations } from '@/data/portfolioData';
+import { workExperiences, translations, getLangText } from '@/data/portfolioData';
 
 interface ExperienceProps {
   lang: Language;
@@ -22,9 +22,9 @@ export function Experience({ lang }: ExperienceProps) {
           style={{ marginBottom: 50, textAlign: 'center' }}
         >
           <h2 className="section-title">
-            {t.title[lang]}
+            {(t.title as any)[lang] || t.title.en}
           </h2>
-          <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
+          <p className="section-subtitle" style={{ margin: '0 auto' }}>{(t.subtitle as any)[lang] || t.subtitle.en}</p>
         </motion.div>
 
         {/* Timeline List */}
@@ -71,7 +71,7 @@ export function Experience({ lang }: ExperienceProps) {
                       gap: 8,
                       flexWrap: 'wrap',
                     }}>
-                      <span style={{ whiteSpace: 'nowrap' }}>{exp.company}</span>
+                      <span style={{ whiteSpace: 'nowrap' }}>{getLangText(exp.company, lang)}</span>
                       {exp.companyJapanese && (
                         <span style={{
                           fontSize: '1.05rem',
@@ -80,7 +80,7 @@ export function Experience({ lang }: ExperienceProps) {
                           whiteSpace: 'nowrap',
                           display: 'inline-block',
                         }}>
-                          {exp.companyJapanese}
+                          {getLangText(exp.companyJapanese, lang)}
                         </span>
                       )}
                     </h3>
@@ -114,7 +114,7 @@ export function Experience({ lang }: ExperienceProps) {
                     flexShrink: 0,
                   }}>
                     <Calendar size={14} style={{ color: 'var(--accent-cyan)' }} />
-                    {exp.period}
+                    {lang === 'vi' ? exp.period.replace('Present', 'Hiện tại') : lang === 'ja' ? exp.period.replace('Present', '現在').replace('Hiện tại', '現在') : exp.period.replace('Hiện tại', 'Present')}
                   </span>
                 </div>
 
@@ -164,41 +164,127 @@ export function Experience({ lang }: ExperienceProps) {
                 </p>
 
                 {/* Achievements Checklist */}
-                <div style={{ marginBottom: 20 }}>
+                <div style={{ marginBottom: 24 }}>
                   <h4 style={{
                     fontSize: '0.9rem',
                     fontWeight: 800,
                     color: 'var(--text-primary)',
-                    marginBottom: 12,
+                    marginBottom: 14,
                     fontFamily: 'var(--font-display)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.04em',
                   }}>
-                    {t.achievements[lang]}
+                    {(t.achievements as any)[lang] || t.achievements.en}
                   </h4>
-                  <ul style={{
-                    listStyle: 'none',
+                  <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 10,
-                    paddingLeft: 0,
+                    gap: 14,
+                    marginTop: 8,
                   }}>
-                    {exp.achievements.map((ach, i) => (
-                      <li
-                        key={i}
-                        style={{
-                          display: 'flex',
-                          gap: 10,
-                          fontSize: '0.9rem',
-                          color: 'var(--text-secondary)',
-                          lineHeight: 1.65,
-                        }}
-                      >
-                        <span style={{ color: 'var(--accent-primary)', flexShrink: 0, fontWeight: 800 }}>⚡</span>
-                        <span>{ach[lang]}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    {exp.achievements.map((ach, i) => {
+                      const text = (ach as any)[lang] || ach.en || ach.vi || '';
+                      const colonIndex = text.indexOf(': ');
+                      let title = '';
+                      let content = text;
+                      if (colonIndex > 0 && colonIndex < 120) {
+                        title = text.substring(0, colonIndex).trim();
+                        content = text.substring(colonIndex + 2).trim();
+                      }
+
+                      const renderTextWithLinks = (str: string) => {
+                        const urlRegex = /\((https?:\/\/[^\s)]+|[a-zA-Z0-9-]+\.(?:com|vn|net|io|org)[^\s)]*)\)/g;
+                        const parts = [];
+                        let lastIndex = 0;
+                        let match;
+
+                        while ((match = urlRegex.exec(str)) !== null) {
+                          if (match.index > lastIndex) {
+                            parts.push(str.substring(lastIndex, match.index));
+                          }
+                          const domain = match[1];
+                          const fullUrl = domain.startsWith('http') ? domain : `https://${domain}`;
+                          parts.push(
+                            <a
+                              key={match.index}
+                              href={fullUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              style={{
+                                color: 'var(--accent-cyan)',
+                                textDecoration: 'underline',
+                                fontWeight: 700,
+                                margin: '0 3px',
+                              }}
+                            >
+                              ({domain})
+                            </a>
+                          );
+                          lastIndex = match.index + match[0].length;
+                        }
+                        if (lastIndex < str.length) {
+                          parts.push(str.substring(lastIndex));
+                        }
+                        return parts.length > 0 ? parts : str;
+                      };
+
+                      return (
+                        <div
+                          key={i}
+                          style={{
+                            position: 'relative',
+                            paddingLeft: 22,
+                            paddingBottom: i === exp.achievements.length - 1 ? 0 : 12,
+                            borderBottom: i === exp.achievements.length - 1 ? 'none' : '1px dashed rgba(255, 255, 255, 0.08)',
+                          }}
+                        >
+                          {/* Glowing Diamond Bullet Marker */}
+                          <div style={{
+                            position: 'absolute',
+                            left: 0,
+                            top: 7,
+                            width: 8,
+                            height: 8,
+                            borderRadius: '1.5px',
+                            transform: 'rotate(45deg)',
+                            background: i % 2 === 0 ? 'var(--accent-cyan)' : 'var(--accent-primary)',
+                            boxShadow: i % 2 === 0 ? '0 0 8px var(--accent-cyan)' : '0 0 8px var(--accent-primary)',
+                          }} />
+
+                          {title ? (
+                            <div>
+                              <span style={{
+                                fontSize: '0.92rem',
+                                fontWeight: 800,
+                                color: i % 2 === 0 ? 'var(--accent-cyan)' : 'var(--accent-primary)',
+                                fontFamily: 'var(--font-display)',
+                                display: 'inline-block',
+                                marginRight: 8,
+                              }}>
+                                {renderTextWithLinks(title)}
+                              </span>
+                              <span style={{
+                                fontSize: '0.9rem',
+                                color: 'var(--text-secondary)',
+                                lineHeight: 1.65,
+                              }}>
+                                — {renderTextWithLinks(content)}
+                              </span>
+                            </div>
+                          ) : (
+                            <div style={{
+                              fontSize: '0.9rem',
+                              color: 'var(--text-secondary)',
+                              lineHeight: 1.65,
+                            }}>
+                              {text}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Tech stack tags - Centered */}

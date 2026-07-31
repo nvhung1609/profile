@@ -32,16 +32,16 @@ export function CommandPalette({ lang, onClose, onToggleLang, onToggleTheme, onO
   };
 
   const commands: CommandItem[] = useMemo(() => [
-    { id: 'home', label: navT.home[lang], icon: <Home size={18} />, action: () => scrollTo('home'), keywords: 'home trang chu' },
-    { id: 'about', label: navT.about[lang], icon: <User size={18} />, action: () => scrollTo('about'), keywords: 'about me gioi thieu senior embedded' },
-    { id: 'services', label: navT.services[lang], icon: <Wrench size={18} />, action: () => scrollTo('services'), keywords: 'services dich vu pcb firmware r&d' },
-    { id: 'technical-stack', label: navT.techStack[lang], icon: <Cpu size={18} />, action: () => scrollTo('technical-stack'), keywords: 'technical stack esp32 stm32 freertos canbus altium' },
-    { id: 'projects', label: navT.projects[lang], icon: <Rocket size={18} />, action: () => scrollTo('projects'), keywords: 'projects du an ecocare ai box forklift uav' },
-    { id: 'experience', label: navT.experience[lang], icon: <Briefcase size={18} />, action: () => scrollTo('experience'), keywords: 'experience jv tech musen plus japan osaka' },
-    { id: 'contact', label: navT.contact[lang], icon: <Mail size={18} />, action: () => scrollTo('contact'), keywords: 'contact lien he email telegram zalo' },
-    { id: 'toggle-lang', label: t.switchLang[lang], icon: <Globe size={18} />, action: () => { onToggleLang(); onClose(); }, keywords: 'language ngon ngu tieng viet english' },
-    { id: 'toggle-theme', label: t.toggleTheme[lang], icon: <Moon size={18} />, action: () => { onToggleTheme(); onClose(); }, keywords: 'theme dark light giao dien' },
-    { id: 'download-cv', label: t.downloadCv[lang], icon: <FileDown size={18} />, action: () => { onOpenCv(); onClose(); }, keywords: 'cv resume download tai' },
+    { id: 'home', label: (navT.home as any)[lang] || navT.home.en, icon: <Home size={18} />, action: () => scrollTo('home'), keywords: 'home trang chu' },
+    { id: 'about', label: (navT.about as any)[lang] || navT.about.en, icon: <User size={18} />, action: () => scrollTo('about'), keywords: 'about me gioi thieu senior embedded' },
+    { id: 'services', label: (navT.services as any)[lang] || navT.services.en, icon: <Wrench size={18} />, action: () => scrollTo('services'), keywords: 'services dich vu pcb firmware r&d' },
+    { id: 'technical-stack', label: (navT.techStack as any)[lang] || navT.techStack.en, icon: <Cpu size={18} />, action: () => scrollTo('technical-stack'), keywords: 'technical stack esp32 stm32 freertos canbus altium' },
+    { id: 'projects', label: (navT.projects as any)[lang] || navT.projects.en, icon: <Rocket size={18} />, action: () => scrollTo('projects'), keywords: 'projects du an ecocare ai box forklift uav' },
+    { id: 'experience', label: (navT.experience as any)[lang] || navT.experience.en, icon: <Briefcase size={18} />, action: () => scrollTo('experience'), keywords: 'experience jv tech musen plus japan osaka' },
+    { id: 'contact', label: (navT.contact as any)[lang] || navT.contact.en, icon: <Mail size={18} />, action: () => scrollTo('contact'), keywords: 'contact lien he email telegram zalo' },
+    { id: 'toggle-lang', label: (t.switchLang as any)[lang] || t.switchLang.en, icon: <Globe size={18} />, action: () => { onToggleLang(); onClose(); }, keywords: 'language ngon ngu tieng viet english' },
+    { id: 'toggle-theme', label: (t.toggleTheme as any)[lang] || t.toggleTheme.en, icon: <Moon size={18} />, action: () => { onToggleTheme(); onClose(); }, keywords: 'theme dark light giao dien' },
+    { id: 'download-cv', label: (t.downloadCv as any)[lang] || t.downloadCv.en, icon: <FileDown size={18} />, action: () => { onOpenCv(); onClose(); }, keywords: 'cv resume download tai' },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   ], [lang]);
 
@@ -114,7 +114,7 @@ export function CommandPalette({ lang, onClose, onToggleLang, onToggleTheme, onO
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder={t.placeholder[lang]}
+            placeholder={(t.placeholder as any)[lang] || t.placeholder.en}
             style={{
               flex: 1,
               background: 'transparent',
@@ -158,7 +158,7 @@ export function CommandPalette({ lang, onClose, onToggleLang, onToggleTheme, onO
               color: 'var(--text-tertiary)',
               fontSize: '0.9rem',
             }}>
-              {t.noResults[lang]}
+              {(t.noResults as any)[lang] || t.noResults.en}
             </div>
           ) : (
             filtered.map((cmd, i) => (

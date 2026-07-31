@@ -11,6 +11,7 @@ interface HeaderProps {
   lang: Language;
   theme: Theme;
   onToggleLang: () => void;
+  onSelectLang?: (lang: Language) => void;
   onToggleTheme: () => void;
   onOpenCommand: () => void;
 }
@@ -25,9 +26,16 @@ const navItems = [
   { id: 'contact', sectionId: 'contact', icon: Mail },
 ] as const;
 
-export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand }: HeaderProps) {
+export function Header({ lang, theme, onToggleLang, onSelectLang, onToggleTheme, onOpenCommand }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const t = translations.nav;
+
+  const languages: { code: Language; flag: string; name: string }[] = [
+    { code: 'vi', flag: '🇻🇳', name: 'Tiếng Việt' },
+    { code: 'en', flag: '🇺🇸', name: 'English' },
+    { code: 'ja', flag: '🇯🇵', name: '日本語' },
+  ];
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -128,7 +136,7 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
           {navItems.map((item) => {
             const Icon = item.icon;
             const labelObj = t[item.id as keyof typeof t] || t.techStack;
-            const label = labelObj ? labelObj[lang] : '';
+            const label = labelObj ? (labelObj as any)[lang] || labelObj.en : '';
             return (
               <button
                 key={item.id}
@@ -189,35 +197,94 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
             <Search size={16} />
           </motion.button>
 
-          {/* Premium Flag Badge Language Toggle Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onToggleLang}
-            aria-label="Language toggle"
-            style={{
-              height: 38,
-              padding: '0 12px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-accent)',
-              background: 'var(--bg-glass)',
-              color: 'var(--text-primary)',
-              fontSize: '0.85rem',
-              fontWeight: 800,
-              fontFamily: 'var(--font-mono)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              cursor: 'pointer',
-              boxShadow: 'var(--shadow-glow)',
-            }}
-            className="ctrl-btn lang-btn"
-          >
-            <span>{lang === 'vi' ? '🇻🇳' : '🇺🇸'}</span>
-            <span style={{ color: 'var(--accent-primary)', fontWeight: 800 }}>
-              {lang === 'vi' ? 'VI' : 'EN'}
-            </span>
-          </motion.button>
+          {/* Language Dropdown Menu */}
+          <div style={{ position: 'relative' }}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setLangMenuOpen(!langMenuOpen)}
+              aria-label="Language selector"
+              style={{
+                height: 38,
+                padding: '0 12px',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--border-accent)',
+                background: 'var(--bg-glass)',
+                color: 'var(--text-primary)',
+                fontSize: '0.85rem',
+                fontWeight: 800,
+                fontFamily: 'var(--font-mono)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                cursor: 'pointer',
+                boxShadow: 'var(--shadow-glow)',
+              }}
+              className="ctrl-btn lang-btn"
+            >
+              <span>{lang === 'vi' ? '🇻🇳' : lang === 'ja' ? '🇯🇵' : '🇺🇸'}</span>
+              <span style={{ color: 'var(--accent-primary)', fontWeight: 800 }}>
+                {lang.toUpperCase()}
+              </span>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginLeft: 2 }}>▾</span>
+            </motion.button>
+
+            <AnimatePresence>
+              {langMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  style={{
+                    position: 'absolute',
+                    top: '120%',
+                    right: 0,
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-primary)',
+                    borderRadius: 'var(--radius-md)',
+                    boxShadow: '0 12px 36px rgba(0,0,0,0.6)',
+                    padding: '6px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 4,
+                    minWidth: 145,
+                    zIndex: 110,
+                    backdropFilter: 'blur(24px)',
+                  }}
+                >
+                  {languages.map(l => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        if (onSelectLang) onSelectLang(l.code);
+                        else onToggleLang();
+                        setLangMenuOpen(false);
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        padding: '9px 12px',
+                        borderRadius: 'var(--radius-sm)',
+                        border: 'none',
+                        background: lang === l.code ? 'rgba(255, 85, 0, 0.15)' : 'transparent',
+                        color: lang === l.code ? 'var(--accent-primary)' : 'var(--text-primary)',
+                        fontSize: '0.85rem',
+                        fontWeight: lang === l.code ? 700 : 500,
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'all 0.2s',
+                        fontFamily: 'var(--font-sans)',
+                      }}
+                    >
+                      <span style={{ fontSize: '1rem' }}>{l.flag}</span>
+                      <span>{l.name}</span>
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Theme Toggle */}
           <motion.button
@@ -292,7 +359,7 @@ export function Header({ lang, theme, onToggleLang, onToggleTheme, onOpenCommand
             {navItems.map((item) => {
               const Icon = item.icon;
               const labelObj = t[item.id as keyof typeof t] || t.techStack;
-              const label = labelObj ? labelObj[lang] : '';
+              const label = labelObj ? (labelObj as any)[lang] || labelObj.en : '';
               return (
                 <button
                   key={item.id}

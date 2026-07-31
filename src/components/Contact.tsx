@@ -80,9 +80,9 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
           style={{ marginBottom: 50, textAlign: 'center' }}
         >
           <h2 className="section-title">
-            {t.title[lang]}
+            {(t.title as any)[lang] || t.title.en}
           </h2>
-          <p className="section-subtitle" style={{ margin: '0 auto' }}>{t.subtitle[lang]}</p>
+          <p className="section-subtitle" style={{ margin: '0 auto' }}>{(t.subtitle as any)[lang] || t.subtitle.en}</p>
         </motion.div>
 
         <div style={{
@@ -117,7 +117,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
                 color: 'var(--text-secondary)',
                 marginBottom: 8,
               }}>
-                {t.name[lang]}
+                {(t.name as any)[lang] || t.name.en}
               </label>
               <input
                 type="text"
@@ -145,7 +145,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
                 color: 'var(--text-secondary)',
                 marginBottom: 8,
               }}>
-                {t.contactInfo[lang]}
+                {(t.contactInfo as any)[lang] || t.contactInfo.en}
               </label>
               <input
                 type="text"
@@ -173,7 +173,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
                 color: 'var(--text-secondary)',
                 marginBottom: 8,
               }}>
-                {t.message[lang]}
+                {(t.message as any)[lang] || t.message.en}
               </label>
               <textarea
                 required
@@ -181,7 +181,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
                 value={formState.message}
                 onChange={e => setFormState(s => ({ ...s, message: e.target.value }))}
                 style={{ ...inputStyle, resize: 'vertical' }}
-                placeholder={lang === 'vi' ? 'Nêu chi tiết công việc hoặc cơ hội hợp tác...' : 'State your project details or job offer...'}
+                placeholder={lang === 'vi' ? 'Nêu chi tiết công việc hoặc cơ hội hợp tác...' : lang === 'ja' ? 'プロジェクトの詳細や案件について記載してください...' : 'State your project details or job offer...'}
                 onFocus={e => {
                   e.currentTarget.style.borderColor = 'var(--accent-primary)';
                   e.currentTarget.style.boxShadow = '0 0 0 3px var(--accent-glow)';
@@ -204,17 +204,17 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
               {loading ? (
                 <>
                   <span style={{ animation: 'spin 1s linear infinite' }}>⏳</span>
-                  {t.sending[lang]}
+                  {(t.sending as any)[lang] || t.sending.en}
                 </>
               ) : status === 'success' ? (
                 <>
                   <Check size={18} />
-                  {t.sendSuccess[lang]}
+                  {(t.sendSuccess as any)[lang] || t.sendSuccess.en}
                 </>
               ) : (
                 <>
                   <Send size={18} />
-                  {t.send[lang]}
+                  {(t.send as any)[lang] || t.send.en}
                 </>
               )}
             </motion.button>
@@ -236,7 +236,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
               letterSpacing: '0.1em',
               fontWeight: 700,
             }}>
-              {t.or[lang]}
+              {(t.or as any)[lang] || t.or.en}
             </p>
 
             {directContacts.map((s, i) => (
@@ -326,7 +326,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
             }}
           >
             <Check size={20} />
-            {t.sendSuccess[lang]}
+            {(t.sendSuccess as any)[lang] || t.sendSuccess.en}
           </motion.div>
         )}
 
@@ -345,7 +345,7 @@ export function Contact({ lang, onOpenQr }: ContactProps) {
             }}
           >
             <AlertCircle size={20} />
-            {t.sendError[lang]}
+            {(t.sendError as any)[lang] || t.sendError.en}
           </motion.div>
         )}
       </AnimatePresence>

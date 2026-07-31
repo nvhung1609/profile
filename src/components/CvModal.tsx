@@ -1,19 +1,30 @@
 import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, Printer, Mail, MapPin, Phone, CodeSquare, Globe } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { Language } from '@/data/portfolioData';
-import { personalInfo, workExperiences, projects, techCategories, education, translations } from '@/data/portfolioData';
+import { personalInfo, workExperiences, projects, techCategories, education, translations, getLangText } from '@/data/portfolioData';
 
 interface CvModalProps {
   lang: Language;
   onClose: () => void;
+  onToggleLang: () => void;
+  onSelectLang?: (lang: Language) => void;
 }
 
-export function CvModal({ lang, onClose }: CvModalProps) {
+export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalProps) {
   const t = translations.cv;
   const printRef = useRef<HTMLDivElement>(null);
   const [imgError, setImgError] = useState(false);
+  const [isCompactMode, setIsCompactMode] = useState<boolean>(true);
+  const [langMenuOpen, setLangMenuOpen] = useState<boolean>(false);
+
+  const languages: { code: Language; flag: string; name: string }[] = [
+    { code: 'vi', flag: '🇻🇳', name: 'Tiếng Việt' },
+    { code: 'en', flag: '🇺🇸', name: 'English' },
+    { code: 'ja', flag: '🇯🇵', name: '日本語' },
+  ];
+
 
   const handlePrint = () => {
     confetti({
@@ -23,13 +34,142 @@ export function CvModal({ lang, onClose }: CvModalProps) {
       colors: ['#ff5500', '#ff2a00', '#00e5ff', '#ffb700'],
     });
 
-    setTimeout(() => {
+    const printContent = printRef.current;
+    if (!printContent) {
       window.print();
-    }, 500);
+      return;
+    }
+
+    try {
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        window.print();
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="${lang}">
+          <head>
+            <meta charset="utf-8" />
+            <title>CV_Nguyen_Viet_Hung_Senior_Embedded_Engineer</title>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+            <style>
+              :root {
+                --accent-primary: #ea580c;
+                --accent-cyan: #0284c7;
+                --accent-gold: #d97706;
+                --text-primary: #0f172a;
+                --text-secondary: #334155;
+                --text-tertiary: #64748b;
+                --bg-primary: #ffffff;
+                --bg-glass: #f8fafc;
+                --border-primary: #e2e8f0;
+                --border-accent: #cbd5e1;
+                --radius-full: 9999px;
+                --radius-sm: 4px;
+                --font-sans: 'Plus Jakarta Sans', sans-serif;
+                --font-mono: 'JetBrains Mono', monospace;
+                --font-display: 'Plus Jakarta Sans', sans-serif;
+              }
+              * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                box-shadow: none !important;
+                text-shadow: none !important;
+                filter: none !important;
+              }
+              body {
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                color: #1e293b;
+                background: #ffffff;
+                padding: 20px 28px;
+                font-size: ${isCompactMode ? '8.8pt' : '9.5pt'};
+                line-height: ${isCompactMode ? '1.45' : '1.55'};
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+              }
+              h1, h2, h3, h4, strong { color: #0f172a !important; }
+              p, span, li, div { color: #334155; }
+              .cv-print-area { width: 100% !important; background: #ffffff !important; }
+              
+              section {
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+                margin-bottom: ${isCompactMode ? '10px' : '14px'} !important;
+              }
+              .cv-experience-item {
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+                margin-bottom: ${isCompactMode ? '12px' : '16px'} !important;
+                margin-left: 0 !important;
+                padding-left: 10px !important;
+                border-left: 2.5px solid #ea580c !important;
+              }
+              .cv-achievement-bullet {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: ${isCompactMode ? '4px' : '6px'} !important;
+              }
+              .cv-project-card {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: ${isCompactMode ? '8px' : '10px'} !important;
+                padding-left: 10px !important;
+                border-left: 2.5px solid #0284c7 !important;
+              }
+              .cv-skill-group {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: ${isCompactMode ? '6px' : '8px'} !important;
+              }
+              .cv-timeline-dot, div[style*="left: -6px"], div[style*="left: -5px"] {
+                display: none !important;
+              }
+              h2, h3, h4 {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+              }
+
+              @page {
+                size: A4 portrait;
+                margin: 0 !important;
+              }
+              @media print {
+                html, body {
+                  margin: 0 !important;
+                  padding: ${isCompactMode ? '8mm 12mm' : '10mm 14mm'} !important;
+                  background: #ffffff !important;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="cv-print-area">
+              ${printContent.innerHTML}
+            </div>
+            <script>
+              setTimeout(() => {
+                window.print();
+                window.close();
+              }, 400);
+            </script>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    } catch {
+      window.print();
+    }
   };
 
-  // Display all R&D & Freelance projects in CV
-  const featuredCvProjects = projects;
+  const flagshipProjectIds = ['ecocare-ai', 'forklift-safety', 'smart-agri-lora', 'edge-ai-box', 'ecohotel-smart-hotel'];
+  const featuredCvProjects = isCompactMode 
+    ? projects.filter(p => flagshipProjectIds.includes(p.id))
+    : projects;
 
   return (
     <motion.div
@@ -82,10 +222,117 @@ export function CvModal({ lang, onClose }: CvModalProps) {
             flex: 1,
             minWidth: 0,
           }}>
-            {t.title[lang]}
+            {(t.title as any)[lang] || t.title.en}
           </h2>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, flexWrap: 'wrap' }}>
+            {/* Language Dropdown Menu */}
+            <div style={{ position: 'relative' }}>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: '6px 14px',
+                  background: 'rgba(255, 140, 0, 0.15)',
+                  color: '#ff8c00',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  fontFamily: 'var(--font-sans)',
+                  border: '1px solid rgba(255, 140, 0, 0.4)',
+                  borderRadius: 'var(--radius-full)',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <span>🌐 {lang === 'vi' ? 'VI' : lang === 'ja' ? 'JA' : 'EN'} ▾</span>
+              </motion.button>
+
+              <AnimatePresence>
+                {langMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    style={{
+                      position: 'absolute',
+                      top: '120%',
+                      right: 0,
+                      background: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-primary)',
+                      borderRadius: 'var(--radius-md)',
+                      boxShadow: '0 12px 36px rgba(0,0,0,0.6)',
+                      padding: '6px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 4,
+                      minWidth: 140,
+                      zIndex: 110,
+                      backdropFilter: 'blur(24px)',
+                    }}
+                  >
+                    {languages.map(l => (
+                      <button
+                        key={l.code}
+                        onClick={() => {
+                          if (onSelectLang) onSelectLang(l.code);
+                          else onToggleLang();
+                          setLangMenuOpen(false);
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 8,
+                          padding: '8px 12px',
+                          borderRadius: 'var(--radius-sm)',
+                          border: 'none',
+                          background: lang === l.code ? 'rgba(255, 85, 0, 0.15)' : 'transparent',
+                          color: lang === l.code ? 'var(--accent-primary)' : 'var(--text-primary)',
+                          fontSize: '0.82rem',
+                          fontWeight: lang === l.code ? 700 : 500,
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          transition: 'all 0.2s',
+                          fontFamily: 'var(--font-sans)',
+                        }}
+                      >
+                        <span style={{ fontSize: '0.95rem' }}>{l.flag}</span>
+                        <span>{l.name}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            {/* Toggle Compact 2-Page CV Mode Button */}
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => setIsCompactMode(!isCompactMode)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '6px 14px',
+                background: isCompactMode ? 'rgba(2, 132, 199, 0.2)' : 'rgba(255, 255, 255, 0.08)',
+                color: isCompactMode ? 'var(--accent-cyan)' : 'var(--text-tertiary)',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                fontFamily: 'var(--font-sans)',
+                border: `1px solid ${isCompactMode ? 'var(--accent-cyan)' : 'var(--border-accent)'}`,
+                borderRadius: 'var(--radius-full)',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <span>{isCompactMode 
+                ? (lang === 'vi' ? '📄 CV 2 Trang' : lang === 'ja' ? '📄 2ページCV' : '📄 2-Page CV') 
+                : (lang === 'vi' ? '📚 Bản Đầy Đủ' : lang === 'ja' ? '📚 フルバージョン' : '📚 Full Version')}</span>
+            </motion.button>
+
             {/* Print Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -95,10 +342,10 @@ export function CvModal({ lang, onClose }: CvModalProps) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
-                padding: '7px 16px',
+                padding: '6px 14px',
                 background: 'var(--gradient-hero)',
                 color: '#fff',
-                fontSize: '0.82rem',
+                fontSize: '0.78rem',
                 fontWeight: 700,
                 fontFamily: 'var(--font-sans)',
                 border: 'none',
@@ -108,8 +355,8 @@ export function CvModal({ lang, onClose }: CvModalProps) {
                 boxShadow: 'var(--shadow-glow)',
               }}
             >
-              <Printer size={15} />
-              <span>{lang === 'vi' ? 'In / Tải PDF CV' : 'Print / Export PDF'}</span>
+              <Printer size={14} />
+              <span>{lang === 'vi' ? 'In / Tải PDF CV' : lang === 'ja' ? '印刷 / PDF出力' : 'Print / Export PDF'}</span>
             </motion.button>
 
             {/* Close Button */}
@@ -273,8 +520,59 @@ export function CvModal({ lang, onClose }: CvModalProps) {
               </div>
             </div>
 
-            {/* SECTION 1: OBJECTIVE / MỤC TIÊU NGHỀ NGHIỆP */}
-            <section style={{ marginBottom: 24 }}>
+            {/* SECTION 1: EDUCATION / HỌC VẤN */}
+            <section style={{ marginBottom: 26 }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                marginBottom: 12,
+                paddingBottom: 4,
+                borderBottom: '1.5px solid var(--border-primary)',
+              }}>
+                <h2 style={{
+                  fontSize: '0.95rem',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: 'var(--accent-primary)',
+                  fontFamily: 'var(--font-display)',
+                  margin: 0,
+                  whiteSpace: 'nowrap',
+                }}>
+                  {lang === 'vi' ? 'HỌC VẤN' : lang === 'ja' ? '学歴' : 'EDUCATION'}
+                </h2>
+                <div style={{ flex: 1, height: '1.5px', background: 'var(--border-primary)' }} />
+              </div>
+
+              {education.map((edu, i) => (
+                <div key={i} style={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderLeft: '3px solid var(--accent-cyan)',
+                  borderRadius: '8px',
+                  padding: '12px 16px',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 6 }}>
+                    <h3 style={{ fontSize: '0.98rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                      {edu.school[lang]}
+                    </h3>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+                      🗓️ {edu.period}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.86rem', color: 'var(--accent-primary)', fontWeight: 700, marginTop: 4, marginBottom: 4 }}>
+                    🎓 {edu.degree[lang]}
+                  </div>
+                  <p style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.6 }}>
+                    {edu.description[lang]}
+                  </p>
+                </div>
+              ))}
+            </section>
+
+            {/* SECTION 2: OBJECTIVE / MỤC TIÊU NGHỀ NGHIỆP (hidden in compact mode) */}
+            {!isCompactMode && <section style={{ marginBottom: 24 }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -293,7 +591,7 @@ export function CvModal({ lang, onClose }: CvModalProps) {
                   margin: 0,
                   whiteSpace: 'nowrap',
                 }}>
-                  {lang === 'vi' ? 'MỤC TIÊU NGHỀ NGHIỆP' : 'OBJECTIVE'}
+                  {lang === 'vi' ? 'MỤC TIÊU NGHỀ NGHIỆP' : lang === 'ja' ? 'キャリア目標' : 'OBJECTIVE'}
                 </h2>
                 <div style={{ flex: 1, height: '1.5px', background: 'var(--border-primary)' }} />
               </div>
@@ -306,7 +604,7 @@ export function CvModal({ lang, onClose }: CvModalProps) {
               }}>
                 {personalInfo.aboutText[lang]}
               </p>
-            </section>
+            </section>}
 
             {/* SECTION 2: WORK EXPERIENCE / KINH NGHIỆM LÀM VIỆC (Timeline Layout) */}
             <section style={{ marginBottom: 26 }}>
@@ -328,110 +626,229 @@ export function CvModal({ lang, onClose }: CvModalProps) {
                   margin: 0,
                   whiteSpace: 'nowrap',
                 }}>
-                  {lang === 'vi' ? 'KINH NGHIỆM LÀM VIỆC' : 'WORK EXPERIENCE'}
+                  {lang === 'vi' ? 'KINH NGHIỆM LÀM VIỆC' : lang === 'ja' ? '職務経歴' : 'WORK EXPERIENCE'}
                 </h2>
                 <div style={{ flex: 1, height: '1.5px', background: 'var(--border-primary)' }} />
               </div>
 
               {workExperiences.map(exp => (
-                <div key={exp.id} style={{
+                <div key={exp.id} className="cv-experience-item" style={{
                   position: 'relative',
-                  paddingLeft: 20,
-                  borderLeft: '2px solid var(--accent-cyan)',
-                  marginBottom: 20,
+                  paddingLeft: 22,
+                  marginLeft: 10,
+                  borderLeft: '2px solid var(--border-accent)',
+                  marginBottom: 28,
                 }}>
                   {/* Timeline Dot */}
-                  <div style={{
+                  <div className="cv-timeline-dot" style={{
                     position: 'absolute',
                     left: -6,
-                    top: 4,
+                    top: 6,
                     width: 10,
                     height: 10,
                     borderRadius: '50%',
-                    background: 'var(--accent-cyan)',
-                    boxShadow: '0 0 8px var(--accent-cyan)',
+                    background: 'var(--accent-primary)',
+                    boxShadow: 'none',
                   }} />
 
-                  {/* Header Row: Role & Company */}
+                  {/* Header Block: Clean 2-row layout */}
                   <div style={{
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'baseline',
-                    flexWrap: 'wrap',
-                    gap: 8,
-                    marginBottom: 4,
+                    flexDirection: 'column',
+                    gap: 6,
+                    marginBottom: 12,
+                    paddingBottom: 10,
+                    borderBottom: '1px dashed rgba(255, 255, 255, 0.1)',
                   }}>
-                    <div>
+                    {/* Row 1: Role Title + Period Badge */}
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: 8,
+                    }}>
                       <h3 style={{
-                        fontSize: '1.02rem',
+                        fontSize: '1.08rem',
                         fontWeight: 800,
-                        color: 'var(--text-primary)',
+                        color: 'var(--accent-primary)',
                         margin: 0,
-                        lineHeight: 1.3,
+                        lineHeight: 1.25,
+                        fontFamily: 'var(--font-display)',
                       }}>
                         {exp.role[lang]}
                       </h3>
-                      <div style={{
-                        fontSize: '0.9rem',
+
+                      <span style={{
+                        fontSize: '0.78rem',
+                        color: 'var(--accent-cyan)',
+                        background: 'rgba(0, 229, 255, 0.1)',
+                        border: '1px solid rgba(0, 229, 255, 0.3)',
+                        padding: '3px 10px',
+                        borderRadius: 'var(--radius-full)',
+                        fontFamily: 'var(--font-mono)',
                         fontWeight: 700,
-                        color: 'var(--accent-primary)',
-                        marginTop: 2,
+                        whiteSpace: 'nowrap',
+                      }}>
+                        🗓️ {lang === 'vi' ? exp.period.replace('Present', 'Hiện tại') : lang === 'ja' ? exp.period.replace('Present', '現在').replace('Hiện tại', '現在') : exp.period.replace('Hiện tại', 'Present')}
+                      </span>
+                    </div>
+
+                    {/* Row 2: Company Name + Location */}
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: 8,
+                      fontSize: '0.88rem',
+                    }}>
+                      <div style={{
+                        fontWeight: 700,
+                        color: 'var(--text-primary)',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 8,
+                        gap: 6,
                         flexWrap: 'wrap',
                       }}>
-                        <span>{exp.company}</span>
+                        <span>{getLangText(exp.company, lang)}</span>
                         {exp.companyJapanese && (
-                          <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
-                            {exp.companyJapanese}
+                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+                            {getLangText(exp.companyJapanese, lang)}
                           </span>
                         )}
                       </div>
-                    </div>
 
-                    <div style={{
-                      fontSize: '0.8rem',
-                      color: 'var(--accent-cyan)',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700,
-                      textAlign: 'right',
-                    }}>
-                      <span>🗓️ {exp.period}</span>
-                      <div style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', fontWeight: 500, marginTop: 1 }}>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
                         📍 {exp.location[lang]}
                       </div>
                     </div>
                   </div>
 
-                  {/* Description */}
-                  <p style={{
-                    fontSize: '0.87rem',
-                    color: 'var(--text-secondary)',
-                    marginTop: 6,
-                    marginBottom: 8,
-                    lineHeight: 1.6,
-                    textAlign: 'justify',
-                  }}>
-                    {exp.description[lang]}
-                  </p>
+                  {/* Description (hidden in compact mode to save space) */}
+                  {!isCompactMode && (
+                    <p style={{
+                      fontSize: '0.87rem',
+                      color: 'var(--text-secondary)',
+                      marginBottom: 14,
+                      lineHeight: 1.65,
+                      textAlign: 'justify',
+                    }}>
+                      {exp.description[lang]}
+                    </p>
+                  )}
 
-                  {/* Achievements List */}
-                  <ul style={{
-                    paddingLeft: 16,
-                    fontSize: '0.84rem',
-                    color: 'var(--text-secondary)',
+                  {/* Achievements Project Blueprint List */}
+                  <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 5,
-                    margin: 0,
+                    gap: isCompactMode ? 6 : 12,
+                    marginTop: isCompactMode ? 4 : 8,
                   }}>
-                    {exp.achievements.map((ach, i) => (
-                      <li key={i} style={{ lineHeight: 1.55 }}>
-                        {ach[lang]}
-                      </li>
-                    ))}
-                  </ul>
+                    {(isCompactMode ? exp.achievements.slice(0, 3) : exp.achievements).map((ach, i) => {
+                      const text = (ach as any)[lang] || ach.en || ach.vi || '';
+                      const colonIndex = text.indexOf(': ');
+                      let title = '';
+                      let content = text;
+                      if (colonIndex > 0 && colonIndex < 120) {
+                        title = text.substring(0, colonIndex).trim();
+                        content = text.substring(colonIndex + 2).trim();
+                      }
+
+                      const renderTextWithLinks = (str: string) => {
+                        const urlRegex = /\((https?:\/\/[^\s)]+|[a-zA-Z0-9-]+\.(?:com|vn|net|io|org)[^\s)]*)\)/g;
+                        const parts = [];
+                        let lastIndex = 0;
+                        let match;
+
+                        while ((match = urlRegex.exec(str)) !== null) {
+                          if (match.index > lastIndex) {
+                            parts.push(str.substring(lastIndex, match.index));
+                          }
+                          const domain = match[1];
+                          const fullUrl = domain.startsWith('http') ? domain : `https://${domain}`;
+                          parts.push(
+                            <a
+                              key={match.index}
+                              href={fullUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              style={{
+                                color: 'var(--accent-cyan)',
+                                textDecoration: 'underline',
+                                fontWeight: 700,
+                                margin: '0 3px',
+                              }}
+                            >
+                              ({domain})
+                            </a>
+                          );
+                          lastIndex = match.index + match[0].length;
+                        }
+                        if (lastIndex < str.length) {
+                          parts.push(str.substring(lastIndex));
+                        }
+                        return parts.length > 0 ? parts : str;
+                      };
+
+                      return (
+                        <div
+                          key={i}
+                          className="cv-achievement-bullet"
+                          style={{
+                            position: 'relative',
+                            paddingLeft: 18,
+                            paddingBottom: i === exp.achievements.length - 1 ? 0 : 10,
+                            borderBottom: i === exp.achievements.length - 1 ? 'none' : '1px dashed rgba(255, 255, 255, 0.08)',
+                          }}
+                        >
+                          {/* Glowing Diamond Bullet Marker */}
+                          <div style={{
+                            position: 'absolute',
+                            left: 0,
+                            top: 7,
+                            width: 7,
+                            height: 7,
+                            borderRadius: '1.5px',
+                            transform: 'rotate(45deg)',
+                            background: i % 2 === 0 ? 'var(--accent-cyan)' : 'var(--accent-primary)',
+                            boxShadow: i % 2 === 0 ? '0 0 6px var(--accent-cyan)' : '0 0 6px var(--accent-primary)',
+                          }} />
+
+                          {title ? (
+                            <div>
+                              <span style={{
+                                fontSize: '0.86rem',
+                                fontWeight: 800,
+                                color: i % 2 === 0 ? 'var(--accent-cyan)' : 'var(--accent-primary)',
+                                fontFamily: 'var(--font-display)',
+                                display: 'inline-block',
+                                marginRight: 6,
+                              }}>
+                                {renderTextWithLinks(title)}
+                              </span>
+                              <span style={{
+                                fontSize: '0.83rem',
+                                color: 'var(--text-secondary)',
+                                lineHeight: 1.6,
+                              }}>
+                                — {renderTextWithLinks(content)}
+                              </span>
+                            </div>
+                          ) : (
+                            <div style={{
+                              fontSize: '0.83rem',
+                              color: 'var(--text-secondary)',
+                              lineHeight: 1.6,
+                            }}>
+                              {text}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               ))}
             </section>
@@ -456,14 +873,14 @@ export function CvModal({ lang, onClose }: CvModalProps) {
                   margin: 0,
                   whiteSpace: 'nowrap',
                 }}>
-                  {lang === 'vi' ? 'DỰ ÁN R&D & FREELANCE TIÊU BIỂU' : 'TYPICAL R&D & FREELANCE PROJECTS'}
+                  {lang === 'vi' ? 'DỰ ÁN R&D & FREELANCE TIÊU BIỂU' : lang === 'ja' ? '主要R&D・フリーランスプロジェクト' : 'TYPICAL R&D & FREELANCE PROJECTS'}
                 </h2>
                 <div style={{ flex: 1, height: '1.5px', background: 'var(--border-primary)' }} />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {featuredCvProjects.map(proj => (
-                  <div key={proj.id} style={{
+                  <div key={proj.id} className="cv-project-card" style={{
                     position: 'relative',
                     paddingLeft: 18,
                     borderLeft: '2px solid var(--border-accent)',
@@ -493,7 +910,7 @@ export function CvModal({ lang, onClose }: CvModalProps) {
                         color: 'var(--text-primary)',
                         margin: 0,
                       }}>
-                        {proj.title}
+                        {getLangText(proj.title, lang)}
                       </h3>
                       <span style={{
                         fontSize: '0.78rem',
@@ -552,134 +969,34 @@ export function CvModal({ lang, onClose }: CvModalProps) {
               </div>
             </section>
 
-            {/* SECTION 4: DUAL-COLUMN GRID (LEFT: EDUCATION & CERTIFICATIONS | RIGHT: SKILLS) */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 24,
-              alignItems: 'start',
-            }}
-            className="cv-bottom-grid"
-            >
-              {/* Left Column: EDUCATION & CERTIFICATIONS */}
-              <div>
-                {/* EDUCATION */}
-                <section style={{ marginBottom: 20 }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    marginBottom: 10,
-                    paddingBottom: 4,
-                    borderBottom: '1.5px solid var(--border-primary)',
-                  }}>
-                    <h2 style={{
-                      fontSize: '0.9rem',
-                      fontWeight: 900,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.08em',
-                      color: 'var(--accent-primary)',
-                      fontFamily: 'var(--font-display)',
-                      margin: 0,
-                    }}>
-                      {lang === 'vi' ? 'HỌC VẤN' : 'EDUCATION'}
-                    </h2>
-                  </div>
-
-                  {education.map((edu, i) => (
-                    <div key={i} style={{ marginBottom: 10 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap' }}>
-                        <h3 style={{ fontSize: '0.92rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)' }}>
-                          {edu.school[lang]}
-                        </h3>
-                        <span style={{ fontSize: '0.78rem', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                          {edu.period}
-                        </span>
-                      </div>
-                      <div style={{ fontSize: '0.84rem', color: 'var(--accent-primary)', fontWeight: 700, marginTop: 2, marginBottom: 2 }}>
-                        {edu.degree[lang]}
-                      </div>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.55 }}>
-                        {edu.description[lang]}
-                      </p>
-                    </div>
-                  ))}
-                </section>
-
-                {/* CERTIFICATIONS & PROFESSIONAL HONORS */}
-                <section>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    marginBottom: 10,
-                    paddingBottom: 4,
-                    borderBottom: '1.5px solid var(--border-primary)',
-                  }}>
-                    <h2 style={{
-                      fontSize: '0.9rem',
-                      fontWeight: 900,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.08em',
-                      color: 'var(--accent-primary)',
-                      fontFamily: 'var(--font-display)',
-                      margin: 0,
-                    }}>
-                      {lang === 'vi' ? 'CHỨNG CHỈ & CHUYÊN MÔN' : 'CERTIFICATIONS'}
-                    </h2>
-                  </div>
-
-                  <ul style={{
-                    paddingLeft: 16,
-                    fontSize: '0.82rem',
-                    color: 'var(--text-secondary)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 6,
-                    margin: 0,
-                  }}>
-                    <li>
-                      <strong style={{ color: 'var(--text-primary)' }}>
-                        {lang === 'vi' ? 'Chứng chỉ Tiếng Anh B1 / TOEIC' : 'B1 / TOEIC English Certificate'}
-                      </strong> — Đọc hiểu tài liệu Datasheet & giao tiếp kỹ thuật tốt.
-                    </li>
-                    <li>
-                      <strong style={{ color: 'var(--text-primary)' }}>Altium Designer High-Speed PCB Layout</strong> — Chứng nhận đi dây đa lớp & kiểm soát trở kháng EMI/EMC.
-                    </li>
-                    <li>
-                      <strong style={{ color: 'var(--text-primary)' }}>FreeRTOS & Embedded C/C++ System Architect</strong> — Thiết kế firmware chuẩn công nghiệp.
-                    </li>
-                  </ul>
-                </section>
+            {/* SECTION 4: SKILLS & TECHNICAL STACK */}
+            <section style={{ marginBottom: 20 }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                marginBottom: 14,
+                paddingBottom: 4,
+                borderBottom: '1.5px solid var(--border-primary)',
+              }}>
+                <h2 style={{
+                  fontSize: '0.95rem',
+                  fontWeight: 900,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: 'var(--accent-primary)',
+                  fontFamily: 'var(--font-display)',
+                  margin: 0,
+                  whiteSpace: 'nowrap',
+                }}>
+                  {lang === 'vi' ? 'KỸ NĂNG & CÔNG NGHỆ CHUYÊN MÔN' : lang === 'ja' ? '専門スキル & 技術スタック' : 'SKILLS & TECHNICAL STACK'}
+                </h2>
+                <div style={{ flex: 1, height: '1.5px', background: 'var(--border-primary)' }} />
               </div>
 
-              {/* Right Column: SKILLS & TECHNICAL STACK */}
-              <div>
-                <section>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    marginBottom: 10,
-                    paddingBottom: 4,
-                    borderBottom: '1.5px solid var(--border-primary)',
-                  }}>
-                    <h2 style={{
-                      fontSize: '0.9rem',
-                      fontWeight: 900,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.08em',
-                      color: 'var(--accent-primary)',
-                      fontFamily: 'var(--font-display)',
-                      margin: 0,
-                    }}>
-                      {lang === 'vi' ? 'KỸ NĂNG CÔNG NGHỆ' : 'SKILLS'}
-                    </h2>
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {techCategories.map(cat => (
-                      <div key={cat.title.en}>
+                      <div key={cat.title.en} className="cv-skill-group">
                         <div style={{
                           fontSize: '0.82rem',
                           fontWeight: 800,
@@ -713,8 +1030,6 @@ export function CvModal({ lang, onClose }: CvModalProps) {
                 </section>
               </div>
             </div>
-          </div>
-        </div>
       </motion.div>
 
       {/* Print-specific CSS styles */}

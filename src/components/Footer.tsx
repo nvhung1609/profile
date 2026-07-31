@@ -48,10 +48,10 @@ export function Footer({ lang }: FooterProps) {
               {personalInfo.name}
             </span>
             <span style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '0.82rem' }}>
-              • {t.role[lang]}
+              • {(t.role as any)[lang] || t.role.en}
             </span>
             <span style={{ fontSize: '0.82rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-mono)' }}>
-              © {currentYear}. {t.rights[lang]}
+              © {currentYear}. {(t.rights as any)[lang] || t.rights.en}
             </span>
           </motion.div>
 

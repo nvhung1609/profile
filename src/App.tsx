@@ -18,9 +18,9 @@ import { QrModal } from '@/components/QrModal';
 export default function App() {
   const [lang, setLang] = useState<Language>(() => {
     if (typeof window !== 'undefined') {
-      return (localStorage.getItem('portfolio_lang') as Language) || 'vi';
+      return (localStorage.getItem('portfolio_lang') as Language) || 'en';
     }
-    return 'vi';
+    return 'en';
   });
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
@@ -61,7 +61,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const toggleLang = () => setLang(l => (l === 'vi' ? 'en' : 'vi'));
+  const toggleLang = () => setLang(l => (l === 'en' ? 'ja' : l === 'ja' ? 'vi' : 'en'));
   const toggleTheme = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
 
   return (
@@ -74,6 +74,7 @@ export default function App() {
         lang={lang}
         theme={theme}
         onToggleLang={toggleLang}
+        onSelectLang={(l: Language) => setLang(l)}
         onToggleTheme={toggleTheme}
         onOpenCommand={() => setShowCommand(true)}
       />
@@ -107,7 +108,7 @@ export default function App() {
 
       <AnimatePresence>
         {showCv && (
-          <CvModal lang={lang} onClose={() => setShowCv(false)} />
+          <CvModal lang={lang} onClose={() => setShowCv(false)} onToggleLang={toggleLang} onSelectLang={(l: Language) => setLang(l)} />
         )}
       </AnimatePresence>
 

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, Layers, Sparkles, ZoomIn } from 'lucide-react';
+import { X, ExternalLink, CodeSquare, ChevronLeft, ChevronRight, Layers, Sparkles, ZoomIn, Play } from 'lucide-react';
 import type { Language, Project } from '@/data/portfolioData';
-import { translations } from '@/data/portfolioData';
+import { translations, getLangText } from '@/data/portfolioData';
 
 interface ProjectModalProps {
   project: Project;
@@ -15,30 +15,153 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isFullscreenZoom, setIsFullscreenZoom] = useState(false);
+  const activeThumbRef = useRef<HTMLDivElement | null>(null);
 
   // Base URL for assets
   const baseUrl = import.meta.env.BASE_URL.endsWith('/')
     ? import.meta.env.BASE_URL
     : `${import.meta.env.BASE_URL}/`;
 
-  // Use project.gallery if provided, or fallback to default project images
+  // Use project.gallery if provided, or fallback to project.image
   const galleryImages = project.gallery && project.gallery.length > 0
     ? project.gallery.map(img => img.startsWith('http') || img.startsWith('/') ? img : `${baseUrl}${img}`)
-    : [1, 2, 3, 4, 5, 6].map(
-        num => `${baseUrl}assets/img/projects/${project.id}/${num}.png`
-      );
+    : (project.image ? [project.image.startsWith('http') || project.image.startsWith('/') ? project.image : `${baseUrl}${project.image}`] : []);
 
-  const nextImg = () => setActiveImgIndex((prev) => (prev + 1) % galleryImages.length);
-  const prevImg = () => setActiveImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  const activeIsVid = galleryImages[activeImgIndex]?.toLowerCase().endsWith('.mp4');
 
-  // Auto-play slideshow every 3.5 seconds
+  const nextImg = () => {
+    setActiveImgIndex((prev) => (prev + 1) % galleryImages.length);
+    setTimeout(() => {
+      activeThumbRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, 50);
+  };
+
+  const prevImg = () => {
+    setActiveImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    setTimeout(() => {
+      activeThumbRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }, 50);
+  };
+
+  // Ultra-Smooth Drag-to-Scroll with Global Listener & Inertia
+  const thumbsContainerRef = useRef<HTMLDivElement>(null);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const velocityRef = useRef(0);
+  const lastXRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  const animIdRef = useRef<number | null>(null);
+  const totalMovedRef = useRef(0);
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!thumbsContainerRef.current) return;
+
+    // Pause slideshow on manual user drag interaction
+    setIsPaused(true);
+
+    // Cancel any ongoing momentum inertia animation
+    if (animIdRef.current) {
+      cancelAnimationFrame(animIdRef.current);
+      animIdRef.current = null;
+    }
+
+    isDraggingRef.current = true;
+    setIsMouseDown(true);
+    startXRef.current = e.pageX;
+    lastXRef.current = e.pageX;
+    scrollLeftRef.current = thumbsContainerRef.current.scrollLeft;
+    velocityRef.current = 0;
+    lastTimeRef.current = performance.now();
+    totalMovedRef.current = 0;
+
+    const handleGlobalMouseMove = (moveEvent: MouseEvent) => {
+      if (!isDraggingRef.current || !thumbsContainerRef.current) return;
+
+      const currentX = moveEvent.pageX;
+      const currentTime = performance.now();
+      const deltaX = currentX - lastXRef.current;
+      const deltaTime = currentTime - lastTimeRef.current;
+
+      totalMovedRef.current += Math.abs(deltaX);
+
+      // Track velocity for inertia
+      if (deltaTime > 0) {
+        velocityRef.current = deltaX / deltaTime;
+      }
+
+      lastXRef.current = currentX;
+      lastTimeRef.current = currentTime;
+
+      const walk = currentX - startXRef.current;
+      thumbsContainerRef.current.scrollLeft = scrollLeftRef.current - walk;
+    };
+
+    const handleGlobalMouseUp = () => {
+      isDraggingRef.current = false;
+      setIsMouseDown(false);
+
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+
+      // Inertia Momentum Physics
+      const el = thumbsContainerRef.current;
+      if (!el) return;
+
+      let currentVel = velocityRef.current * 16;
+      if (Math.abs(currentVel) > 1) {
+        const step = () => {
+          if (Math.abs(currentVel) < 0.3 || !el) {
+            animIdRef.current = null;
+            return;
+          }
+          el.scrollLeft -= currentVel;
+          currentVel *= 0.92; // smooth decay
+          animIdRef.current = requestAnimationFrame(step);
+        };
+        animIdRef.current = requestAnimationFrame(step);
+      }
+    };
+
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+  };
+
+  // Convert mouse wheel vertically into horizontal scroll
   useEffect(() => {
-    if (isPaused) return;
+    const el = thumbsContainerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        setIsPaused(true);
+        el.scrollLeft += e.deltaY * 1.2;
+      }
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  // Cleanup inertia animation on unmount
+  useEffect(() => {
+    return () => {
+      if (animIdRef.current) {
+        cancelAnimationFrame(animIdRef.current);
+      }
+    };
+  }, []);
+
+  // Auto-play slideshow every 3.5 seconds (paused when user interacts or when video is playing)
+  useEffect(() => {
+    if (isPaused || activeIsVid) return;
     const interval = setInterval(() => {
       setActiveImgIndex((prev) => (prev + 1) % galleryImages.length);
     }, 3500);
     return () => clearInterval(interval);
-  }, [galleryImages.length, isPaused]);
+  }, [galleryImages.length, isPaused, activeIsVid]);
 
   return (
     <motion.div
@@ -92,7 +215,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
             }}>
-              {project.title}
+              {getLangText(project.title, lang)}
             </h3>
           </div>
 
@@ -219,7 +342,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                 <motion.img
                   key={`fg-${activeImgIndex}`}
                   src={galleryImages[activeImgIndex]}
-                  alt={`${project.title} render ${activeImgIndex + 1}`}
+                  alt={`${getLangText(project.title, lang)} render ${activeImgIndex + 1}`}
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
@@ -305,72 +428,101 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
             </div>
           </div>
 
-          {/* Thumbnail Selector Bar */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            gap: 10,
-            padding: '12px 16px',
-            background: 'var(--bg-tertiary)',
-            borderBottom: '1px solid var(--border-primary)',
-          }}>
+          {/* High Performance Horizontal Scrollable Thumbnail Selector Bar (Physics Drag & Inertia Supported) */}
+          <div
+            ref={thumbsContainerRef}
+            className="modal-scroll-thumbs"
+            onMouseDown={handleMouseDown}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              gap: 10,
+              padding: '12px 16px',
+              background: 'var(--bg-tertiary)',
+              borderBottom: '1px solid var(--border-primary)',
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              maxWidth: '100%',
+              cursor: isMouseDown ? 'grabbing' : 'grab',
+              userSelect: 'none',
+            }}
+          >
             {galleryImages.map((url, idx) => {
               const isVid = url.toLowerCase().endsWith('.mp4');
+              const isActive = activeImgIndex === idx;
               return (
                 <motion.div
                   key={idx}
+                  ref={isActive ? activeThumbRef : null}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setActiveImgIndex(idx)}
+                  onClick={() => {
+                    if (totalMovedRef.current > 5) return;
+                    setActiveImgIndex(idx);
+                  }}
                   style={{
-                    width: 96,
-                    height: 65,
+                    width: 90,
+                    height: 60,
                     flexShrink: 0,
                     borderRadius: 'var(--radius-md)',
                     overflow: 'hidden',
                     cursor: 'pointer',
-                    border: activeImgIndex === idx ? '2px solid var(--accent-primary)' : '1px solid var(--border-primary)',
-                    boxShadow: activeImgIndex === idx ? 'var(--shadow-glow)' : 'none',
+                    border: isActive ? '2px solid var(--accent-primary)' : '1px solid var(--border-primary)',
+                    boxShadow: isActive ? 'var(--shadow-glow)' : 'none',
                     position: 'relative',
-                    opacity: activeImgIndex === idx ? 1 : 0.8,
+                    opacity: isActive ? 1 : 0.75,
                     transition: 'all 0.2s',
                     background: '#080810',
                   }}
                   className="thumb-box"
                 >
                   {isVid ? (
-                    <video
-                      src={url}
-                      muted
-                      loop
-                      autoPlay
-                      playsInline
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
+                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                      <video
+                        src={url.includes('#') ? url : `${url}#t=0.1`}
+                        muted
+                        loop={isActive}
+                        autoPlay={isActive}
+                        playsInline
+                        preload="metadata"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      {!isActive && (
+                        <div style={{
+                          position: 'absolute', inset: 0,
+                          background: 'rgba(0,0,0,0.3)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        }}>
+                          <Play size={18} fill="#fff" color="#fff" />
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <img
                       src={url}
                       alt={`Thumb ${idx + 1}`}
+                      loading="lazy"
+                      decoding="async"
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   )}
                   {isVid && (
                     <span style={{
-                      position: 'absolute', top: 4, left: 4,
-                      fontSize: '0.6rem', fontWeight: 800,
-                      color: '#ff2d55', background: 'rgba(0,0,0,0.85)',
-                      padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(255,45,85,0.4)',
+                      position: 'absolute', top: 3, left: 3,
+                      fontSize: '0.55rem', fontWeight: 800,
+                      color: '#fff', background: '#ff2d55',
+                      padding: '1px 5px', borderRadius: '3px',
+                      zIndex: 2,
                     }}>
                       VIDEO
                     </span>
                   )}
                   <span style={{
-                    position: 'absolute', bottom: 3, right: 4,
-                    fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 800,
+                    position: 'absolute', bottom: 3, right: 3,
+                    fontSize: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 800,
                     color: '#fff', textShadow: '0 1px 3px #000',
-                    background: 'rgba(0,0,0,0.65)', padding: '1px 5px', borderRadius: '4px',
+                    background: 'rgba(0,0,0,0.75)', padding: '1px 5px', borderRadius: '3px',
                   }}>
                     #{idx + 1}
                   </span>
@@ -410,7 +562,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               color: 'var(--text-primary)',
               lineHeight: 1.3,
             }}>
-              {project.title}
+              {getLangText(project.title, lang)}
             </h2>
 
             {/* Long description */}
@@ -434,7 +586,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                 textTransform: 'uppercase',
                 letterSpacing: '0.04em',
               }}>
-                {t.features[lang]}
+                {(t.features as any)[lang] || t.features.en}
               </h4>
               <div style={{
                 display: 'grid',
@@ -458,7 +610,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                     }}
                   >
                     <span style={{ color: 'var(--accent-cyan)', fontWeight: 800, flexShrink: 0 }}>✓</span>
-                    <span>{feature[lang]}</span>
+                    <span>{(feature as any)[lang] || feature.en}</span>
                   </div>
                 ))}
               </div>
@@ -475,7 +627,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                 textTransform: 'uppercase',
                 letterSpacing: '0.04em',
               }}>
-                {t.techUsed[lang]}
+                {(t.techUsed as any)[lang] || t.techUsed.en}
               </h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
                 {project.techStack.map((tech, i) => (
@@ -495,7 +647,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                   style={{ textDecoration: 'none' }}
                 >
                   <ExternalLink size={16} />
-                  {t.liveDemo[lang]}
+                  {(t.liveDemo as any)[lang] || t.liveDemo.en}
                 </a>
               )}
               {project.githubUrl && (
@@ -507,7 +659,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
                   style={{ textDecoration: 'none' }}
                 >
                   <CodeSquare size={16} />
-                  {t.sourceCode[lang]}
+                  {(t.sourceCode as any)[lang] || t.sourceCode.en}
                 </a>
               )}
             </div>
@@ -554,7 +706,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               }}
             >
               <div style={{ color: '#fff', fontSize: '0.9rem', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                🔍 {project.title} ({activeImgIndex + 1}/{galleryImages.length})
+                🔍 {getLangText(project.title, lang)} ({activeImgIndex + 1}/{galleryImages.length})
               </div>
               <button
                 onClick={() => setIsFullscreenZoom(false)}
@@ -602,7 +754,7 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
               <motion.img
                 key={`lightbox-${activeImgIndex}`}
                 src={galleryImages[activeImgIndex]}
-                alt={`${project.title} full view`}
+                alt={`${getLangText(project.title, lang)} full view`}
                 initial={{ scale: 0.94, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.94, opacity: 0 }}
@@ -651,6 +803,17 @@ export function ProjectModal({ project, lang, onClose }: ProjectModalProps) {
       </AnimatePresence>
 
       <style>{`
+        .modal-scroll-thumbs::-webkit-scrollbar {
+          height: 6px;
+        }
+        .modal-scroll-thumbs::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.4);
+          border-radius: 4px;
+        }
+        .modal-scroll-thumbs::-webkit-scrollbar-thumb {
+          background: var(--accent-primary);
+          border-radius: 4px;
+        }
         @media (max-width: 640px) {
           .modal-banner-box { height: 280px !important; }
           .modal-body-content { padding: 18px 14px !important; }

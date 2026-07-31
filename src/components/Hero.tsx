@@ -43,7 +43,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
             >
               <div className="hero-badge" style={{ flexWrap: 'wrap', textAlign: 'center', maxWidth: '100%' }}>
                 <span style={{ color: 'var(--accent-primary)', fontSize: '0.8rem' }}>⚡</span>
-                <span>{t.badge[lang]}</span>
+                <span>{(t.badge as any)[lang] || t.badge.en}</span>
               </div>
             </motion.div>
 
@@ -62,15 +62,15 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                 fontFamily: 'var(--font-display)',
                 marginBottom: 4,
               }}>
-                {t.greeting[lang]}
+                {(t.greeting as any)[lang] || t.greeting.en}
               </span>
 
               <h1 style={{
                 fontSize: 'clamp(2.1rem, 5.5vw, 4.2rem)',
                 fontWeight: 900,
                 fontFamily: 'var(--font-display)',
-                lineHeight: 1.1,
-                letterSpacing: '-0.02em',
+                lineHeight: 1.35,
+                letterSpacing: '-0.01em',
                 margin: 0,
                 whiteSpace: 'nowrap',
               }}
@@ -93,9 +93,9 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                 fontFamily: 'var(--font-mono)',
               }}
             >
-              {t.rolePrefix[lang]}{' '}
+              {(t.rolePrefix as any)[lang] || t.rolePrefix.en}{' '}
               <span style={{ color: 'var(--accent-primary)', textDecoration: 'underline var(--border-accent)' }}>
-                {t.roleName[lang]}
+                {(t.roleName as any)[lang] || t.roleName.en}
               </span>
             </motion.p>
 
@@ -130,8 +130,8 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                   <BookOpen size={16} />
                 </div>
                 <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
-                  <strong style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)' }}>{t.backgroundLabel[lang]}</strong>{' '}
-                  <span style={{ color: 'var(--text-primary)' }}>{personalInfo.educationBg[lang]}</span>
+                  <strong style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)' }}>{(t.backgroundLabel as any)[lang] || t.backgroundLabel.en}</strong>{' '}
+                  <span style={{ color: 'var(--text-primary)' }}>{(personalInfo.educationBg as any)[lang] || personalInfo.educationBg.en}</span>
                 </div>
               </div>
 
@@ -146,8 +146,8 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                   <Sparkles size={16} />
                 </div>
                 <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
-                  <strong style={{ color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>{t.interestsLabel[lang]}</strong>{' '}
-                  <span style={{ color: 'var(--text-secondary)' }}>{personalInfo.interests[lang]}</span>
+                  <strong style={{ color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>{(t.interestsLabel as any)[lang] || t.interestsLabel.en}</strong>{' '}
+                  <span style={{ color: 'var(--text-secondary)' }}>{(personalInfo.interests as any)[lang] || personalInfo.interests.en}</span>
                 </div>
               </div>
 
@@ -162,8 +162,8 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                   <Target size={16} />
                 </div>
                 <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
-                  <strong style={{ color: 'var(--accent-gold)', fontFamily: 'var(--font-mono)' }}>{t.goalLabel[lang]}</strong>{' '}
-                  <span style={{ color: 'var(--text-secondary)' }}>{personalInfo.goal[lang]}</span>
+                  <strong style={{ color: 'var(--accent-gold)', fontFamily: 'var(--font-mono)' }}>{(t.goalLabel as any)[lang] || t.goalLabel.en}</strong>{' '}
+                  <span style={{ color: 'var(--text-secondary)' }}>{(personalInfo.goal as any)[lang] || personalInfo.goal.en}</span>
                 </div>
               </div>
 
@@ -178,8 +178,8 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                   <Zap size={16} />
                 </div>
                 <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
-                  <strong style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)' }}>{t.expertiseLabel[lang]}</strong>{' '}
-                  <span style={{ color: 'var(--text-primary)' }}>{personalInfo.expertise[lang]}</span>
+                  <strong style={{ color: 'var(--accent-primary)', fontFamily: 'var(--font-mono)' }}>{(t.expertiseLabel as any)[lang] || t.expertiseLabel.en}</strong>{' '}
+                  <span style={{ color: 'var(--text-primary)' }}>{(personalInfo.expertise as any)[lang] || personalInfo.expertise.en}</span>
                 </div>
               </div>
             </motion.div>
@@ -234,7 +234,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                   onClick={onOpenCv}
                 >
                   <FileText size={18} />
-                  {t.downloadCv[lang]}
+                  {(t.downloadCv as any)[lang] || t.downloadCv.en}
                 </button>
 
                 <button
@@ -242,7 +242,7 @@ export function Hero({ lang, onOpenCv }: HeroProps) {
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   <MessageCircle size={18} />
-                  {t.contactMe[lang]}
+                  {(t.contactMe as any)[lang] || t.contactMe.en}
                 </button>
               </div>
             </motion.div>
