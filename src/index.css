@@ -59,35 +59,40 @@
 }
 
 [data-theme="light"] {
-  --bg-primary: #f5f6fc;
-  --bg-secondary: #eaecef;
-  --bg-tertiary: #e0e3ed;
-  --bg-card: rgba(255, 255, 255, 0.85);
-  --bg-card-hover: rgba(255, 255, 255, 0.98);
-  --bg-glass: rgba(255, 255, 255, 0.7);
-  --bg-glass-hover: rgba(255, 255, 255, 0.9);
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-glass-hover: #ffffff;
 
-  --text-primary: #0f101d;
-  --text-secondary: #42465c;
-  --text-tertiary: #7d829c;
-  --text-accent: #e64a00;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #64748b;
+  --text-accent: #ff5500;
 
-  --border-primary: rgba(0, 0, 0, 0.1);
-  --border-hover: rgba(230, 74, 0, 0.4);
-  --border-accent: rgba(230, 74, 0, 0.5);
+  --border-primary: rgba(226, 232, 240, 0.95);
+  --border-hover: rgba(255, 85, 0, 0.45);
+  --border-accent: rgba(255, 85, 0, 0.6);
 
-  --accent-primary: #e64a00;
-  --accent-secondary: #cc2200;
-  --accent-cyan: #0099b8;
-  --accent-glow: rgba(230, 74, 0, 0.12);
-  --accent-glow-strong: rgba(230, 74, 0, 0.25);
+  --accent-primary: #ff5500;
+  --accent-secondary: #ff2a00;
+  --accent-cyan: #0284c7;
+  --accent-gold: #d97706;
+  --accent-glow: rgba(255, 85, 0, 0.12);
+  --accent-glow-strong: rgba(255, 85, 0, 0.3);
 
-  --gradient-hero: linear-gradient(135deg, #e64a00 0%, #cc2200 50%, #990033 100%);
-  --gradient-card: linear-gradient(135deg, rgba(230, 74, 0, 0.08) 0%, rgba(255, 255, 255, 0.9) 100%);
-  --gradient-text: linear-gradient(135deg, #e64a00, #ff1a00, #d60036);
+  --gradient-hero: linear-gradient(135deg, #ff5500 0%, #ff2a00 50%, #e6004c 100%);
+  --gradient-cyan: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  --gradient-text: linear-gradient(135deg, #ff5500, #ff2a00, #e6004c);
+  --gradient-cyan-text: linear-gradient(135deg, #0284c7, #4f46e5);
 
-  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 0 25px rgba(230, 74, 0, 0.15);
+  --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  --shadow-glow: 0 10px 30px -5px rgba(255, 85, 0, 0.25);
+  --shadow-cyan-glow: 0 10px 30px -5px rgba(2, 132, 199, 0.25);
+  --shadow-button: 0 4px 16px rgba(255, 85, 0, 0.28);
 
   color-scheme: light;
 }
@@ -509,7 +514,66 @@ button, input, textarea, select {
   max-width: 840px;
   width: 100%;
   margin: 0 auto;
-  box-shadow: var(--shadow-card);
-  position: relative;
-  overflow: hidden;
+}
+
+/* ========== LIGHT MODE SPECIFIC UI STYLING ========== */
+[data-theme="light"] {
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(255, 85, 0, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.04) 0px, transparent 50%);
+}
+
+[data-theme="light"] header {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .hud-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03) !important;
+}
+
+[data-theme="light"] .hud-card:hover {
+  border-color: rgba(255, 85, 0, 0.45) !important;
+  box-shadow: 0 20px 40px -10px rgba(255, 85, 0, 0.18), 0 8px 16px -4px rgba(15, 23, 42, 0.04) !important;
+}
+
+[data-theme="light"] .hero-badge {
+  background: rgba(255, 85, 0, 0.08) !important;
+  border: 1px solid rgba(255, 85, 0, 0.25) !important;
+  color: #ff5500 !important;
+}
+
+[data-theme="light"] .btn-secondary {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+[data-theme="light"] .btn-secondary:hover {
+  background: #f8fafc !important;
+  border-color: #ff5500 !important;
+  color: #ff5500 !important;
+}
+
+[data-theme="light"] .modal-overlay {
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+[data-theme="light"] .modal-content {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
+}
+
+[data-theme="light"] input,
+[data-theme="light"] textarea {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
 }
