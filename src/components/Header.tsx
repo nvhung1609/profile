@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sun, Moon, Search, Menu, X, Home, User, Wrench,
-  Cpu, Rocket, Briefcase, GraduationCap, Mail
+  Cpu, Rocket, Briefcase, Mail
 } from 'lucide-react';
 import type { Language, Theme } from '@/data/portfolioData';
 import { translations, personalInfo } from '@/data/portfolioData';
@@ -23,7 +23,6 @@ const navItems = [
   { id: 'techStack', sectionId: 'technical-stack', icon: Cpu },
   { id: 'projects', sectionId: 'projects', icon: Rocket },
   { id: 'experience', sectionId: 'experience', icon: Briefcase },
-  { id: 'education', sectionId: 'education', icon: GraduationCap },
   { id: 'contact', sectionId: 'contact', icon: Mail },
 ] as const;
 
