@@ -30,10 +30,10 @@ export function Education({ lang }: EducationProps) {
 
         {/* Education Cards */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))',
+          display: 'flex',
+          justifyContent: 'center',
           gap: 24,
-          maxWidth: 900,
+          maxWidth: 720,
           margin: '0 auto',
         }}>
           {education.map((edu, index) => (
@@ -45,7 +45,7 @@ export function Education({ lang }: EducationProps) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.02 }}
               className="hud-card"
-              style={{ padding: 32 }}
+              style={{ padding: 32, width: '100%', maxWidth: 640 }}
             >
               <div className="hud-corner-tl" />
               <div className="hud-corner-br" />
