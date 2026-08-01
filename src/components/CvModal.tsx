@@ -202,37 +202,43 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
         }}
       >
         {/* Sticky Header Bar with Print & Close Buttons */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '12px 20px',
-          borderBottom: '1px solid var(--border-accent)',
-          position: 'sticky',
-          top: 0,
-          background: 'rgba(14, 14, 26, 0.96)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          zIndex: 50,
-          flexShrink: 0,
-          gap: 10,
-        }}>
-          <h2 style={{
-            fontSize: '1rem',
-            fontWeight: 800,
-            fontFamily: 'var(--font-display)',
-            color: '#fff',
-            margin: 0,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            flex: 1,
-            minWidth: 0,
-          }}>
+        <div
+          className="cv-modal-topbar"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '12px 20px',
+            borderBottom: '1px solid var(--border-accent)',
+            position: 'sticky',
+            top: 0,
+            background: 'rgba(14, 14, 26, 0.96)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            zIndex: 50,
+            flexShrink: 0,
+            gap: 10,
+          }}
+        >
+          <h2
+            className="cv-modal-title"
+            style={{
+              fontSize: '1rem',
+              fontWeight: 800,
+              fontFamily: 'var(--font-display)',
+              color: '#fff',
+              margin: 0,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
             {(t.title as any)[lang] || t.title.en}
           </h2>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, flexWrap: 'wrap' }}>
+          <div className="cv-modal-actions" style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, flexWrap: 'wrap' }}>
             {/* Language Dropdown Menu */}
             <div style={{ position: 'relative' }}>
               <motion.button
@@ -412,30 +418,36 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
             className="cv-print-area"
           >
             {/* Header Section: 2-Column Layout (Avatar/Name Left, Contact Right) */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 20,
-              paddingBottom: 16,
-              borderBottom: '2.5px solid var(--accent-primary)',
-              gap: 16,
-            }}>
+            <div
+              className="cv-header-grid"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 20,
+                paddingBottom: 16,
+                borderBottom: '2.5px solid var(--accent-primary)',
+                gap: 16,
+              }}
+            >
               {/* Left Column: Avatar + Name & Subtitle */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0, flex: 1 }}>
-                <div style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: '50%',
-                  overflow: 'hidden',
-                  border: '2.5px solid var(--accent-primary)',
-                  boxShadow: '0 0 15px rgba(255, 85, 0, 0.25)',
-                  flexShrink: 0,
-                  background: 'linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-cyan) 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+              <div className="cv-header-left" style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0, flex: 1 }}>
+                <div
+                  className="cv-avatar"
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2.5px solid var(--accent-primary)',
+                    boxShadow: '0 0 15px rgba(255, 85, 0, 0.25)',
+                    flexShrink: 0,
+                    background: 'linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-cyan) 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
                   {!imgError ? (
                     <img
                       src={personalInfo.avatar}
@@ -457,54 +469,64 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                   )}
                 </div>
 
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <h1 style={{
-                    fontSize: '1.45rem',
-                    fontWeight: 900,
-                    fontFamily: 'var(--font-display)',
-                    letterSpacing: '-0.02em',
-                    margin: 0,
-                    color: 'var(--text-primary)',
-                    lineHeight: 1.15,
-                    whiteSpace: 'nowrap',
-                  }}>
+                <div className="cv-header-info" style={{ minWidth: 0, flex: 1 }}>
+                  <h1
+                    className="cv-header-name"
+                    style={{
+                      fontSize: '1.45rem',
+                      fontWeight: 900,
+                      fontFamily: 'var(--font-display)',
+                      letterSpacing: '-0.02em',
+                      margin: 0,
+                      color: 'var(--text-primary)',
+                      lineHeight: 1.15,
+                    }}
+                  >
                     {personalInfo.name}
                   </h1>
-                  <div style={{
-                    fontSize: '0.88rem',
-                    color: 'var(--accent-primary)',
-                    fontWeight: 800,
-                    marginTop: 3,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    fontFamily: 'var(--font-mono)',
-                    whiteSpace: 'nowrap',
-                  }}>
+                  <div
+                    className="cv-header-role"
+                    style={{
+                      fontSize: '0.88rem',
+                      color: 'var(--accent-primary)',
+                      fontWeight: 800,
+                      marginTop: 3,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                      fontFamily: 'var(--font-mono)',
+                    }}
+                  >
                     {personalInfo.title[lang]}
                   </div>
-                  <div style={{
-                    fontSize: '0.74rem',
-                    color: 'var(--text-secondary)',
-                    marginTop: 2,
-                    fontWeight: 600,
-                    lineHeight: 1.25,
-                  }}>
+                  <div
+                    className="cv-header-subtext"
+                    style={{
+                      fontSize: '0.74rem',
+                      color: 'var(--text-secondary)',
+                      marginTop: 2,
+                      fontWeight: 600,
+                      lineHeight: 1.25,
+                    }}
+                  >
                     R&D Firmware & Hardware Engineer • Edge AI • IoT/AIoT
                   </div>
                 </div>
               </div>
 
               {/* Right Column: Contact Info */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 4,
-                fontSize: '0.78rem',
-                color: 'var(--text-secondary)',
-                borderLeft: '2px solid var(--border-accent)',
-                paddingLeft: 14,
-                flexShrink: 0,
-              }}>
+              <div
+                className="cv-header-contact"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 4,
+                  fontSize: '0.78rem',
+                  color: 'var(--text-secondary)',
+                  borderLeft: '2px solid var(--border-accent)',
+                  paddingLeft: 14,
+                  flexShrink: 0,
+                }}
+              >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <Phone size={12} style={{ color: 'var(--accent-cyan)' }} />
                   <strong style={{ color: 'var(--text-primary)' }}>{personalInfo.phone}</strong>
