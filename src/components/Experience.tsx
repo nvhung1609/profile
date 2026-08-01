@@ -183,11 +183,17 @@ export function Experience({ lang }: ExperienceProps) {
                     marginTop: 8,
                   }}>
                     {exp.achievements.map((ach, i) => {
-                      const text = (ach as any)[lang] || ach.en || ach.vi || '';
+                      const achItem = ach as any;
+                      const hasMetadata = Boolean(achItem.projectName);
+                      const pName = hasMetadata ? getLangText(achItem.projectName, lang) : '';
+                      const pRole = hasMetadata && achItem.role ? getLangText(achItem.role, lang) : '';
+                      const pNote = hasMetadata && achItem.note ? getLangText(achItem.note, lang) : '';
+                      const pPeriod = hasMetadata && achItem.startDate ? `${achItem.startDate} – ${achItem.endDate}` : '';
+                      const text = hasMetadata ? getLangText(achItem, lang) : ((ach as any)[lang] || ach.en || ach.vi || '');
                       const colonIndex = text.indexOf(': ');
                       let title = '';
                       let content = text;
-                      if (colonIndex > 0 && colonIndex < 120) {
+                      if (!hasMetadata && colonIndex > 0 && colonIndex < 120) {
                         title = text.substring(0, colonIndex).trim();
                         content = text.substring(colonIndex + 2).trim();
                       }
@@ -235,7 +241,7 @@ export function Experience({ lang }: ExperienceProps) {
                           style={{
                             position: 'relative',
                             paddingLeft: 22,
-                            paddingBottom: i === exp.achievements.length - 1 ? 0 : 12,
+                            paddingBottom: i === exp.achievements.length - 1 ? 0 : 16,
                             borderBottom: i === exp.achievements.length - 1 ? 'none' : '1px dashed rgba(255, 255, 255, 0.08)',
                           }}
                         >
@@ -243,7 +249,7 @@ export function Experience({ lang }: ExperienceProps) {
                           <div style={{
                             position: 'absolute',
                             left: 0,
-                            top: 7,
+                            top: hasMetadata ? 9 : 7,
                             width: 8,
                             height: 8,
                             borderRadius: '1.5px',
@@ -252,7 +258,83 @@ export function Experience({ lang }: ExperienceProps) {
                             boxShadow: i % 2 === 0 ? '0 0 8px var(--accent-cyan)' : '0 0 8px var(--accent-primary)',
                           }} />
 
-                          {title ? (
+                          {hasMetadata ? (
+                            <div>
+                              {/* Top Row: Project Title & Time Badge */}
+                              <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                                gap: 8,
+                                marginBottom: 4,
+                              }}>
+                                <h5 style={{
+                                  fontSize: '0.98rem',
+                                  fontWeight: 800,
+                                  color: i % 2 === 0 ? 'var(--accent-cyan)' : 'var(--accent-primary)',
+                                  fontFamily: 'var(--font-display)',
+                                  margin: 0,
+                                  lineHeight: 1.35,
+                                }}>
+                                  {pName}
+                                </h5>
+                                {pPeriod && (
+                                  <span style={{
+                                    fontSize: '0.8rem',
+                                    color: 'var(--accent-cyan)',
+                                    background: 'rgba(0, 229, 255, 0.08)',
+                                    border: '1px solid rgba(0, 229, 255, 0.25)',
+                                    padding: '2px 10px',
+                                    borderRadius: '12px',
+                                    fontFamily: 'var(--font-mono)',
+                                    fontWeight: 700,
+                                    whiteSpace: 'nowrap',
+                                  }}>
+                                    {pPeriod}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Role Row */}
+                              {pRole && (
+                                <div style={{
+                                  fontSize: '0.84rem',
+                                  color: 'var(--text-secondary)',
+                                  fontWeight: 600,
+                                  marginBottom: pNote ? 3 : 6,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 6,
+                                }}>
+                                  <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{lang === 'vi' ? 'Vai trò:' : lang === 'ja' ? '役割:' : 'Role:'}</span>
+                                  <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{pRole}</span>
+                                </div>
+                              )}
+
+                              {/* Version Note */}
+                              {pNote && (
+                                <div style={{
+                                  fontSize: '0.8rem',
+                                  color: 'var(--text-secondary)',
+                                  opacity: 0.85,
+                                  fontStyle: 'italic',
+                                  marginBottom: 6,
+                                }}>
+                                  * Note: {pNote}
+                                </div>
+                              )}
+
+                              {/* Description Row */}
+                              <div style={{
+                                fontSize: '0.9rem',
+                                color: 'var(--text-secondary)',
+                                lineHeight: 1.65,
+                              }}>
+                                {renderTextWithLinks(text)}
+                              </div>
+                            </div>
+                          ) : title ? (
                             <div>
                               <span style={{
                                 fontSize: '0.92rem',
@@ -278,7 +360,7 @@ export function Experience({ lang }: ExperienceProps) {
                               color: 'var(--text-secondary)',
                               lineHeight: 1.65,
                             }}>
-                              {text}
+                              {renderTextWithLinks(text)}
                             </div>
                           )}
                         </div>

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Printer, Mail, MapPin, Phone, CodeSquare, Globe } from 'lucide-react';
+import { X, Printer, Mail, MapPin, Phone, CodeSquare } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { Language } from '@/data/portfolioData';
 import { personalInfo, workExperiences, projects, techCategories, education, translations, getLangText } from '@/data/portfolioData';
@@ -543,10 +543,6 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                   <CodeSquare size={12} style={{ color: 'var(--accent-primary)' }} />
                   <span>{personalInfo.github.replace('https://', '')}</span>
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <Globe size={12} style={{ color: 'var(--accent-cyan)' }} />
-                  <span>{personalInfo.website.replace('https://', '')}</span>
-                </span>
               </div>
             </div>
 
@@ -780,11 +776,17 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                     marginTop: isCompactMode ? 4 : 8,
                   }}>
                     {(isCompactMode ? (exp.id === 'jv-tech' ? exp.achievements.slice(0, 7) : exp.achievements) : exp.achievements).map((ach, i) => {
-                      const text = (ach as any)[lang] || ach.en || ach.vi || '';
+                      const achItem = ach as any;
+                      const hasMetadata = Boolean(achItem.projectName);
+                      const pName = hasMetadata ? getLangText(achItem.projectName, lang) : '';
+                      const pRole = hasMetadata && achItem.role ? getLangText(achItem.role, lang) : '';
+                      const pNote = hasMetadata && achItem.note ? getLangText(achItem.note, lang) : '';
+                      const pPeriod = hasMetadata && achItem.startDate ? `${achItem.startDate} – ${achItem.endDate}` : '';
+                      const text = hasMetadata ? getLangText(achItem, lang) : ((ach as any)[lang] || ach.en || ach.vi || '');
                       const colonIndex = text.indexOf(': ');
                       let title = '';
                       let content = text;
-                      if (!isCompactMode && colonIndex > 0 && colonIndex < 120) {
+                      if (!hasMetadata && !isCompactMode && colonIndex > 0 && colonIndex < 120) {
                         title = text.substring(0, colonIndex).trim();
                         content = text.substring(colonIndex + 2).trim();
                       }
@@ -826,35 +828,57 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                         return parts.length > 0 ? parts : str;
                       };
 
-                      /* COMPACT MODE: simple dash bullet like professional CV */
+                      /* COMPACT MODE: clean 2-line layout (Line 1: Title + Role + Period, Line 2: Content) */
                       if (isCompactMode) {
                         return (
                           <div
                             key={i}
                             className="cv-achievement-bullet"
                             style={{
-                              fontSize: '0.83rem',
+                              fontSize: '0.82rem',
                               color: 'var(--text-secondary)',
-                              lineHeight: 1.5,
+                              lineHeight: 1.45,
                               paddingLeft: 12,
                               position: 'relative',
+                              marginBottom: 5,
                             }}
                           >
-                            <span style={{ position: 'absolute', left: 0, color: 'var(--text-tertiary)' }}>–</span>
-                            {renderTextWithLinks(text)}
+                            <span style={{ position: 'absolute', left: 0, color: 'var(--accent-primary)', fontWeight: 700 }}>–</span>
+                            {hasMetadata ? (
+                              <div>
+                                {/* Header Line: Project Title + (Role | Period) */}
+                                <div style={{ marginBottom: 2 }}>
+                                  <strong style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '0.85rem' }}>
+                                    {pName}
+                                  </strong>
+                                  {(pRole || pPeriod) && (
+                                    <span style={{ fontSize: '0.78rem', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', fontWeight: 600, marginLeft: 6 }}>
+                                      ({pRole}{pRole && pPeriod ? ' | ' : ''}{pPeriod})
+                                    </span>
+                                  )}
+                                </div>
+                                {/* Content Line: Description text */}
+                                <div style={{ fontSize: '0.81rem', color: 'var(--text-secondary)', lineHeight: 1.45 }}>
+                                  {renderTextWithLinks(text)}
+                                </div>
+                              </div>
+                            ) : (
+                              renderTextWithLinks(text)
+                            )}
                           </div>
                         );
                       }
 
-                      /* FULL MODE: diamond bullet with title:content split */
+                      /* FULL MODE: diamond bullet with title:content split or rich metadata */
                       return (
                         <div
                           key={i}
                           className="cv-achievement-bullet"
                           style={{
                             position: 'relative',
-                            paddingLeft: 18,
-                            paddingBottom: i === exp.achievements.length - 1 ? 0 : 10,
+                            paddingLeft: 20,
+                            paddingBottom: i === exp.achievements.length - 1 ? 0 : 14,
+                            marginBottom: 4,
                             borderBottom: i === exp.achievements.length - 1 ? 'none' : '1px dashed rgba(255, 255, 255, 0.08)',
                           }}
                         >
@@ -862,7 +886,7 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                           <div style={{
                             position: 'absolute',
                             left: 0,
-                            top: 7,
+                            top: hasMetadata ? 8 : 7,
                             width: 7,
                             height: 7,
                             borderRadius: '1.5px',
@@ -871,7 +895,83 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                             boxShadow: i % 2 === 0 ? '0 0 6px var(--accent-cyan)' : '0 0 6px var(--accent-primary)',
                           }} />
 
-                          {title ? (
+                          {hasMetadata ? (
+                            <div>
+                              {/* Top Row: Project Title & Time Badge */}
+                              <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                                gap: 8,
+                                marginBottom: 4,
+                              }}>
+                                <h5 style={{
+                                  fontSize: '0.94rem',
+                                  fontWeight: 800,
+                                  color: i % 2 === 0 ? 'var(--accent-cyan)' : 'var(--accent-primary)',
+                                  fontFamily: 'var(--font-display)',
+                                  margin: 0,
+                                  lineHeight: 1.35,
+                                }}>
+                                  {pName}
+                                </h5>
+                                {pPeriod && (
+                                  <span style={{
+                                    fontSize: '0.78rem',
+                                    color: 'var(--accent-cyan)',
+                                    background: 'rgba(0, 229, 255, 0.08)',
+                                    border: '1px solid rgba(0, 229, 255, 0.25)',
+                                    padding: '2px 9px',
+                                    borderRadius: '12px',
+                                    fontFamily: 'var(--font-mono)',
+                                    fontWeight: 700,
+                                    whiteSpace: 'nowrap',
+                                  }}>
+                                    {pPeriod}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Role Row */}
+                              {pRole && (
+                                <div style={{
+                                  fontSize: '0.82rem',
+                                  color: 'var(--text-secondary)',
+                                  fontWeight: 600,
+                                  marginBottom: pNote ? 2 : 4,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 6,
+                                }}>
+                                  <span style={{ color: 'var(--accent-primary)', fontWeight: 700 }}>{lang === 'vi' ? 'Vai trò:' : lang === 'ja' ? '役割:' : 'Role:'}</span>
+                                  <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{pRole}</span>
+                                </div>
+                              )}
+
+                              {/* Version Note */}
+                              {pNote && (
+                                <div style={{
+                                  fontSize: '0.78rem',
+                                  color: 'var(--text-secondary)',
+                                  opacity: 0.85,
+                                  fontStyle: 'italic',
+                                  marginBottom: 4,
+                                }}>
+                                  * Note: {pNote}
+                                </div>
+                              )}
+
+                              {/* Description Row */}
+                              <div style={{
+                                fontSize: '0.85rem',
+                                color: 'var(--text-secondary)',
+                                lineHeight: 1.6,
+                              }}>
+                                {renderTextWithLinks(text)}
+                              </div>
+                            </div>
+                          ) : title ? (
                             <div>
                               <span style={{
                                 fontSize: '0.86rem',
@@ -897,7 +997,7 @@ export function CvModal({ lang, onClose, onToggleLang, onSelectLang }: CvModalPr
                               color: 'var(--text-secondary)',
                               lineHeight: 1.6,
                             }}>
-                              {text}
+                              {renderTextWithLinks(text)}
                             </div>
                           )}
                         </div>

@@ -16,7 +16,7 @@ const serviceThemes = [
     border: 'rgba(255, 85, 0, 0.4)',
     glow: '0 0 25px rgba(255, 85, 0, 0.25)',
     tag: 'PRODUCTION READY',
-    pills: ['C/C++17', 'STM32', 'ESP32', 'FreeRTOS', 'RTOS Multi-Tasking'],
+    pills: ['Embedded C/C++', 'STM32', 'ESP32', 'FreeRTOS', 'RTOS Multi-Tasking'],
   },
   {
     icon: Cpu,

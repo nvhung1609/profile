@@ -44,6 +44,17 @@ export interface PersonalInfo {
  expertise: Translation;
 }
 
+export interface AchievementItem {
+  vi: string;
+  en: string;
+  ja?: string;
+  projectName?: Translation;
+  role?: Translation;
+  startDate?: string;
+  endDate?: string;
+  note?: Translation;
+}
+
 export interface WorkExperience {
  id: string;
  company: Translation | string;
@@ -53,7 +64,7 @@ export interface WorkExperience {
  period: string;
  location: Translation;
  description: Translation;
- achievements: Translation[];
+ achievements: AchievementItem[];
  techStack: string[];
  companyUrl?: string;
 }
@@ -110,8 +121,8 @@ export const translations = {
  hero: {
  badge: { vi: 'Embedded & IoT Engineer', en: 'Embedded & IoT Engineer' },
  greeting: { vi: 'Xin chào, tôi là', en: "Hi, It's" },
- rolePrefix: { vi: 'Tôi là', en: "I'm a" },
- roleName: { vi: 'KỸ SƯ HỆ THỐNG NHÚNG', en: 'EMBEDDED SYSTEMS ENGINEER' },
+ rolePrefix: { vi: '', en: '' },
+ roleName: { vi: 'Computer Engineering - specializing in embedded systems', en: 'Computer Engineering - specializing in embedded systems' },
  downloadCv: { vi: 'Tải CV PDF', en: 'Download CV' },
  contactMe: { vi: 'Liên Hệ Ngay', en: 'Contact Me' },
  aboutMe: { vi: 'Về bản thân', en: 'About Me' },
@@ -224,7 +235,7 @@ export const personalInfo: PersonalInfo = {
  en: '⚡ R&D Engineer (Hardware & Firmware Engineer) @ JV TECH (Japan HQ: MUSEN PLUS)',
  },
  educationBg: {
- vi: 'Đại học Cần Thơ — Kỹ thuật Máy tính (Hệ thống Nhúng)',
+ vi: 'Can Tho University — Computer Engineering - specializing in embedded systems',
  en: 'Can Tho University — Computer Engineering (Embedded Systems)',
  },
  interests: {
@@ -265,43 +276,110 @@ export const workExperiences: WorkExperience[] = [
  en: 'Leading electronic hardware R&D & production firmware engineering at JV TECH under parent company MUSEN PLUS Co., Ltd. (Osaka HQ, Japan). Primary R&D engineer delivering 16+ commercial IoT/AIoT products deployed across Japanese nursing facilities, industrial plants, and smart devices.',
  },
  achievements: [
- {
- "vi": "Chủ trì toàn bộ vòng đời R&D Phần cứng & Firmware cho 6+ dòng sản phẩm IoT/AIoT thương mại — từ thiết kế sơ đồ nguyên lý, layout PCB multi-layer đến phát triển firmware nhúng cấp Production và triển khai thực tế tại thị trường Nhật Bản.",
- "en": "Led the full R&D lifecycle of Hardware & Firmware for 6+ commercial IoT/AIoT product lines — from schematic design, multi-layer PCB layout to production-grade embedded firmware development and live deployment in the Japanese market."
- },
- {
- "vi": "Thiết kế và đi dây PCB multi-layer (Altium Designer) tuân thủ chuẩn EMI/EMC cho sản xuất hàng loạt, tối ưu hóa signal integrity và power delivery trên các bo mạch tùy chỉnh.",
- "en": "Designed and routed multi-layer PCBs (Altium Designer) compliant with EMI/EMC standards for mass production, optimizing signal integrity and power delivery on custom boards."
- },
- {
- "vi": "Phát triển firmware nhúng C/C++ trên FreeRTOS cho các dòng vi xử lý ESP32, STM32 và CH32 — xử lý sensor fusion thời gian thực, giao thức truyền thông công nghiệp và kết nối Cloud IoT.",
- "en": "Developed embedded C/C++ firmware on FreeRTOS for ESP32, STM32, and CH32 MCU families — handling real-time sensor fusion, industrial communication protocols, and Cloud IoT connectivity."
- },
- {
- "vi": "Xây dựng và triển khai hệ thống phát hiện té ngã & Gọi Y tá không dây (Nurse Call) cho nền tảng EcoCare AI — đang vận hành thực tế tại các viện dưỡng lão ở Osaka, Nhật Bản (care.musenplus.com).",
- "en": "Built and deployed a fall detection & wireless Nurse Call system for the EcoCare AI platform — currently operating in nursing homes across Osaka, Japan (care.musenplus.com)."
- },
- {
- "vi": "Phát triển giải pháp an toàn xe nâng công nghiệp EcoLift — tích hợp xác thực sinh trắc học, cảnh báo khoảng cách Radar, phát hiện va đập và tự động ngắt động cơ khi có sự cố.",
- "en": "Developed an industrial forklift safety solution (EcoLift) — integrating biometric authentication, Radar proximity warning, impact detection, and automatic engine cutoff on hazard events."
- },
- {
- "vi": "Thiết kế nền tảng thu thập dữ liệu đa cảm biến EcoSen phục vụ giám sát công nghiệp và nông nghiệp chính xác — hỗ trợ giao thức CAN Bus, RS485/Modbus RTU, LoRaWAN và MQTT Cloud (sensor.musenplus.com).",
- "en": "Designed a multi-sensor data acquisition platform (EcoSen) for industrial monitoring and precision agriculture — supporting CAN Bus, RS485/Modbus RTU, LoRaWAN, and MQTT Cloud protocols (sensor.musenplus.com)."
- },
- {
- "vi": "Phát triển bo mạch điều khiển màn hình LED Matrix RGB HUB75 tốc độ cao bằng DMA — hỗ trợ hiển thị đa ngôn ngữ, hiệu ứng động và cấu hình từ xa qua Wi-Fi Web Server.",
- "en": "Developed a high-speed DMA-driven RGB LED Matrix HUB75 display controller — supporting multi-language rendering, dynamic effects, and remote configuration via Wi-Fi Web Server."
- },
- {
- "vi": "Thiết kế trọn bộ phần cứng IoT cho hệ thống khách sạn thông minh EcoHotel — bao gồm khóa cửa RFID, cảm biến phát hiện người trong phòng, Gateway và Web App quản lý (hotel.musenplus.com).",
- "en": "Designed a complete IoT hardware suite for the EcoHotel smart hotel system — including RFID door locks, occupancy detection sensors, Room Gateways, and a management Web App (hotel.musenplus.com)."
- },
- {
- "vi": "Phát triển firmware cho bộ kit trợ lý giọng nói AI Xiaozhi tích hợp ChatGPT/DeepSeek — phục vụ cộng đồng 5.000+ lập trình viên nhúng, xử lý luồng thoại thời gian thực.",
- "en": "Developed firmware for the Xiaozhi AI voice assistant kit integrating ChatGPT/DeepSeek — serving a community of 5,000+ embedded developers with real-time voice streaming."
- }
-],
+    {
+        "projectName": {
+            "vi": "Nền Tảng Y Tế EcoCare AI",
+            "en": "EcoCare AI Medical Platform",
+            "ja": "EcoCare AI スマート医療プラットフォーム"
+        },
+        "role": {
+            "vi": "Kỹ sư R&D Lead",
+            "en": "R&D Lead",
+            "ja": "R&D リード"
+        },
+        "startDate": "08/2024",
+        "endDate": "Hiện tại",
+        "vi": "Xây dựng và triển khai hệ thống phát hiện té ngã & Gọi Y tá không dây (Nurse Call) cho nền tảng EcoCare AI — đang vận hành thực tế tại các viện dưỡng lão ở Osaka, Nhật Bản (care.musenplus.com).",
+        "en": "Built and deployed a fall detection & wireless Nurse Call system for the EcoCare AI platform — currently operating in nursing homes across Osaka, Japan (care.musenplus.com).",
+        "ja": "EcoCare AIプラットフォームの転倒検知＆ワイヤレスナースコールシステムを構築・導入 — 大阪の有料老人ホームにて実稼働中 (care.musenplus.com)。"
+    },
+    {
+        "projectName": {
+            "vi": "Hệ Thống Bo Mạch Xe Nâng EcoLift",
+            "en": "EcoLift Forklift Safety System",
+            "ja": "EcoLift フォークリフト安全管理基板"
+        },
+        "role": {
+            "vi": "Kỹ sư R&D",
+            "en": "R&D Engineer",
+            "ja": "R&D エンジニア"
+        },
+        "startDate": "09/2024",
+        "endDate": "09/2025",
+        "vi": "Phát triển giải pháp an toàn xe nâng công nghiệp EcoLift — tích hợp xác thực sinh trắc học, cảnh báo khoảng cách Radar, phát hiện va đập và tự động ngắt động cơ khi có sự cố.",
+        "en": "Developed an industrial forklift safety solution (EcoLift) — integrating biometric authentication, Radar proximity warning, impact detection, and automatic engine cutoff on hazard events.",
+        "ja": "EcoLift産業用フォークリフト安全ソリューションを開発 — 生体認証、レーダー接近警報、衝撃検知、緊急エンジン自動停止機能を統合。"
+    },
+    {
+        "projectName": {
+            "vi": "Nền Tảng Cảm Biến EcoSen",
+            "en": "EcoSen Sensor Platform",
+            "ja": "EcoSen センサープラットフォーム"
+        },
+        "role": {
+            "vi": "Kỹ sư R&D",
+            "en": "R&D Engineer",
+            "ja": "R&D エンジニア"
+        },
+        "startDate": "08/2024",
+        "endDate": "11/2024",
+        "vi": "Thiết kế nền tảng thu thập dữ liệu đa cảm biến EcoSen phục vụ giám sát công nghiệp và nông nghiệp chính xác — hỗ trợ giao thức CAN Bus, RS485/Modbus RTU, LoRaWAN và MQTT Cloud (sensor.musenplus.com).",
+        "en": "Designed a multi-sensor data acquisition platform (EcoSen) for industrial monitoring and precision agriculture — supporting CAN Bus, RS485/Modbus RTU, LoRaWAN, and MQTT Cloud protocols (sensor.musenplus.com).",
+        "ja": "精密農業および産業モニタリング向けマルチセンサーデータ収集プラットフォームEcoSenを設計 — CAN Bus、RS485/Modbus RTU、LoRaWAN、MQTT Cloudをサポート (sensor.musenplus.com)。"
+    },
+    {
+        "projectName": {
+            "vi": "Bo Mạch RGB LED Matrix HUB75",
+            "en": "RGB LED Matrix HUB75 Controller",
+            "ja": "RGB LED マトリクス HUB75 基板"
+        },
+        "role": {
+            "vi": "Kỹ sư R&D",
+            "en": "R&D Engineer",
+            "ja": "R&D エンジニア"
+        },
+        "startDate": "09/2024",
+        "endDate": "06/2026",
+        "vi": "Phát triển bo mạch điều khiển màn hình LED Matrix RGB HUB75 tốc độ cao bằng DMA — hỗ trợ hiển thị đa ngôn ngữ, hiệu ứng động và cấu hình từ xa qua Wi-Fi Web Server.",
+        "en": "Developed a high-speed DMA-driven RGB LED Matrix HUB75 display controller — supporting multi-language rendering, dynamic effects, and remote configuration via Wi-Fi Web Server.",
+        "ja": "DMA駆動による高速RGB LEDマトリクスHUB75コントローラ基板を開発 — 多言語表示、動的エフェクト、Wi-Fi Web Server経由のリモート設定に対応。"
+    },
+    {
+        "projectName": {
+            "vi": "Hệ Thống Khách Sạn EcoHotel",
+            "en": "EcoHotel Smart Hotel System",
+            "ja": "EcoHotel スマートホテルシステム"
+        },
+        "role": {
+            "vi": "Kỹ sư R&D",
+            "en": "R&D Engineer",
+            "ja": "R&D エンジニア"
+        },
+        "startDate": "10/2024",
+        "endDate": "07/2026",
+        "vi": "Thiết kế trọn bộ phần cứng IoT cho hệ thống khách sạn thông minh EcoHotel — bao gồm khóa cửa RFID, cảm biến phát hiện người trong phòng, Gateway và Web App quản lý (hotel.musenplus.com).",
+        "en": "Designed a complete IoT hardware suite for the EcoHotel smart hotel system — including RFID door locks, occupancy detection sensors, Room Gateways, and a management Web App (hotel.musenplus.com).",
+        "ja": "EcoHotelスマートホテル向けIoTハードウェア一式を設計 — RFIDドアロック、室内在室検知センサー、ゲートウェイ、管理Web Appに対応 (hotel.musenplus.com)。"
+    },
+    {
+        "projectName": {
+            "vi": "Kit AI Voice Box Xiaozhi",
+            "en": "Xiaozhi AI Voice Box Kit",
+            "ja": "Xiaozhi AI 音声アシスタントキット"
+        },
+        "role": {
+            "vi": "Kỹ sư R&D",
+            "en": "R&D Engineer",
+            "ja": "R&D エンジニア"
+        },
+        "startDate": "11/2024",
+        "endDate": "09/2025",
+        "vi": "Phát triển firmware cho bộ kit trợ lý giọng nói AI Xiaozhi tích hợp ChatGPT/DeepSeek — phục vụ cộng đồng 5.000+ lập trình viên nhúng, xử lý luồng thoại thời gian thực.",
+        "en": "Developed firmware for the Xiaozhi AI voice assistant kit integrating ChatGPT/DeepSeek — serving a community of 5,000+ embedded developers with real-time voice streaming.",
+        "ja": "ChatGPT/DeepSeek統合のXiaozhi AI音声アシスタントキット用ファームウェアを開発 — 5,000人以上の組込み開発者コミュニティ向けにリアルタイム音声ストリーミング処理を実装。"
+    }
+
+  ],
  techStack: [
  'Embedded C/C++ & FreeRTOS for real-time IoT/AIoT systems',
  'MCU platforms: ESP32, STM32 (ARM Cortex-M), CH32 (RISC-V), MSP430, PIC',
@@ -316,7 +394,11 @@ export const workExperiences: WorkExperience[] = [
  },
  {
  id: 'hasu-herbal',
- company: 'CÔNG TY CỔ PHẦN THẢO DƯỢC HASU',
+ company: {
+    vi: 'CÔNG TY CỔ PHẦN THẢO DƯỢC HASU',
+    en: 'HASU HERBAL JOINT STOCK COMPANY',
+    ja: 'HASU HERBAL 株式会社'
+  },
  role: {
  vi: 'Kỹ sư R&D (Hardware & Firmware Engineer)',
  en: 'R&D Engineer (Hardware & Firmware Engineer)',
@@ -485,6 +567,404 @@ export const projects: Project[] = [
       {
         "vi": "PCB Altium Designer multi-layer, firmware C/C++ FreeRTOS",
         "en": "Altium Designer multi-layer PCB, C/C++ FreeRTOS firmware"
+      }
+    ],
+    "highlight": true
+  },
+  {
+    "id": "ecocare-ai-edge",
+    "title": {
+      "vi": "Nền Tảng Y Tế, Gọi Y Tá Không Dây (Nurse Call) & Chăm Sóc Người Cao Tuổi EcoCare AI — Cảm Biến AI Edge, ToF 8x8 & Radar 60GHz mmWave",
+      "en": "EcoCare AI Smart Medical & Wireless Nurse Call Platform — AI Edge Processing, 8x8 ToF & 60GHz mmWave Radar",
+      "ja": "EcoCare AI スマート医療・ワイヤレスナースコール安全プラットフォーム (AI Edge & 60GHz mmWave)"
+    },
+    "category": "Industrial Hardware & Automotive",
+    "period": "2024",
+    "summary": {
+      "vi": "Nền tảng Y tế, Hệ thống Gọi y tá không dây (Nurse Call) & Chăm sóc Viện dưỡng lão EcoCare AI (care.musenplus.com — Nhật Bản): Xử lý AI Edge, cảm biến ToF 8x8, Radar 60GHz mmWave phát hiện té ngã & tư thế giường/toilet thời gian thực.",
+      "en": "EcoCare AI Medical & Wireless Nurse Call Platform (care.musenplus.com — Japan Market): AI Edge processing, 8x8 ToF sensor matrix, 60GHz mmWave fall & posture detection radar (<500ms latency), and wireless Nurse Call hardware."
+    },
+    "description": {
+      "vi": "Chủ trì R&D toàn trình phần cứng bo mạch và hệ thống cho Nền tảng Y tế, Nút gọi y tá không dây (Nurse Call) & Chăm sóc An toàn Viện dưỡng lão EcoCare AI (triển khai tại các viện dưỡng lão ở Osaka, Nhật Bản — care.musenplus.com). Vi xử lý nhúng trung tâm xử lý dữ liệu ma trận cảm biến ToF 8x8 kết hợp Radar 60GHz mmWave nhận diện té ngã và tư thế giường/toilet thời gian thực (<500ms latency) bảo vệ quyền riêng tư người cao tuổi. Tích hợp nút Gọi y tá (Nurse Call) không dây khẩn cấp, mạch hạ áp công nghiệp FR9886, micro I2S INMP441 và ứng dụng di động React Native Expo kết nối MQTT Cloud.",
+      "en": "Led end-to-end hardware PCB and system R&D for the EcoCare AI Medical, Wireless Nurse Call & Nursing Home Safety Care Platform deployed across Osaka nursing facilities in Japan (care.musenplus.com). Powered by embedded MCU SoC running real-time 8x8 ToF sensor matrix paired with 60GHz mmWave radar for privacy-preserving fall & bed/toilet posture recognition (<500ms latency). Integrated wireless emergency Nurse Call hardware, FR9886 industrial buck regulator, INMP441 I2S digital mic, and React Native Expo app syncing with MQTT Cloud."
+    },
+    "longDescription": {
+      "vi": "• Nền tảng Y tế triển khai tại Nhật Bản: EcoCare AI (care.musenplus.com) phục vụ hệ thống viện dưỡng lão & chăm sóc người cao tuổi tại Osaka, Nhật Bản.\n• Hệ thống Gọi Y tế khẩn cấp (Wireless Nurse Call): Tích hợp nút bấm gọi y tá không dây phát cảnh báo khẩn cấp ngay tức thì tới các điều dưỡng viên.\n• Vi xử lý AI Edge trung tâm: Thực thi thuật toán AI Edge xử lý ma trận ToF 8x8 & Radar 60GHz mmWave nhận diện té ngã độ trễ <500ms.\n• Bảo vệ sự riêng tư & An toàn tuyệt đối: Nhận diện tư thế nằm/ngồi/ngã trên giường và trong khu vực toilet bằng hình ảnh nhiệt ToF & sóng mmWave không dùng camera ghi hình.\n• Mạch hạ áp công nghiệp FR9886 & Micro I2S INMP441: Hạ áp 24V/12V DC-DC tỏa nhiệt thấp, điều khiển quạt xung PWM và phản hồi âm thanh qua Micro I2S.",
+      "en": "• Deployed Medical Platform in Japan: EcoCare AI (care.musenplus.com) serving Japanese nursing homes & elderly care facilities in Osaka.\n• Wireless Emergency Nurse Call System: Integrated wireless hardware emergency Nurse Call button instantly triggering nurse alert notifications.\n• Central AI Edge Microcontroller: Real-time AI Edge processing of 8x8 ToF matrix & 60GHz mmWave radar for fall/posture detection (<500ms latency).\n• Privacy-Preserving Patient Monitoring: Monitoring lying/sitting/falling postures on beds and in toilet areas via ToF thermal depth mapping & mmWave radar without cameras.\n• FR9886 Industrial Buck & INMP441 I2S Mic: High-efficiency DC-DC buck, low-thermal PWM fan control, and INMP441 I2S digital MEMS microphone."
+    },
+    "techStack": [
+      "Wireless Nurse Call",
+      "AI Edge Processing",
+      "ToF 8x8",
+      "60GHz mmWave Radar",
+      "Privacy Fall Detection",
+      "FR9886 DC-DC Buck",
+      "Altium Designer PCB"
+    ],
+    "features": [
+      {
+        "vi": "Tích hợp hệ thống Nút Gọi y tá (Nurse Call) không dây khẩn cấp phát cảnh báo ngay lập tức cho viện dưỡng lão",
+        "en": "Integrated wireless emergency Nurse Call hardware button triggering instant nurse alert notifications"
+      },
+      {
+        "vi": "Nền tảng Y tế thương mại triển khai tại Nhật Bản: care.musenplus.com phục vụ viện dưỡng lão & chăm sóc người cao tuổi",
+        "en": "Commercial Medical platform deployed in Japan: care.musenplus.com serving nursing homes & elderly care facilities"
+      },
+      {
+        "vi": "Cảm biến ToF 8x8 & Radar 60GHz mmWave nhận diện té ngã & tư thế giường/toilet độ trễ <500ms bảo vệ sự riêng tư",
+        "en": "8x8 ToF & 60GHz mmWave radar fall & bed/toilet posture recognition with <500ms latency preserving privacy"
+      },
+      {
+        "vi": "Mạch hạ áp công nghiệp FR9886 DC-DC tỏa nhiệt thấp + Micro I2S INMP441 phản hồi âm thanh",
+        "en": "FR9886 industrial DC-DC buck regulator + INMP441 I2S digital MEMS microphone for acoustic feedback"
+      },
+      {
+        "vi": "Thiết kế sơ đồ nguyên lý & layout PCB multi-layer chuẩn EMI/EMC xuất file Gerber sản xuất hàng loạt",
+        "en": "Altium Designer multi-layer EMI/EMC compliant PCB layout exported for mass production"
+      }
+    ],
+    "highlight": true,
+    "image": "assets/projects/ecocare_ai_edge/1.png",
+    "gallery": [
+      "assets/projects/ecocare_ai_edge/1.png",
+      "assets/projects/ecocare_ai_edge/2.png",
+      "assets/projects/ecocare_ai_edge/3.png",
+      "assets/projects/ecocare_ai_edge/4.jpg",
+      "assets/projects/ecocare_ai_edge/5.png",
+      "assets/projects/ecocare_ai_edge/6.png",
+      "assets/projects/ecocare_ai_edge/7.png",
+      "assets/projects/ecocare_ai_edge/8.png",
+      "assets/projects/ecocare_ai_edge/9.png"
+    ]
+  },
+  {
+    "id": "ecolift-smart-elevator",
+    "title": {
+      "vi": "Hệ Thống Bo Mạch Quản Lý & An Toàn Xe Nâng EcoLift — Cảm Biến Va Đập Shock Sensor, Radar 60GHz, ToF, Vân Tay & Rơ-Le Động Cơ",
+      "en": "EcoLift Industrial Forklift Safety System — Biometric Fingerprint Keypad, 60GHz Radar, ToF, 3D IMU & Engine Cutoff",
+      "ja": "EcoLift フォークリフト安全管理基板システム (指紋認証, Radar, ToF, 3D加速度 & エンジン遮断)"
+    },
+    "category": "Industrial Hardware & Automotive",
+    "period": "2024",
+    "summary": {
+      "vi": "Hệ thống bo mạch quản lý & an toàn xe nâng EcoLift: Cảm biến va đập Shock Sensor phát hiện va chạm & đi qua gờ giảm tốc, Radar 60GHz, ToF đo khoảng cách, Vân tay Keypad, còi báo khi lùi xe và Rơ-le ngắt động cơ an toàn.",
+      "en": "EcoLift industrial forklift safety management PCB system: Biometric Fingerprint & Keypad authorization, 60GHz Radar & ToF distance sensing, 3D Accelerometer IMU shock monitoring, reverse back-up alarm horn, and engine cutoff safety relays."
+    },
+    "description": {
+      "vi": "Chủ trì R&D toàn trình phần cứng bo mạch và hệ thống cho Bộ sản phẩm Quản lý & An toàn Xe nâng Công nghiệp EcoLift. Tích hợp cảm biến va đập (Shock Sensor) nhận diện gia tốc va đập thời gian thực, phân biệt sự cố va chạm mạnh với việc xe nâng đi qua gờ giảm tốc. Kết hợp cảm biến Radar 60GHz mmWave, cảm biến ToF đo khoảng cách, bàn phím Keypad Vân tay phân quyền lái xe, còi báo động khi lùi xe và mạch rơ-le ngắt nguồn động cơ an toàn.",
+      "en": "Led end-to-end hardware PCB and system R&D for the EcoLift Industrial Forklift Safety & Management product suite. Integrates core capabilities: 1) Biometric Fingerprint & Keypad authorization for driver access control; 2) 60GHz mmWave Radar & ToF distance sensors for wide-range proximity safety warning; 3) 3D Accelerometer IMU measuring impacts, shocks , and vehicle rollover tilts in real-time; 4) Engine cutoff safety relays; 5) High-decibel reverse back-up & proximity alarm horns. Wi-Fi/4G Web Cloud telemetry."
+    },
+    "longDescription": {
+      "vi": "• Hệ thống Quản lý & An toàn Xe nâng Công nghiệp EcoLift triển khai cho các nhà máy & kho vận logistics.\n• Cảm biến va đập Shock Sensor chuyên dụng: Đo đạc độ xóc gia tốc 3D, phân biệt chính xác xe nâng va chạm chướng ngại vật hay đang vận hành đi qua gờ giảm tốc nhà xưởng.\n• Bàn phím Keypad & Cảm biến Vân tay: Phân quyền vận hành sinh trắc học, chỉ người lái có vân tay/mã PIN hợp lệ mới được khởi động xe nâng.\n• Cảnh báo khoảng cách an toàn bằng Radar 60GHz & ToF: Cảm biến Radar dải rộng kết hợp ToF định khoảng cách chính xác, phát hiện người/vật cản xung quanh.\n• Còi báo khi lùi xe & Rơ-le ngắt động cơ: Còi báo âm thanh tự động kích hoạt khi xe lùi hoặc vi phạm khoảng cách + Rơ-le ngắt nguồn động cơ an toàn.\n• Web Cloud & Truyền thông Wi-Fi/4G: Quản lý lịch sử vận hành và cập nhật firmware qua OTA.",
+      "en": "• EcoLift Industrial Forklift Safety & Management System deployed across logistics & factory sites.\n• Biometric Fingerprint & Keypad Unit: Biometric driver authorization; engine start enabled only with valid fingerprint scan or PIN.\n• 60GHz Radar & ToF Distance Safety Warning: Wide-range Radar paired with precision ToF distance sensors detecting pedestrians/obstacles.\n• 3D Accelerometer IMU: Real-time impact force measurement, shock monitoring , and rollover tilt alerts.\n• Reverse Back-Up Alarm Horn & Engine Cutoff Relays: Automated high-decibel warning horn sounding during reversing or proximity breach + engine cutoff relays.\n• Web Cloud & Wi-Fi/4G Telemetry: Managing operational logs, tracking collision incidents, and executing OTA firmware updates ."
+    },
+    "techStack": [
+      "Industrial Shock Sensor",
+      "Biometric Fingerprint Keypad",
+      "60GHz Radar Sensing",
+      "ToF Distance Sensor",
+      "Reverse Alarm Horn",
+      "Engine Cutoff Relays",
+      "Altium Designer PCB"
+    ],
+    "image": "assets/projects/ecolift_smart_elevator/1.png",
+    "gallery": [
+      "assets/projects/ecolift_smart_elevator/1.png",
+      "assets/projects/ecolift_smart_elevator/2.png",
+      "assets/projects/ecolift_smart_elevator/3.png",
+      "assets/projects/ecolift_smart_elevator/4.png",
+      "assets/projects/ecolift_smart_elevator/5.png",
+      "assets/projects/ecolift_smart_elevator/6.png",
+      "assets/projects/ecolift_smart_elevator/7.png",
+      "assets/projects/ecolift_smart_elevator/8.png",
+      "assets/projects/ecolift_smart_elevator/9.png",
+      "assets/projects/ecolift_smart_elevator/10.png",
+      "assets/projects/ecolift_smart_elevator/11.png",
+      "assets/projects/ecolift_smart_elevator/12.png",
+      "assets/projects/ecolift_smart_elevator/13.png",
+      "assets/projects/ecolift_smart_elevator/14.png",
+      "assets/projects/ecolift_smart_elevator/15.png",
+      "assets/projects/ecolift_smart_elevator/16.png",
+      "assets/projects/ecolift_smart_elevator/17.png",
+      "assets/projects/ecolift_smart_elevator/18.png",
+      "assets/projects/ecolift_smart_elevator/19.png"
+    ],
+    "features": [
+      {
+        "vi": "Bàn phím Keypad tích hợp Cảm biến Vân tay sinh trắc học phân quyền người vận hành xe nâng an toàn",
+        "en": "Biometric Fingerprint & Keypad unit authorizing forklift driver access control safely"
+      },
+      {
+        "vi": "Cảnh báo khoảng cách an toàn bằng cảm biến Radar 60GHz dải rộng kết hợp cảm biến đo khoảng cách ToF",
+        "en": "Proximity distance safety warning utilizing 60GHz Radar & precision ToF distance sensors"
+      },
+      {
+        "vi": "Tích hợp cảm biến va đập (Shock Sensor) đo đạc lực va đập & phân biệt chính xác sự cố va chạm xe nâng với việc di chuyển qua gờ giảm tốc",
+        "en": "Integrated Industrial Shock Sensor measuring impact forces & distinguishing collision events from speed bump crossings"
+      },
+      {
+        "vi": "Còi báo cảnh báo tự động phát âm thanh khi xe nâng lùi (Reverse Horn) hoặc vi phạm khoảng cách vạch an toàn",
+        "en": "Automated warning horn sounding during forklift reversing (Reverse Horn) or proximity breaches"
+      },
+      {
+        "vi": "Bộ rơ-le ngắt nguồn động cơ an toàn kết hợp Web Cloud Wi-Fi/4G quản lý nhật ký vận hành & cập nhật firmware OTA",
+        "en": "Engine cutoff safety relays paired with Wi-Fi/4G Web Cloud managing operational logs & OTA updates"
+      }
+    ],
+    "highlight": true
+  },
+  {
+    "id": "xiaozhi-voice-ai",
+    "title": {
+      "vi": "Firmware Kit Phát Triển Trợ Lý Giọng Nói Trí Tuệ Nhân Tạo Xiaozhi AI Voice Box — Stream Audio I2S & Cloud LLM",
+      "en": "Xiaozhi AI Voice Box Embedded Firmware Stack — I2S Audio Streaming & Cloud LLM Assistant",
+      "ja": "Xiaozhi AI Voice Box 組み込みファームウェア (I2Sオーディオ & Cloud LLM)"
+    },
+    "category": "Industrial Hardware & Automotive",
+    "period": "2024",
+    "summary": {
+      "vi": "Phát triển Firmware nhúng cấp Production cho Kit Trợ lý Giọng nói AI Xiaozhi AI Voice Box (Phần cứng phục vụ R&D/Dev): Xử lý luồng âm thanh I2S Digital Mic INMP441, mã hóa nén Opus, giao tiếp WebSocket thời gian thực kết nối các mô hình Cloud LLM (ChatGPT, DeepSeek, Qwen).",
+      "en": "Production embedded firmware development for Xiaozhi AI Voice Box Dev Kit (R&D prototype hardware): I2S digital audio streaming (INMP441), Opus codec compression, low-latency WebSocket interfacing with Cloud LLM models (ChatGPT, DeepSeek, Qwen)."
+    },
+    "description": {
+      "vi": "Chủ trì thiết kế & lập trình Firmware nhúng (Firmware Development) toàn phần cho sản phẩm Kit Trợ lý Giọng nói AI Xiaozhi AI Voice Box (phần cứng bo mạch đóng vai trò nền tảng R&D/Dev Kit). Xây dựng kiến trúc Firmware thời gian thực RTOS: thu âm số hóa qua Micro I2S INMP441, nén luồng âm thanh Opus Audio Codec, truyền nhận dữ liệu hai chiều qua mã hóa WebSocket độ trễ cực thấp (<300ms latency) kết nối trực tiếp với các mô hình ngôn ngữ lớn Cloud LLM (ChatGPT, DeepSeek, Qwen, Kimi), phát lại âm thanh qua chuẩn I2S DAC và quản lý cấu hình Wi-Fi qua Web Portal.",
+      "en": "Led full-stack embedded firmware design & development for the Xiaozhi AI Voice Box Smart Assistant (hardware PCB served as R&D/Dev prototype). Engineered real-time RTOS firmware architecture: I2S digital audio sampling (INMP441 mic), Opus Audio Codec compression, bi-directional low-latency WebSocket streaming (<300ms latency) interfacing with Cloud LLMs (ChatGPT, DeepSeek, Qwen, Kimi), I2S DAC audio playback, and Wi-Fi Web Portal configurator."
+    },
+    "longDescription": {
+      "vi": "• Trọng tâm Phát triển Firmware Nhúng (Software/Firmware Focus): Tập trung R&D kiến trúc phần mềm nhúng cấp Production, bo mạch phần cứng được xây dựng phục vụ mục đích thử nghiệm Dev Kit.\n• Thu âm & Giải mã Âm thanh số I2S: Lập trình driver I2S dải tần cao cho Micro Digital INMP441 & chip mã hóa/giải mã âm thanh I2S DAC xuất loa chất lượng cao.\n• Mã hóa Opus & WebSocket Streaming: Tối ưu thuật toán nén luồng thoại Opus codec và kết nối đòn bẩy WebSocket hai chiều truyền tín hiệu thoại thời gian thực độ trễ <300ms.\n• Tích hợp mô hình AI Cloud LLM: Kết nối linh hoạt API các mô hình trí tuệ nhân tạo hàng đầu (ChatGPT, DeepSeek, Qwen, Kimi) xử lý hội thoại thông minh tự nhiên.\n• Giao diện Web Portal & OTA: Tích hợp Web Server nhúng cho phép cài đặt Wi-Fi, đổi API Key mô hình AI và cập nhật phần mềm OTA từ xa.",
+      "en": "• Embedded Firmware Focus: Focused 100% on production-grade embedded firmware stack R&D; hardware PCB served as development kit prototype platform.\n• I2S Digital Audio Sampling & Playback: Developed high-bandwidth I2S drivers for INMP441 digital mic & I2S DAC audio codec driving high-fidelity speakers.\n• Opus Codec & Low-Latency WebSocket Streaming: Optimized Opus voice compression algorithms and bi-directional WebSocket client (<300ms latency) for real-time voice streaming.\n• Cloud LLM Integration: Seamless API integration with leading Large Language Models (ChatGPT, DeepSeek, Qwen, Kimi) for natural AI voice conversations.\n• Web Portal & OTA Updates: Built-in embedded Web Server for Wi-Fi provisioning, AI API Key configuration, and remote OTA firmware upgrades."
+    },
+    "techStack": [
+      "Embedded Firmware Architecture",
+      "FreeRTOS / C++",
+      "I2S Audio Driver (INMP441)",
+      "Opus Audio Codec",
+      "WebSocket Real-Time API",
+      "Cloud LLM (ChatGPT/DeepSeek)",
+      "Dev Kit Hardware R&D"
+    ],
+    "image": "assets/projects/xiaozhi_voice_ai/1.jpg",
+    "gallery": [
+      "assets/projects/xiaozhi_voice_ai/1.jpg"
+    ],
+    "features": [
+      {
+        "vi": "Phát triển phần mềm nhúng (Firmware Focus) trên nền bo mạch Kit phát triển R&D thử nghiệm phần cứng",
+        "en": "Production embedded firmware development on prototype R&D Dev Kit hardware platform"
+      },
+      {
+        "vi": "Lập trình Driver thu âm số hóa I2S Micro INMP441 & giải mã phát âm thanh I2S DAC độ phân giải cao",
+        "en": "I2S digital audio sampling driver (INMP441 mic) & high-resolution I2S DAC audio playback driver"
+      },
+      {
+        "vi": "Tối ưu luồng thoại bằng thuật toán nén Opus Codec & giao tiếp WebSocket hai chiều độ trễ thấp <300ms",
+        "en": "Opus audio compression codec & bi-directional low-latency WebSocket voice streaming (<300ms)"
+      },
+      {
+        "vi": "Tích hợp mô hình trí tuệ nhân tạo Cloud LLM (ChatGPT, DeepSeek, Qwen) phản hồi hội thoại bằng giọng nói tự nhiên",
+        "en": "Cloud LLM integration (ChatGPT, DeepSeek, Qwen) executing natural AI voice conversations"
+      },
+      {
+        "vi": "Trang Web Portal nhúng cài đặt Wi-Fi, cấu hình API Key AI và cập nhật phần mềm OTA từ xa",
+        "en": "Embedded Web Portal interface for Wi-Fi setup, AI API key provisioning & remote OTA firmware updates"
+      }
+    ],
+    "highlight": true
+  },
+  {
+    "id": "auto-start-pcie",
+    "title": {
+      "vi": "Bo Mạch Khởi Động Tự Động Máy Chủ / Server Qua Khe Cắm PCI Express (Auto Start PCIe Card)",
+      "en": "Automatic Server Power-On Controller Card via PCI Express (PCIe Auto Start)",
+      "ja": "PCI Express経由 サーバー自動起動・電源制御カード (Auto Start PCIe)"
+    },
+    "category": "Industrial Hardware & Automotive",
+    "period": "2024",
+    "summary": {
+      "vi": "Bo mạch mở rộng khe cắm PCI Express tự động kích nguồn bật máy chủ/PC khi có điện lưới, tự khởi động lại khi sự cố và duy trì Uptime cho hệ thống Server.",
+      "en": "PCI Express expansion card automatically triggering power-on sequence for servers/PCs upon AC mains restoration, maintaining maximum server uptime."
+    },
+    "description": {
+      "vi": "Chủ trì R&D thiết kế bo mạch cắm khe PCI Express x1 chuyên dụng phục vụ tự động bật nguồn (Auto Power-On / Remote Reboot) cho hệ thống máy chủ, Server nhà xưởng và máy tính trạm làm việc. Thiết kế sơ đồ nguyên lý và layout PCB 2-layer chuẩn chân cắm PCIe x1 Goldfinger trên Altium Designer. Tích hợp chân nhận biết nguồn dự phòng 3.3Vaux, tín hiệu Wakeup Pin, mạch kích relay/transistor MOSFET ngắt mở an toàn và đèn LED báo trạng thái.",
+      "en": "Led hardware R&D for a dedicated PCI Express x1 edge card designed for automatic power-on (Auto Power-On / Remote Reboot) of servers, industrial workstations, and PC rigs. Designed schematic capture and 2-layer PCB layout with standard PCIe x1 Goldfinger connector in Altium Designer. Integrated 3.3Vaux standby power sense, Wakeup pin triggering, MOSFET/Transistor power pulse circuitry, and status indicators."
+    },
+    "longDescription": {
+      "vi": "• Thiết kế sơ đồ nguyên lý & layout PCB chuẩn khe cắm PCI Express x1 Goldfinger trên Altium Designer cho thiết bị Auto-Start Server.\n• Tự động kích nguồn máy chủ: Nhận diện điện áp chờ 3.3Vaux từ khe PCIe khi có điện lưới và tự động phát xung kích nút Power-On khởi động máy tính.\n• Mạch điều khiển an toàn: Sử dụng Transistor MOSFET công suất kết hợp mạch trễ thời gian chống kích đúp, bảo vệ mainboard máy tính không bị lặp xung nguồn.\n• Đầu nối nạp & Debug: Trang bị Header cắm Debug, nút nhấn thao tác bật thủ công và tụ Tantalum 100uF 16V lọc nguồn ổn định.\n• Thiết kế mạch PCB nhỏ gọn: Chuẩn form factor PCI Express x1 cắm vừa mọi vỏ case PC tiêu chuẩn và server rack-mount.",
+      "en": "• Schematic capture & PCB layout with standard PCI Express x1 Goldfinger interface in Altium Designer for Server Auto-Start hardware.\n• Automated Power-On Sequence: Senses 3.3Vaux standby rail upon AC power restoration and automatically generates a clean Power-On pulse to boot the PC/Server.\n• Safe Pulse Control Circuitry: Power MOSFETs combined with anti-debounce timing circuits preventing accidental double-triggering or mainboard damage.\n• Programming & Debug Interface: Equipped with DEBUG pin headers, manual tactile buttons, and 100uF 16V Tantalum power filtering capacitors.\n• Compact Form Factor: Standard PCIe x1 profile fitting smoothly inside all standard desktop cases and industrial rack-mount servers."
+    },
+    "techStack": [
+      "PCI Express x1 Goldfinger",
+      "Server Auto Power-On",
+      "3.3Vaux Standby Sense",
+      "Power Pulse Generator",
+      "MOSFET Power Switch",
+      "Altium Designer PCB"
+    ],
+    "image": "assets/projects/auto_start_pcie/top.png",
+    "gallery": [
+      "assets/projects/auto_start_pcie/top.png",
+      "assets/projects/auto_start_pcie/bottom.png"
+    ],
+    "features": [
+      {
+        "vi": "Tự động kích nguồn bật máy tính / Server ngay khi điện lưới AC phục hồi",
+        "en": "Automated power-on pulse booting PCs / Servers immediately upon AC power restoration"
+      },
+      {
+        "vi": "Thiết kế chuẩn chân cắm PCI Express x1 Goldfinger phù hợp mọi thùng máy PC & Server Rack",
+        "en": "Standard PCI Express x1 Goldfinger form factor fitting all PC cases & Server Racks"
+      },
+      {
+        "vi": "Mạch trễ thời gian chống kích đúp xung nguồn bảo vệ an toàn cho Mainboard máy chủ",
+        "en": "Anti-double trigger pulse delay circuit protecting server motherboard power ICs"
+      },
+      {
+        "vi": "Nhận biết điện áp chờ 3.3Vaux & chân tín hiệu Wakeup kích nguồn thông minh",
+        "en": "Smart 3.3Vaux standby voltage sensing & Wakeup signal pulse generation"
+      },
+      {
+        "vi": "Tụ Tantalum dán 100uF 16V + LDO AMS1117 cho dòng nguồn cấp vô cùng ổn định",
+        "en": "100uF 16V Tantalum SMD capacitors + AMS1117 LDO for rock-solid power stability"
+      }
+    ],
+    "highlight": true
+  },
+  {
+    "id": "ec200u-kit-dev",
+    "title": {
+      "vi": "Kit Phát Triển Gateway 4G LTE & eSIM Quectel EC200U — Nguồn DC-DC TPS54302 & Cổng USB Type-C",
+      "en": "Quectel EC200U 4G LTE & Global eSIM Dev Kit PCB (TPS54302 Buck & USB Type-C)",
+      "ja": "Quectel EC200U 4G LTE & グローバルeSIM 開発キット基板"
+    },
+    "category": "Industrial Hardware & Automotive",
+    "period": "2024",
+    "summary": {
+      "vi": "Bo mạch kit phát triển R&D cho module 4G LTE Quectel EC200U, tích hợp Dual SIM (eSIM chip MFF2 + MicroSIM), nguồn hạ áp TPS54302 (4.5–28V) và giao tiếp USB Type-C.",
+      "en": "Industrial R&D development kit PCB for Quectel EC200U 4G LTE, featuring Dual SIM (embedded MFF2 eSIM + MicroSIM), TPS54302 buck regulator (4.5–28V), and USB Type-C interface."
+    },
+    "description": {
+      "vi": "Chủ trì R&D phần cứng bo mạch Kit phát triển cho module 4G LTE Cat 1 Quectel EC200U (tích hợp GPS/GNSS, Bluetooth). Thiết kế sơ đồ nguyên lý và layout PCB multi-layer trên Altium Designer. Hỗ trợ hạ áp dải rộng TPS54302 (4.5V–28V DC), tích hợp chip eSIM toàn cầu MFF2 song song khay SIM đẩy MicroSIM, cổng giao tiếp USB Type-C lập trình và nút chuyển mạch USB BOOT.",
+      "en": "Led hardware R&D for a multi-purpose development kit PCB supporting Quectel EC200U 4G LTE Cat 1 module (with integrated GPS/GNSS & Bluetooth). Designed schematic and multi-layer PCB layout in Altium Designer. Features wide-input TPS54302 buck regulator (4.5V–28V DC), Dual SIM architecture (embedded MFF2 global eSIM + MicroSIM push-push holder), and USB Type-C programming interface with USB BOOT switch."
+    },
+    "longDescription": {
+      "vi": "• Thiết kế sơ đồ nguyên lý & đi dây PCB multi-layer trên Altium Designer cho module Quectel EC200U (4G LTE Cat 1, GNSS / GPS, Bluetooth).\n• Thiết kế kiến trúc Dual SIM: Tích hợp chip eSIM công nghiệp MFF2 kết hợp khay cắm MicroSIM Push-Push linh hoạt.\n• Thiết kế khối nguồn DC-DC TPS54302 hiệu suất cao hỗ trợ điện áp vào dải rộng (4.5V – 28V DC) và tụ hóa Tantalum lọc nguồn nhiễu.\n• Trang bị cổng giao tiếp USB Type-C 16-Pin với nút chuyển mạch USB BOOT phục vụ nạp phần mềm và debug firmware.\n• Tích hợp hệ thống Anten đa dải: Dual anten SMA (4G LTE Main + GNSS GPS) và anten IPEX 2.4GHz.",
+      "en": "• Schematic capture & multi-layer PCB layout in Altium Designer for Quectel EC200U 4G LTE Cat 1 module (GNSS/GPS & Bluetooth).\n• Dual SIM Architecture: Integrated MFF2 industrial eSIM chip paired with push-push MicroSIM socket.\n• High-efficiency TPS54302 DC-DC buck power design with wide input range (4.5V – 28V DC) and Tantalum power filter capacitors.\n• 16-Pin USB Type-C programming interface with dedicated USB BOOT switch for firmware deployment & debugging.\n• Multi-Antenna System: Dual SMA connectors (4G LTE Main + GNSS GPS) and IPEX 2.4GHz RF connectors."
+    },
+    "techStack": [
+      "Quectel EC200U 4G",
+      "Global eSIM (MFF2)",
+      "TPS54302 DC-DC Buck",
+      "USB Type-C 16P",
+      "GNSS / GPS Telemetry",
+      "Altium Designer PCB",
+      "Dual SMA & IPEX Antenna",
+      "C/C++ Embedded"
+    ],
+    "image": "assets/projects/ec200u_kit_dev/1.png",
+    "gallery": [
+      "assets/projects/ec200u_kit_dev/1.png",
+      "assets/projects/ec200u_kit_dev/2.png",
+      "assets/projects/ec200u_kit_dev/z4998056412180_d259595b78e7a9644cc832cb16d3418b.jpg",
+      "assets/projects/ec200u_kit_dev/z4998503318455_6d27267801dc3ffe3107d2e9e5d945e2.jpg",
+      "assets/projects/ec200u_kit_dev/z4999008387821_578f774d2da9a7ad4bea4c80b94dc692.jpg",
+      "assets/projects/ec200u_kit_dev/z5001260822696_1072e734f3fb62ae7f8b76c987efe354.jpg",
+      "assets/projects/ec200u_kit_dev/z5001261128032_5d096671ce3ac2cb70b221defb666dee.jpg",
+      "assets/projects/ec200u_kit_dev/z5006113823725_1d7ae1cb8f963eb70b2a5876378e0a5d.jpg",
+      "assets/projects/ec200u_kit_dev/z5034081124665_3231c69ca96c1f3c99a86ffc36866986.jpg",
+      "assets/projects/ec200u_kit_dev/z5352435747519_93991ca4ce5fb9091bc4e27fa756cb56.jpg"
+    ],
+    "features": [
+      {
+        "vi": "Module Quectel EC200U (4G LTE Cat 1, GPS/GNSS & Bluetooth) hỗ trợ kết nối Cloud thời gian thực",
+        "en": "Quectel EC200U module (4G LTE Cat 1, GPS/GNSS & Bluetooth) for real-time cloud data telemetry"
+      },
+      {
+        "vi": "Kiến trúc Dual SIM: Chip eSIM MFF2 toàn cầu + khay MicroSIM Push-Push linh hoạt",
+        "en": "Dual SIM Architecture: Global MFF2 eSIM chip + flexible push-push MicroSIM holder"
+      },
+      {
+        "vi": "Nguồn xung DC-DC TPS54302 hạ áp dải rộng 4.5V - 28V DC cấp dòng 3A ổn định",
+        "en": "TPS54302 DC-DC buck converter supporting wide 4.5V-28V DC input with 3A output"
+      },
+      {
+        "vi": "Giao tiếp USB Type-C 16-Pin chuẩn hóa tích hợp nút công tắc nạp USB BOOT",
+        "en": "Standardized 16-Pin USB Type-C interface with USB BOOT programming switch"
+      },
+      {
+        "vi": "Hệ thống anten SMA kép (4G LTE & GPS) và đầu nối RF IPEX 2.4GHz",
+        "en": "Dual SMA antenna system (4G LTE & GPS) with 2.4GHz IPEX RF connectors"
+      }
+    ],
+    "highlight": true
+  },
+  {
+    "id": "ec800m-dev-kit",
+    "title": {
+      "vi": "Kit Phát Triển Gateway 4G LTE Cat 1 Quectel EC800M — Tích Hợp Định Vị GPS & Cổng Nạp USB-C",
+      "en": "Quectel EC800M 4G LTE Cat 1 & GNSS GPS Dev Kit PCB (Dual SIM & USB-C)",
+      "ja": "Quectel EC800M 4G LTE & GNSS GPS 開発キット基板"
+    },
+    "category": "Industrial Hardware & Automotive",
+    "period": "2024",
+    "summary": {
+      "vi": "Bo mạch kit phát triển R&D cho module Quectel EC800M 4G LTE Cat 1, tích hợp vị trí GPS/GNSS, Dual SIM (eSIM chip MFF2 + Nano SIM), cổng USB Type-C và nút nạp USB BOOT.",
+      "en": "Industrial R&D dev kit PCB for Quectel EC800M 4G LTE Cat 1 & GNSS GPS, featuring Dual SIM (embedded MFF2 eSIM + Nano SIM socket), USB Type-C and USB BOOT switch."
+    },
+    "description": {
+      "vi": "Chủ trì R&D phần cứng bo mạch Kit phát triển cho vi viễn thông Quectel EC800M-CN (4G LTE Cat 1, GNSS / GPS, Bluetooth). Thiết kế sơ đồ nguyên lý và layout PCB multi-layer trên Altium Designer. Hỗ trợ hạ áp ổn định nguồn VBAT, tích hợp kiến trúc Dual SIM (chip eSIM MFF2 hàn trên mạch + khay Nano SIM), cổng giao tiếp USB Type-C và nút nạp USB BOOT.",
+      "en": "Led hardware R&D for a compact development kit PCB supporting Quectel EC800M-CN 4G LTE Cat 1 module (integrated GNSS/GPS & Bluetooth). Designed schematic and multi-layer PCB layout in Altium Designer. Features VBAT power architecture, Dual SIM support (embedded MFF2 eSIM chip + Nano SIM socket), USB Type-C programming interface, and USB BOOT switch."
+    },
+    "longDescription": {
+      "vi": "• Thiết kế sơ đồ nguyên lý & layout PCB multi-layer trên Altium Designer cho module Quectel EC800M-CN (4G LTE Cat 1, GPS/GNSS & Bluetooth).\n• Kiến trúc Dual SIM linh hoạt: Tích hợp sẵn chip eSIM công nghiệp MFF2 kết hợp khay Nano SIM card socket cho hạ tầng IoT di động.\n• Khối quản lý nguồn & Âm thanh: Tối ưu đường nguồn VBAT cho truyền dẫn sóng 4G công suất cao, tích hợp đường tín hiệu âm thanh loa Audio SPK_P/N.\n• Giao diện lập trình & Debug: Trang bị cổng USB Type-C 16-Pin với nút chuyển mạch nạp phần mềm USB BOOT.\n• Hệ thống Anten: Đầu cắm Anten DIP GPS GNSS chuyên dụng và Anten SMD 4G LTE đa dải tần.",
+      "en": "• Schematic capture & multi-layer PCB layout in Altium Designer for Quectel EC800M-CN 4G LTE Cat 1 module (GPS/GNSS & Bluetooth).\n• Flexible Dual SIM Architecture: Integrated MFF2 industrial eSIM chip paired with Nano SIM card socket for mobile IoT deployment.\n• Power & Audio System: Optimized high-current VBAT power traces for 4G burst transmission, with integrated differential Audio speaker interface.\n• Programming & Debugging: 16-Pin USB Type-C interface with dedicated USB BOOT switch for fast firmware flashing.\n• Antenna System: Dedicated DIP GPS/GNSS antenna connector & multi-band 4G LTE SMD antenna."
+    },
+    "techStack": [
+      "Quectel EC800M-CN",
+      "4G LTE Cat 1",
+      "GPS / GNSS Telemetry",
+      "Global eSIM (MFF2)",
+      "Nano SIM Socket",
+      "Altium Designer PCB",
+      "USB Type-C 16P",
+      "C/C++ Embedded"
+    ],
+    "image": "assets/projects/ec800m_dev_kit/1.png",
+    "gallery": [
+      "assets/projects/ec800m_dev_kit/1.png",
+      "assets/projects/ec800m_dev_kit/2.png",
+      "assets/projects/ec800m_dev_kit/1785392435489_1865481403134129726_3747327866930100700_f773a22641b40cdeed3eac7936ebe358.jpg",
+      "assets/projects/ec800m_dev_kit/1785392435517_1865481403134129726_3747327866930100700_5873c71770820194320a2942f0209eee.jpg",
+      "assets/projects/ec800m_dev_kit/1785392435531_1865481403134129726_3747327866930100700_36068ce0090b0edd55000d156a1d1525.jpg",
+      "assets/projects/ec800m_dev_kit/1785392435542_1865481403134129726_3747327866930100700_c5deae956e86db07deb1419712f22888.jpg",
+      "assets/projects/ec800m_dev_kit/1785392435557_1865481403134129726_3747327866930100700_3161e16bd10e0dad4a24b72eb1c77b08.jpg",
+      "assets/projects/ec800m_dev_kit/1785392435567_1865481403134129726_3747327866930100700_8630e32f390abea6f63b9d37e20c5330.jpg",
+      "assets/projects/ec800m_dev_kit/z5318844780214_3c2d2331cfab871e24278f35f946bad4.jpg",
+      "assets/projects/ec800m_dev_kit/z5331457799887_eed92375d74518bec8986aad54dd87fb.jpg",
+      "assets/projects/ec800m_dev_kit/z5340409393501_076c7c82e9b73580ba1c12c734b90300.jpg",
+      "assets/projects/ec800m_dev_kit/z5359866424426_3e81e5cdc366d9157f783edaf978c33a.jpg",
+      "assets/projects/ec800m_dev_kit/z5360962553215_ca0ed86fdf3d6e274bbe75cb3a4debd3.jpg",
+      "assets/projects/ec800m_dev_kit/z6200085110404_d985d43233cb5e3d7f5b2537db41bc45.jpg"
+    ],
+    "features": [
+      {
+        "vi": "Module Quectel EC800M-CN (4G LTE Cat 1 & GNSS GPS) cho các thiết bị giám sát định vị thời gian thực",
+        "en": "Quectel EC800M-CN module (4G LTE Cat 1 & GNSS GPS) for real-time tracking & cloud telemetry"
+      },
+      {
+        "vi": "Tích hợp Dual SIM: Chip eSIM MFF2 hàn trên mạch + khay cắm Nano SIM linh hoạt",
+        "en": "Dual SIM Integration: Embedded MFF2 eSIM chip + flexible Nano SIM socket"
+      },
+      {
+        "vi": "Đường nguồn VBAT dòng cao chống sụt áp khi phát sóng 4G LTE công suất tối đa",
+        "en": "High-current VBAT power traces preventing voltage drop during peak 4G LTE transmission"
+      },
+      {
+        "vi": "Giao tiếp USB Type-C 16-Pin chuẩn hóa tích hợp nút bấm chuyển mạch USB BOOT",
+        "en": "Standardized 16-Pin USB Type-C interface with USB BOOT mode tactile switch"
+      },
+      {
+        "vi": "Anten GPS GNSS chuyên dụng kết hợp anten 4G LTE đa dải tần",
+        "en": "Dedicated GPS GNSS antenna socket paired with multi-band 4G LTE antenna"
       }
     ],
     "highlight": true
@@ -771,148 +1251,6 @@ export const projects: Project[] = [
     "highlight": true
   },
   {
-    "id": "ecocare-ai-edge",
-    "title": {
-      "vi": "Nền Tảng Y Tế, Gọi Y Tá Không Dây (Nurse Call) & Chăm Sóc Người Cao Tuổi EcoCare AI — Cảm Biến AI Edge, ToF 8x8 & Radar 60GHz mmWave",
-      "en": "EcoCare AI Smart Medical & Wireless Nurse Call Platform — AI Edge Processing, 8x8 ToF & 60GHz mmWave Radar",
-      "ja": "EcoCare AI スマート医療・ワイヤレスナースコール安全プラットフォーム (AI Edge & 60GHz mmWave)"
-    },
-    "category": "Industrial Hardware & Automotive",
-    "period": "2024",
-    "summary": {
-      "vi": "Nền tảng Y tế, Hệ thống Gọi y tá không dây (Nurse Call) & Chăm sóc Viện dưỡng lão EcoCare AI (care.musenplus.com — Nhật Bản): Xử lý AI Edge, cảm biến ToF 8x8, Radar 60GHz mmWave phát hiện té ngã & tư thế giường/toilet thời gian thực.",
-      "en": "EcoCare AI Medical & Wireless Nurse Call Platform (care.musenplus.com — Japan Market): AI Edge processing, 8x8 ToF sensor matrix, 60GHz mmWave fall & posture detection radar (<500ms latency), and wireless Nurse Call hardware."
-    },
-    "description": {
-      "vi": "Chủ trì R&D toàn trình phần cứng bo mạch và hệ thống cho Nền tảng Y tế, Nút gọi y tá không dây (Nurse Call) & Chăm sóc An toàn Viện dưỡng lão EcoCare AI (triển khai tại các viện dưỡng lão ở Osaka, Nhật Bản — care.musenplus.com). Vi xử lý nhúng trung tâm xử lý dữ liệu ma trận cảm biến ToF 8x8 kết hợp Radar 60GHz mmWave nhận diện té ngã và tư thế giường/toilet thời gian thực (<500ms latency) bảo vệ quyền riêng tư người cao tuổi. Tích hợp nút Gọi y tá (Nurse Call) không dây khẩn cấp, mạch hạ áp công nghiệp FR9886, micro I2S INMP441 và ứng dụng di động React Native Expo kết nối MQTT Cloud.",
-      "en": "Led end-to-end hardware PCB and system R&D for the EcoCare AI Medical, Wireless Nurse Call & Nursing Home Safety Care Platform deployed across Osaka nursing facilities in Japan (care.musenplus.com). Powered by embedded MCU SoC running real-time 8x8 ToF sensor matrix paired with 60GHz mmWave radar for privacy-preserving fall & bed/toilet posture recognition (<500ms latency). Integrated wireless emergency Nurse Call hardware, FR9886 industrial buck regulator, INMP441 I2S digital mic, and React Native Expo app syncing with MQTT Cloud."
-    },
-    "longDescription": {
-      "vi": "• Nền tảng Y tế triển khai tại Nhật Bản: EcoCare AI (care.musenplus.com) phục vụ hệ thống viện dưỡng lão & chăm sóc người cao tuổi tại Osaka, Nhật Bản.\n• Hệ thống Gọi Y tế khẩn cấp (Wireless Nurse Call): Tích hợp nút bấm gọi y tá không dây phát cảnh báo khẩn cấp ngay tức thì tới các điều dưỡng viên.\n• Vi xử lý AI Edge trung tâm: Thực thi thuật toán AI Edge xử lý ma trận ToF 8x8 & Radar 60GHz mmWave nhận diện té ngã độ trễ <500ms.\n• Bảo vệ sự riêng tư & An toàn tuyệt đối: Nhận diện tư thế nằm/ngồi/ngã trên giường và trong khu vực toilet bằng hình ảnh nhiệt ToF & sóng mmWave không dùng camera ghi hình.\n• Mạch hạ áp công nghiệp FR9886 & Micro I2S INMP441: Hạ áp 24V/12V DC-DC tỏa nhiệt thấp, điều khiển quạt xung PWM và phản hồi âm thanh qua Micro I2S.",
-      "en": "• Deployed Medical Platform in Japan: EcoCare AI (care.musenplus.com) serving Japanese nursing homes & elderly care facilities in Osaka.\n• Wireless Emergency Nurse Call System: Integrated wireless hardware emergency Nurse Call button instantly triggering nurse alert notifications.\n• Central AI Edge Microcontroller: Real-time AI Edge processing of 8x8 ToF matrix & 60GHz mmWave radar for fall/posture detection (<500ms latency).\n• Privacy-Preserving Patient Monitoring: Monitoring lying/sitting/falling postures on beds and in toilet areas via ToF thermal depth mapping & mmWave radar without cameras.\n• FR9886 Industrial Buck & INMP441 I2S Mic: High-efficiency DC-DC buck, low-thermal PWM fan control, and INMP441 I2S digital MEMS microphone."
-    },
-    "techStack": [
-      "Wireless Nurse Call",
-      "AI Edge Processing",
-      "ToF 8x8",
-      "60GHz mmWave Radar",
-      "Privacy Fall Detection",
-      "FR9886 DC-DC Buck",
-      "Altium Designer PCB"
-    ],
-    "features": [
-      {
-        "vi": "Tích hợp hệ thống Nút Gọi y tá (Nurse Call) không dây khẩn cấp phát cảnh báo ngay lập tức cho viện dưỡng lão",
-        "en": "Integrated wireless emergency Nurse Call hardware button triggering instant nurse alert notifications"
-      },
-      {
-        "vi": "Nền tảng Y tế thương mại triển khai tại Nhật Bản: care.musenplus.com phục vụ viện dưỡng lão & chăm sóc người cao tuổi",
-        "en": "Commercial Medical platform deployed in Japan: care.musenplus.com serving nursing homes & elderly care facilities"
-      },
-      {
-        "vi": "Cảm biến ToF 8x8 & Radar 60GHz mmWave nhận diện té ngã & tư thế giường/toilet độ trễ <500ms bảo vệ sự riêng tư",
-        "en": "8x8 ToF & 60GHz mmWave radar fall & bed/toilet posture recognition with <500ms latency preserving privacy"
-      },
-      {
-        "vi": "Mạch hạ áp công nghiệp FR9886 DC-DC tỏa nhiệt thấp + Micro I2S INMP441 phản hồi âm thanh",
-        "en": "FR9886 industrial DC-DC buck regulator + INMP441 I2S digital MEMS microphone for acoustic feedback"
-      },
-      {
-        "vi": "Thiết kế sơ đồ nguyên lý & layout PCB multi-layer chuẩn EMI/EMC xuất file Gerber sản xuất hàng loạt",
-        "en": "Altium Designer multi-layer EMI/EMC compliant PCB layout exported for mass production"
-      }
-    ],
-    "highlight": true,
-    "image": "assets/projects/ecocare_ai_edge/1.png",
-    "gallery": [
-      "assets/projects/ecocare_ai_edge/1.png",
-      "assets/projects/ecocare_ai_edge/2.png",
-      "assets/projects/ecocare_ai_edge/3.png",
-      "assets/projects/ecocare_ai_edge/4.jpg",
-      "assets/projects/ecocare_ai_edge/5.png",
-      "assets/projects/ecocare_ai_edge/6.png",
-      "assets/projects/ecocare_ai_edge/7.png",
-      "assets/projects/ecocare_ai_edge/8.png",
-      "assets/projects/ecocare_ai_edge/9.png"
-    ]
-  },
-  {
-    "id": "ecolift-smart-elevator",
-    "title": {
-      "vi": "Hệ Thống Bo Mạch Quản Lý & An Toàn Xe Nâng EcoLift — Cảm Biến Va Đập Shock Sensor, Radar 60GHz, ToF, Vân Tay & Rơ-Le Động Cơ",
-      "en": "EcoLift Industrial Forklift Safety System — Biometric Fingerprint Keypad, 60GHz Radar, ToF, 3D IMU & Engine Cutoff",
-      "ja": "EcoLift フォークリフト安全管理基板システム (指紋認証, Radar, ToF, 3D加速度 & エンジン遮断)"
-    },
-    "category": "Industrial Hardware & Automotive",
-    "period": "2024",
-    "summary": {
-      "vi": "Hệ thống bo mạch quản lý & an toàn xe nâng EcoLift: Cảm biến va đập Shock Sensor phát hiện va chạm & đi qua gờ giảm tốc, Radar 60GHz, ToF đo khoảng cách, Vân tay Keypad, còi báo khi lùi xe và Rơ-le ngắt động cơ an toàn.",
-      "en": "EcoLift industrial forklift safety management PCB system: Biometric Fingerprint & Keypad authorization, 60GHz Radar & ToF distance sensing, 3D Accelerometer IMU shock monitoring, reverse back-up alarm horn, and engine cutoff safety relays."
-    },
-    "description": {
-      "vi": "Chủ trì R&D toàn trình phần cứng bo mạch và hệ thống cho Bộ sản phẩm Quản lý & An toàn Xe nâng Công nghiệp EcoLift. Tích hợp cảm biến va đập (Shock Sensor) nhận diện gia tốc va đập thời gian thực, phân biệt sự cố va chạm mạnh với việc xe nâng đi qua gờ giảm tốc. Kết hợp cảm biến Radar 60GHz mmWave, cảm biến ToF đo khoảng cách, bàn phím Keypad Vân tay phân quyền lái xe, còi báo động khi lùi xe và mạch rơ-le ngắt nguồn động cơ an toàn.",
-      "en": "Led end-to-end hardware PCB and system R&D for the EcoLift Industrial Forklift Safety & Management product suite. Integrates core capabilities: 1) Biometric Fingerprint & Keypad authorization for driver access control; 2) 60GHz mmWave Radar & ToF distance sensors for wide-range proximity safety warning; 3) 3D Accelerometer IMU measuring impacts, shocks , and vehicle rollover tilts in real-time; 4) Engine cutoff safety relays; 5) High-decibel reverse back-up & proximity alarm horns. Wi-Fi/4G Web Cloud telemetry."
-    },
-    "longDescription": {
-      "vi": "• Hệ thống Quản lý & An toàn Xe nâng Công nghiệp EcoLift triển khai cho các nhà máy & kho vận logistics.\n• Cảm biến va đập Shock Sensor chuyên dụng: Đo đạc độ xóc gia tốc 3D, phân biệt chính xác xe nâng va chạm chướng ngại vật hay đang vận hành đi qua gờ giảm tốc nhà xưởng.\n• Bàn phím Keypad & Cảm biến Vân tay: Phân quyền vận hành sinh trắc học, chỉ người lái có vân tay/mã PIN hợp lệ mới được khởi động xe nâng.\n• Cảnh báo khoảng cách an toàn bằng Radar 60GHz & ToF: Cảm biến Radar dải rộng kết hợp ToF định khoảng cách chính xác, phát hiện người/vật cản xung quanh.\n• Còi báo khi lùi xe & Rơ-le ngắt động cơ: Còi báo âm thanh tự động kích hoạt khi xe lùi hoặc vi phạm khoảng cách + Rơ-le ngắt nguồn động cơ an toàn.\n• Web Cloud & Truyền thông Wi-Fi/4G: Quản lý lịch sử vận hành và cập nhật firmware qua OTA.",
-      "en": "• EcoLift Industrial Forklift Safety & Management System deployed across logistics & factory sites.\n• Biometric Fingerprint & Keypad Unit: Biometric driver authorization; engine start enabled only with valid fingerprint scan or PIN.\n• 60GHz Radar & ToF Distance Safety Warning: Wide-range Radar paired with precision ToF distance sensors detecting pedestrians/obstacles.\n• 3D Accelerometer IMU: Real-time impact force measurement, shock monitoring , and rollover tilt alerts.\n• Reverse Back-Up Alarm Horn & Engine Cutoff Relays: Automated high-decibel warning horn sounding during reversing or proximity breach + engine cutoff relays.\n• Web Cloud & Wi-Fi/4G Telemetry: Managing operational logs, tracking collision incidents, and executing OTA firmware updates ."
-    },
-    "techStack": [
-      "Industrial Shock Sensor",
-      "Biometric Fingerprint Keypad",
-      "60GHz Radar Sensing",
-      "ToF Distance Sensor",
-      "Reverse Alarm Horn",
-      "Engine Cutoff Relays",
-      "Altium Designer PCB"
-    ],
-    "image": "assets/projects/ecolift_smart_elevator/1.png",
-    "gallery": [
-      "assets/projects/ecolift_smart_elevator/1.png",
-      "assets/projects/ecolift_smart_elevator/2.png",
-      "assets/projects/ecolift_smart_elevator/3.png",
-      "assets/projects/ecolift_smart_elevator/4.png",
-      "assets/projects/ecolift_smart_elevator/5.png",
-      "assets/projects/ecolift_smart_elevator/6.png",
-      "assets/projects/ecolift_smart_elevator/7.png",
-      "assets/projects/ecolift_smart_elevator/8.png",
-      "assets/projects/ecolift_smart_elevator/9.png",
-      "assets/projects/ecolift_smart_elevator/10.png",
-      "assets/projects/ecolift_smart_elevator/11.png",
-      "assets/projects/ecolift_smart_elevator/12.png",
-      "assets/projects/ecolift_smart_elevator/13.png",
-      "assets/projects/ecolift_smart_elevator/14.png",
-      "assets/projects/ecolift_smart_elevator/15.png",
-      "assets/projects/ecolift_smart_elevator/16.png",
-      "assets/projects/ecolift_smart_elevator/17.png",
-      "assets/projects/ecolift_smart_elevator/18.png",
-      "assets/projects/ecolift_smart_elevator/19.png"
-    ],
-    "features": [
-      {
-        "vi": "Bàn phím Keypad tích hợp Cảm biến Vân tay sinh trắc học phân quyền người vận hành xe nâng an toàn",
-        "en": "Biometric Fingerprint & Keypad unit authorizing forklift driver access control safely"
-      },
-      {
-        "vi": "Cảnh báo khoảng cách an toàn bằng cảm biến Radar 60GHz dải rộng kết hợp cảm biến đo khoảng cách ToF",
-        "en": "Proximity distance safety warning utilizing 60GHz Radar & precision ToF distance sensors"
-      },
-      {
-        "vi": "Tích hợp cảm biến va đập (Shock Sensor) đo đạc lực va đập & phân biệt chính xác sự cố va chạm xe nâng với việc di chuyển qua gờ giảm tốc",
-        "en": "Integrated Industrial Shock Sensor measuring impact forces & distinguishing collision events from speed bump crossings"
-      },
-      {
-        "vi": "Còi báo cảnh báo tự động phát âm thanh khi xe nâng lùi (Reverse Horn) hoặc vi phạm khoảng cách vạch an toàn",
-        "en": "Automated warning horn sounding during forklift reversing (Reverse Horn) or proximity breaches"
-      },
-      {
-        "vi": "Bộ rơ-le ngắt nguồn động cơ an toàn kết hợp Web Cloud Wi-Fi/4G quản lý nhật ký vận hành & cập nhật firmware OTA",
-        "en": "Engine cutoff safety relays paired with Wi-Fi/4G Web Cloud managing operational logs & OTA updates"
-      }
-    ],
-    "highlight": true
-  },
-  {
     "id": "ecosen-smart-sensor",
     "title": {
       "vi": "Hệ Sinh Thái Mạng Cảm Biến AIoT Công Nghiệp & Nông Nghiệp EcoSen — ESP32, W5500 Ethernet, LoRaWAN & Modbus RS485",
@@ -1146,204 +1484,6 @@ export const projects: Project[] = [
     "highlight": true
   },
   {
-    "id": "xiaozhi-voice-ai",
-    "title": {
-      "vi": "Firmware Kit Phát Triển Trợ Lý Giọng Nói Trí Tuệ Nhân Tạo Xiaozhi AI Voice Box — Stream Audio I2S & Cloud LLM",
-      "en": "Xiaozhi AI Voice Box Embedded Firmware Stack — I2S Audio Streaming & Cloud LLM Assistant",
-      "ja": "Xiaozhi AI Voice Box 組み込みファームウェア (I2Sオーディオ & Cloud LLM)"
-    },
-    "category": "Industrial Hardware & Automotive",
-    "period": "2024",
-    "summary": {
-      "vi": "Phát triển Firmware nhúng cấp Production cho Kit Trợ lý Giọng nói AI Xiaozhi AI Voice Box (Phần cứng phục vụ R&D/Dev): Xử lý luồng âm thanh I2S Digital Mic INMP441, mã hóa nén Opus, giao tiếp WebSocket thời gian thực kết nối các mô hình Cloud LLM (ChatGPT, DeepSeek, Qwen).",
-      "en": "Production embedded firmware development for Xiaozhi AI Voice Box Dev Kit (R&D prototype hardware): I2S digital audio streaming (INMP441), Opus codec compression, low-latency WebSocket interfacing with Cloud LLM models (ChatGPT, DeepSeek, Qwen)."
-    },
-    "description": {
-      "vi": "Chủ trì thiết kế & lập trình Firmware nhúng (Firmware Development) toàn phần cho sản phẩm Kit Trợ lý Giọng nói AI Xiaozhi AI Voice Box (phần cứng bo mạch đóng vai trò nền tảng R&D/Dev Kit). Xây dựng kiến trúc Firmware thời gian thực RTOS: thu âm số hóa qua Micro I2S INMP441, nén luồng âm thanh Opus Audio Codec, truyền nhận dữ liệu hai chiều qua mã hóa WebSocket độ trễ cực thấp (<300ms latency) kết nối trực tiếp với các mô hình ngôn ngữ lớn Cloud LLM (ChatGPT, DeepSeek, Qwen, Kimi), phát lại âm thanh qua chuẩn I2S DAC và quản lý cấu hình Wi-Fi qua Web Portal.",
-      "en": "Led full-stack embedded firmware design & development for the Xiaozhi AI Voice Box Smart Assistant (hardware PCB served as R&D/Dev prototype). Engineered real-time RTOS firmware architecture: I2S digital audio sampling (INMP441 mic), Opus Audio Codec compression, bi-directional low-latency WebSocket streaming (<300ms latency) interfacing with Cloud LLMs (ChatGPT, DeepSeek, Qwen, Kimi), I2S DAC audio playback, and Wi-Fi Web Portal configurator."
-    },
-    "longDescription": {
-      "vi": "• Trọng tâm Phát triển Firmware Nhúng (Software/Firmware Focus): Tập trung R&D kiến trúc phần mềm nhúng cấp Production, bo mạch phần cứng được xây dựng phục vụ mục đích thử nghiệm Dev Kit.\n• Thu âm & Giải mã Âm thanh số I2S: Lập trình driver I2S dải tần cao cho Micro Digital INMP441 & chip mã hóa/giải mã âm thanh I2S DAC xuất loa chất lượng cao.\n• Mã hóa Opus & WebSocket Streaming: Tối ưu thuật toán nén luồng thoại Opus codec và kết nối đòn bẩy WebSocket hai chiều truyền tín hiệu thoại thời gian thực độ trễ <300ms.\n• Tích hợp mô hình AI Cloud LLM: Kết nối linh hoạt API các mô hình trí tuệ nhân tạo hàng đầu (ChatGPT, DeepSeek, Qwen, Kimi) xử lý hội thoại thông minh tự nhiên.\n• Giao diện Web Portal & OTA: Tích hợp Web Server nhúng cho phép cài đặt Wi-Fi, đổi API Key mô hình AI và cập nhật phần mềm OTA từ xa.",
-      "en": "• Embedded Firmware Focus: Focused 100% on production-grade embedded firmware stack R&D; hardware PCB served as development kit prototype platform.\n• I2S Digital Audio Sampling & Playback: Developed high-bandwidth I2S drivers for INMP441 digital mic & I2S DAC audio codec driving high-fidelity speakers.\n• Opus Codec & Low-Latency WebSocket Streaming: Optimized Opus voice compression algorithms and bi-directional WebSocket client (<300ms latency) for real-time voice streaming.\n• Cloud LLM Integration: Seamless API integration with leading Large Language Models (ChatGPT, DeepSeek, Qwen, Kimi) for natural AI voice conversations.\n• Web Portal & OTA Updates: Built-in embedded Web Server for Wi-Fi provisioning, AI API Key configuration, and remote OTA firmware upgrades."
-    },
-    "techStack": [
-      "Embedded Firmware Architecture",
-      "FreeRTOS / C++",
-      "I2S Audio Driver (INMP441)",
-      "Opus Audio Codec",
-      "WebSocket Real-Time API",
-      "Cloud LLM (ChatGPT/DeepSeek)",
-      "Dev Kit Hardware R&D"
-    ],
-    "image": "assets/projects/xiaozhi_voice_ai/1.jpg",
-    "gallery": [
-      "assets/projects/xiaozhi_voice_ai/1.jpg"
-    ],
-    "features": [
-      {
-        "vi": "Phát triển phần mềm nhúng (Firmware Focus) trên nền bo mạch Kit phát triển R&D thử nghiệm phần cứng",
-        "en": "Production embedded firmware development on prototype R&D Dev Kit hardware platform"
-      },
-      {
-        "vi": "Lập trình Driver thu âm số hóa I2S Micro INMP441 & giải mã phát âm thanh I2S DAC độ phân giải cao",
-        "en": "I2S digital audio sampling driver (INMP441 mic) & high-resolution I2S DAC audio playback driver"
-      },
-      {
-        "vi": "Tối ưu luồng thoại bằng thuật toán nén Opus Codec & giao tiếp WebSocket hai chiều độ trễ thấp <300ms",
-        "en": "Opus audio compression codec & bi-directional low-latency WebSocket voice streaming (<300ms)"
-      },
-      {
-        "vi": "Tích hợp mô hình trí tuệ nhân tạo Cloud LLM (ChatGPT, DeepSeek, Qwen) phản hồi hội thoại bằng giọng nói tự nhiên",
-        "en": "Cloud LLM integration (ChatGPT, DeepSeek, Qwen) executing natural AI voice conversations"
-      },
-      {
-        "vi": "Trang Web Portal nhúng cài đặt Wi-Fi, cấu hình API Key AI và cập nhật phần mềm OTA từ xa",
-        "en": "Embedded Web Portal interface for Wi-Fi setup, AI API key provisioning & remote OTA firmware updates"
-      }
-    ],
-    "highlight": true
-  },
-  {
-    "id": "ec200u-kit-dev",
-    "title": {
-      "vi": "Kit Phát Triển Gateway 4G LTE & eSIM Quectel EC200U — Nguồn DC-DC TPS54302 & Cổng USB Type-C",
-      "en": "Quectel EC200U 4G LTE & Global eSIM Dev Kit PCB (TPS54302 Buck & USB Type-C)",
-      "ja": "Quectel EC200U 4G LTE & グローバルeSIM 開発キット基板"
-    },
-    "category": "Industrial Hardware & Automotive",
-    "period": "2024",
-    "summary": {
-      "vi": "Bo mạch kit phát triển R&D cho module 4G LTE Quectel EC200U, tích hợp Dual SIM (eSIM chip MFF2 + MicroSIM), nguồn hạ áp TPS54302 (4.5–28V) và giao tiếp USB Type-C.",
-      "en": "Industrial R&D development kit PCB for Quectel EC200U 4G LTE, featuring Dual SIM (embedded MFF2 eSIM + MicroSIM), TPS54302 buck regulator (4.5–28V), and USB Type-C interface."
-    },
-    "description": {
-      "vi": "Chủ trì R&D phần cứng bo mạch Kit phát triển cho module 4G LTE Cat 1 Quectel EC200U (tích hợp GPS/GNSS, Bluetooth). Thiết kế sơ đồ nguyên lý và layout PCB multi-layer trên Altium Designer. Hỗ trợ hạ áp dải rộng TPS54302 (4.5V–28V DC), tích hợp chip eSIM toàn cầu MFF2 song song khay SIM đẩy MicroSIM, cổng giao tiếp USB Type-C lập trình và nút chuyển mạch USB BOOT.",
-      "en": "Led hardware R&D for a multi-purpose development kit PCB supporting Quectel EC200U 4G LTE Cat 1 module (with integrated GPS/GNSS & Bluetooth). Designed schematic and multi-layer PCB layout in Altium Designer. Features wide-input TPS54302 buck regulator (4.5V–28V DC), Dual SIM architecture (embedded MFF2 global eSIM + MicroSIM push-push holder), and USB Type-C programming interface with USB BOOT switch."
-    },
-    "longDescription": {
-      "vi": "• Thiết kế sơ đồ nguyên lý & đi dây PCB multi-layer trên Altium Designer cho module Quectel EC200U (4G LTE Cat 1, GNSS / GPS, Bluetooth).\n• Thiết kế kiến trúc Dual SIM: Tích hợp chip eSIM công nghiệp MFF2 kết hợp khay cắm MicroSIM Push-Push linh hoạt.\n• Thiết kế khối nguồn DC-DC TPS54302 hiệu suất cao hỗ trợ điện áp vào dải rộng (4.5V – 28V DC) và tụ hóa Tantalum lọc nguồn nhiễu.\n• Trang bị cổng giao tiếp USB Type-C 16-Pin với nút chuyển mạch USB BOOT phục vụ nạp phần mềm và debug firmware.\n• Tích hợp hệ thống Anten đa dải: Dual anten SMA (4G LTE Main + GNSS GPS) và anten IPEX 2.4GHz.",
-      "en": "• Schematic capture & multi-layer PCB layout in Altium Designer for Quectel EC200U 4G LTE Cat 1 module (GNSS/GPS & Bluetooth).\n• Dual SIM Architecture: Integrated MFF2 industrial eSIM chip paired with push-push MicroSIM socket.\n• High-efficiency TPS54302 DC-DC buck power design with wide input range (4.5V – 28V DC) and Tantalum power filter capacitors.\n• 16-Pin USB Type-C programming interface with dedicated USB BOOT switch for firmware deployment & debugging.\n• Multi-Antenna System: Dual SMA connectors (4G LTE Main + GNSS GPS) and IPEX 2.4GHz RF connectors."
-    },
-    "techStack": [
-      "Quectel EC200U 4G",
-      "Global eSIM (MFF2)",
-      "TPS54302 DC-DC Buck",
-      "USB Type-C 16P",
-      "GNSS / GPS Telemetry",
-      "Altium Designer PCB",
-      "Dual SMA & IPEX Antenna",
-      "C/C++ Embedded"
-    ],
-    "image": "assets/projects/ec200u_kit_dev/1.png",
-    "gallery": [
-      "assets/projects/ec200u_kit_dev/1.png",
-      "assets/projects/ec200u_kit_dev/2.png",
-      "assets/projects/ec200u_kit_dev/z4998056412180_d259595b78e7a9644cc832cb16d3418b.jpg",
-      "assets/projects/ec200u_kit_dev/z4998503318455_6d27267801dc3ffe3107d2e9e5d945e2.jpg",
-      "assets/projects/ec200u_kit_dev/z4999008387821_578f774d2da9a7ad4bea4c80b94dc692.jpg",
-      "assets/projects/ec200u_kit_dev/z5001260822696_1072e734f3fb62ae7f8b76c987efe354.jpg",
-      "assets/projects/ec200u_kit_dev/z5001261128032_5d096671ce3ac2cb70b221defb666dee.jpg",
-      "assets/projects/ec200u_kit_dev/z5006113823725_1d7ae1cb8f963eb70b2a5876378e0a5d.jpg",
-      "assets/projects/ec200u_kit_dev/z5034081124665_3231c69ca96c1f3c99a86ffc36866986.jpg",
-      "assets/projects/ec200u_kit_dev/z5352435747519_93991ca4ce5fb9091bc4e27fa756cb56.jpg"
-    ],
-    "features": [
-      {
-        "vi": "Module Quectel EC200U (4G LTE Cat 1, GPS/GNSS & Bluetooth) hỗ trợ kết nối Cloud thời gian thực",
-        "en": "Quectel EC200U module (4G LTE Cat 1, GPS/GNSS & Bluetooth) for real-time cloud data telemetry"
-      },
-      {
-        "vi": "Kiến trúc Dual SIM: Chip eSIM MFF2 toàn cầu + khay MicroSIM Push-Push linh hoạt",
-        "en": "Dual SIM Architecture: Global MFF2 eSIM chip + flexible push-push MicroSIM holder"
-      },
-      {
-        "vi": "Nguồn xung DC-DC TPS54302 hạ áp dải rộng 4.5V - 28V DC cấp dòng 3A ổn định",
-        "en": "TPS54302 DC-DC buck converter supporting wide 4.5V-28V DC input with 3A output"
-      },
-      {
-        "vi": "Giao tiếp USB Type-C 16-Pin chuẩn hóa tích hợp nút công tắc nạp USB BOOT",
-        "en": "Standardized 16-Pin USB Type-C interface with USB BOOT programming switch"
-      },
-      {
-        "vi": "Hệ thống anten SMA kép (4G LTE & GPS) và đầu nối RF IPEX 2.4GHz",
-        "en": "Dual SMA antenna system (4G LTE & GPS) with 2.4GHz IPEX RF connectors"
-      }
-    ],
-    "highlight": true
-  },
-  {
-    "id": "ec800m-dev-kit",
-    "title": {
-      "vi": "Kit Phát Triển Gateway 4G LTE Cat 1 Quectel EC800M — Tích Hợp Định Vị GPS & Cổng Nạp USB-C",
-      "en": "Quectel EC800M 4G LTE Cat 1 & GNSS GPS Dev Kit PCB (Dual SIM & USB-C)",
-      "ja": "Quectel EC800M 4G LTE & GNSS GPS 開発キット基板"
-    },
-    "category": "Industrial Hardware & Automotive",
-    "period": "2024",
-    "summary": {
-      "vi": "Bo mạch kit phát triển R&D cho module Quectel EC800M 4G LTE Cat 1, tích hợp vị trí GPS/GNSS, Dual SIM (eSIM chip MFF2 + Nano SIM), cổng USB Type-C và nút nạp USB BOOT.",
-      "en": "Industrial R&D dev kit PCB for Quectel EC800M 4G LTE Cat 1 & GNSS GPS, featuring Dual SIM (embedded MFF2 eSIM + Nano SIM socket), USB Type-C and USB BOOT switch."
-    },
-    "description": {
-      "vi": "Chủ trì R&D phần cứng bo mạch Kit phát triển cho vi viễn thông Quectel EC800M-CN (4G LTE Cat 1, GNSS / GPS, Bluetooth). Thiết kế sơ đồ nguyên lý và layout PCB multi-layer trên Altium Designer. Hỗ trợ hạ áp ổn định nguồn VBAT, tích hợp kiến trúc Dual SIM (chip eSIM MFF2 hàn trên mạch + khay Nano SIM), cổng giao tiếp USB Type-C và nút nạp USB BOOT.",
-      "en": "Led hardware R&D for a compact development kit PCB supporting Quectel EC800M-CN 4G LTE Cat 1 module (integrated GNSS/GPS & Bluetooth). Designed schematic and multi-layer PCB layout in Altium Designer. Features VBAT power architecture, Dual SIM support (embedded MFF2 eSIM chip + Nano SIM socket), USB Type-C programming interface, and USB BOOT switch."
-    },
-    "longDescription": {
-      "vi": "• Thiết kế sơ đồ nguyên lý & layout PCB multi-layer trên Altium Designer cho module Quectel EC800M-CN (4G LTE Cat 1, GPS/GNSS & Bluetooth).\n• Kiến trúc Dual SIM linh hoạt: Tích hợp sẵn chip eSIM công nghiệp MFF2 kết hợp khay Nano SIM card socket cho hạ tầng IoT di động.\n• Khối quản lý nguồn & Âm thanh: Tối ưu đường nguồn VBAT cho truyền dẫn sóng 4G công suất cao, tích hợp đường tín hiệu âm thanh loa Audio SPK_P/N.\n• Giao diện lập trình & Debug: Trang bị cổng USB Type-C 16-Pin với nút chuyển mạch nạp phần mềm USB BOOT.\n• Hệ thống Anten: Đầu cắm Anten DIP GPS GNSS chuyên dụng và Anten SMD 4G LTE đa dải tần.",
-      "en": "• Schematic capture & multi-layer PCB layout in Altium Designer for Quectel EC800M-CN 4G LTE Cat 1 module (GPS/GNSS & Bluetooth).\n• Flexible Dual SIM Architecture: Integrated MFF2 industrial eSIM chip paired with Nano SIM card socket for mobile IoT deployment.\n• Power & Audio System: Optimized high-current VBAT power traces for 4G burst transmission, with integrated differential Audio speaker interface.\n• Programming & Debugging: 16-Pin USB Type-C interface with dedicated USB BOOT switch for fast firmware flashing.\n• Antenna System: Dedicated DIP GPS/GNSS antenna connector & multi-band 4G LTE SMD antenna."
-    },
-    "techStack": [
-      "Quectel EC800M-CN",
-      "4G LTE Cat 1",
-      "GPS / GNSS Telemetry",
-      "Global eSIM (MFF2)",
-      "Nano SIM Socket",
-      "Altium Designer PCB",
-      "USB Type-C 16P",
-      "C/C++ Embedded"
-    ],
-    "image": "assets/projects/ec800m_dev_kit/1.png",
-    "gallery": [
-      "assets/projects/ec800m_dev_kit/1.png",
-      "assets/projects/ec800m_dev_kit/2.png",
-      "assets/projects/ec800m_dev_kit/1785392435489_1865481403134129726_3747327866930100700_f773a22641b40cdeed3eac7936ebe358.jpg",
-      "assets/projects/ec800m_dev_kit/1785392435517_1865481403134129726_3747327866930100700_5873c71770820194320a2942f0209eee.jpg",
-      "assets/projects/ec800m_dev_kit/1785392435531_1865481403134129726_3747327866930100700_36068ce0090b0edd55000d156a1d1525.jpg",
-      "assets/projects/ec800m_dev_kit/1785392435542_1865481403134129726_3747327866930100700_c5deae956e86db07deb1419712f22888.jpg",
-      "assets/projects/ec800m_dev_kit/1785392435557_1865481403134129726_3747327866930100700_3161e16bd10e0dad4a24b72eb1c77b08.jpg",
-      "assets/projects/ec800m_dev_kit/1785392435567_1865481403134129726_3747327866930100700_8630e32f390abea6f63b9d37e20c5330.jpg",
-      "assets/projects/ec800m_dev_kit/z5318844780214_3c2d2331cfab871e24278f35f946bad4.jpg",
-      "assets/projects/ec800m_dev_kit/z5331457799887_eed92375d74518bec8986aad54dd87fb.jpg",
-      "assets/projects/ec800m_dev_kit/z5340409393501_076c7c82e9b73580ba1c12c734b90300.jpg",
-      "assets/projects/ec800m_dev_kit/z5359866424426_3e81e5cdc366d9157f783edaf978c33a.jpg",
-      "assets/projects/ec800m_dev_kit/z5360962553215_ca0ed86fdf3d6e274bbe75cb3a4debd3.jpg",
-      "assets/projects/ec800m_dev_kit/z6200085110404_d985d43233cb5e3d7f5b2537db41bc45.jpg"
-    ],
-    "features": [
-      {
-        "vi": "Module Quectel EC800M-CN (4G LTE Cat 1 & GNSS GPS) cho các thiết bị giám sát định vị thời gian thực",
-        "en": "Quectel EC800M-CN module (4G LTE Cat 1 & GNSS GPS) for real-time tracking & cloud telemetry"
-      },
-      {
-        "vi": "Tích hợp Dual SIM: Chip eSIM MFF2 hàn trên mạch + khay cắm Nano SIM linh hoạt",
-        "en": "Dual SIM Integration: Embedded MFF2 eSIM chip + flexible Nano SIM socket"
-      },
-      {
-        "vi": "Đường nguồn VBAT dòng cao chống sụt áp khi phát sóng 4G LTE công suất tối đa",
-        "en": "High-current VBAT power traces preventing voltage drop during peak 4G LTE transmission"
-      },
-      {
-        "vi": "Giao tiếp USB Type-C 16-Pin chuẩn hóa tích hợp nút bấm chuyển mạch USB BOOT",
-        "en": "Standardized 16-Pin USB Type-C interface with USB BOOT mode tactile switch"
-      },
-      {
-        "vi": "Anten GPS GNSS chuyên dụng kết hợp anten 4G LTE đa dải tần",
-        "en": "Dedicated GPS GNSS antenna socket paired with multi-band 4G LTE antenna"
-      }
-    ],
-    "highlight": true
-  },
-  {
     "id": "ec800m-tracking-v2",
     "title": {
       "vi": "Thiết Bị Định Vị & Giám Sát Hành Trình Ô Tô/Xe Máy 4G LTE Quectel EC800M (V2)",
@@ -1468,64 +1608,6 @@ export const projects: Project[] = [
       {
         "vi": "Thiết kế PCB Altium Designer nhỏ gọn, tối ưu đường truyền anten RF 4G & GPS",
         "en": "Compact Altium Designer PCB layout optimizing 4G & GPS RF antenna trace routing"
-      }
-    ],
-    "highlight": true
-  },
-  {
-    "id": "auto-start-pcie",
-    "title": {
-      "vi": "Bo Mạch Khởi Động Tự Động Máy Chủ / Server Qua Khe Cắm PCI Express (Auto Start PCIe Card)",
-      "en": "Automatic Server Power-On Controller Card via PCI Express (PCIe Auto Start)",
-      "ja": "PCI Express経由 サーバー自動起動・電源制御カード (Auto Start PCIe)"
-    },
-    "category": "Industrial Hardware & Automotive",
-    "period": "2024",
-    "summary": {
-      "vi": "Bo mạch mở rộng khe cắm PCI Express tự động kích nguồn bật máy chủ/PC khi có điện lưới, tự khởi động lại khi sự cố và duy trì Uptime cho hệ thống Server.",
-      "en": "PCI Express expansion card automatically triggering power-on sequence for servers/PCs upon AC mains restoration, maintaining maximum server uptime."
-    },
-    "description": {
-      "vi": "Chủ trì R&D thiết kế bo mạch cắm khe PCI Express x1 chuyên dụng phục vụ tự động bật nguồn (Auto Power-On / Remote Reboot) cho hệ thống máy chủ, Server nhà xưởng và máy tính trạm làm việc. Thiết kế sơ đồ nguyên lý và layout PCB 2-layer chuẩn chân cắm PCIe x1 Goldfinger trên Altium Designer. Tích hợp chân nhận biết nguồn dự phòng 3.3Vaux, tín hiệu Wakeup Pin, mạch kích relay/transistor MOSFET ngắt mở an toàn và đèn LED báo trạng thái.",
-      "en": "Led hardware R&D for a dedicated PCI Express x1 edge card designed for automatic power-on (Auto Power-On / Remote Reboot) of servers, industrial workstations, and PC rigs. Designed schematic capture and 2-layer PCB layout with standard PCIe x1 Goldfinger connector in Altium Designer. Integrated 3.3Vaux standby power sense, Wakeup pin triggering, MOSFET/Transistor power pulse circuitry, and status indicators."
-    },
-    "longDescription": {
-      "vi": "• Thiết kế sơ đồ nguyên lý & layout PCB chuẩn khe cắm PCI Express x1 Goldfinger trên Altium Designer cho thiết bị Auto-Start Server.\n• Tự động kích nguồn máy chủ: Nhận diện điện áp chờ 3.3Vaux từ khe PCIe khi có điện lưới và tự động phát xung kích nút Power-On khởi động máy tính.\n• Mạch điều khiển an toàn: Sử dụng Transistor MOSFET công suất kết hợp mạch trễ thời gian chống kích đúp, bảo vệ mainboard máy tính không bị lặp xung nguồn.\n• Đầu nối nạp & Debug: Trang bị Header cắm Debug, nút nhấn thao tác bật thủ công và tụ Tantalum 100uF 16V lọc nguồn ổn định.\n• Thiết kế mạch PCB nhỏ gọn: Chuẩn form factor PCI Express x1 cắm vừa mọi vỏ case PC tiêu chuẩn và server rack-mount.",
-      "en": "• Schematic capture & PCB layout with standard PCI Express x1 Goldfinger interface in Altium Designer for Server Auto-Start hardware.\n• Automated Power-On Sequence: Senses 3.3Vaux standby rail upon AC power restoration and automatically generates a clean Power-On pulse to boot the PC/Server.\n• Safe Pulse Control Circuitry: Power MOSFETs combined with anti-debounce timing circuits preventing accidental double-triggering or mainboard damage.\n• Programming & Debug Interface: Equipped with DEBUG pin headers, manual tactile buttons, and 100uF 16V Tantalum power filtering capacitors.\n• Compact Form Factor: Standard PCIe x1 profile fitting smoothly inside all standard desktop cases and industrial rack-mount servers."
-    },
-    "techStack": [
-      "PCI Express x1 Goldfinger",
-      "Server Auto Power-On",
-      "3.3Vaux Standby Sense",
-      "Power Pulse Generator",
-      "MOSFET Power Switch",
-      "Altium Designer PCB"
-    ],
-    "image": "assets/projects/auto_start_pcie/top.png",
-    "gallery": [
-      "assets/projects/auto_start_pcie/top.png",
-      "assets/projects/auto_start_pcie/bottom.png"
-    ],
-    "features": [
-      {
-        "vi": "Tự động kích nguồn bật máy tính / Server ngay khi điện lưới AC phục hồi",
-        "en": "Automated power-on pulse booting PCs / Servers immediately upon AC power restoration"
-      },
-      {
-        "vi": "Thiết kế chuẩn chân cắm PCI Express x1 Goldfinger phù hợp mọi thùng máy PC & Server Rack",
-        "en": "Standard PCI Express x1 Goldfinger form factor fitting all PC cases & Server Racks"
-      },
-      {
-        "vi": "Mạch trễ thời gian chống kích đúp xung nguồn bảo vệ an toàn cho Mainboard máy chủ",
-        "en": "Anti-double trigger pulse delay circuit protecting server motherboard power ICs"
-      },
-      {
-        "vi": "Nhận biết điện áp chờ 3.3Vaux & chân tín hiệu Wakeup kích nguồn thông minh",
-        "en": "Smart 3.3Vaux standby voltage sensing & Wakeup signal pulse generation"
-      },
-      {
-        "vi": "Tụ Tantalum dán 100uF 16V + LDO AMS1117 cho dòng nguồn cấp vô cùng ổn định",
-        "en": "100uF 16V Tantalum SMD capacitors + AMS1117 LDO for rock-solid power stability"
       }
     ],
     "highlight": true
@@ -1958,44 +2040,44 @@ export const projects: Project[] = [
 // ========== TECHNICAL STACK CATEGORIES ==========
 export const techCategories: TechCategory[] = [
  {
- title: { vi: 'Vi Điều Khiển & Máy Tính Nhúng (MCUs & SBCs)', en: 'Microcontrollers & SBCs (MCUs, RISC-V & Linux)' },
+ title: { vi: 'MCU', en: 'MCU' },
  icon: 'fa-microchip',
  items: [
  'STM32 (ARM Cortex-M)',
- 'ESP (SoC: ESP32, ESP32-S3, ESP8266)',
- 'CH32 (RISC-V Architecture)',
- 'MSP430 (Texas Instruments)',
- 'PIC Microcontrollers (Microchip)',
- 'Quectel EC800M / EC200U (4G LTE)',
- 'SBC/Linux: Raspberry Pi, Orange Pi',
- 'Nordic nRF52840 (BLE 5.0)',
- 'Arduino AVR / SAMD',
+ 'ESP (SoC)',
+ 'CH32 (RISC-V)',
+ 'MSP430 (TI)',
+ 'PIC (Microchip)',
+ 'Quectel (4G LTE)',
+ 'Raspberry Pi / Orange Pi',
+ 'Nordic nRF52 (BLE)',
+ 'Arduino (AVR/SAMD)',
  ],
  },
  {
  title: { vi: 'Giao Thức Truyền Thông', en: 'Communication Protocols' },
  icon: 'fa-network-wired',
- items: ['CAN Bus (2.0B / CAN-FD)', 'RS485 / Modbus RTU', 'LoRa / LoRaWAN', 'BLE / Bluetooth 5.0', 'WiFi (Station / AP)', 'MQTT / MQTTS', 'HTTP / HTTPS / REST API', 'SPI / I2C / UART / OneWire / NFC'],
+ items: ['CAN Bus', 'RS485 / Modbus RTU', 'LoRa / LoRaWAN', 'BLE / Bluetooth 5.0', 'WiFi (Station / AP)', 'MQTT / MQTTS', 'HTTP / HTTPS', 'SPI / I2C / UART / OneWire / NFC'],
  },
  {
- title: { vi: 'Công Cụ Thiết Kế phần Cứng & CAD', en: 'Hardware CAD & Dev Tools' },
+ title: { vi: 'Công Cụ R&D Phần Cứng & Firmware', en: 'Hardware & Firmware R&D Tools (IDE & CAD)' },
  icon: 'fa-tools',
- items: ['Altium Designer (2/4-Layer)', 'KiCad EDA', 'Proteus VSM', 'LTspice Circuit Sim', 'VS Code & PlatformIO', 'STM32CubeIDE', 'Oscilloscope & Logic Analyzer', 'CAN Analyzer & SWD/JTAG', 'Power Profiler & Thermal Imaging'],
+ items: ['Altium Designer (2/4-Layer)', 'KiCad EDA', 'Proteus VSM', 'LTspice Circuit Sim', 'VS Code & PlatformIO', 'STM32CubeIDE', 'Oscilloscope & Logic Analyzer', 'CAN Analyzer & SWD/JTAG'],
  },
  {
  title: { vi: 'Ngôn Ngữ Lập Trình & RTOS', en: 'Languages & RTOS' },
  icon: 'fa-code',
- items: ['Embedded C (C99/C11)', 'Embedded C++ (C++17)', 'FreeRTOS Multi-Tasking', 'Python (Scripting & AI)', 'JavaScript / TypeScript', 'Assembly (ARM Cortex-M)', 'Bash Scripting', 'CMake & Make'],
+ items: ['Embedded C/C++', 'FreeRTOS Multi-Tasking', 'Python (Scripting & AI)', 'CMake & Make'],
  },
  {
  title: { vi: 'Thiết Kế Mạch PCB & Phần Cứng', en: 'Hardware & PCB Engineering' },
  icon: 'fa-layer-group',
- items: ['2-Layer & 4-Layer Layout', 'High-Speed Signal Routing', 'EMI / EMC Mitigation', 'Impedance Control (50Ω/90Ω)', 'Power Integrity (LDO/DCDC)', 'ESD & Surge Protection', 'Solar MPPT Battery Circuit', 'DFM / DFA Production Output'],
+ items: ['2-Layer & 4-Layer Layout', 'High-Speed Signal Routing', 'EMI / EMC Mitigation', 'Impedance Control (50Ω)', 'Power Integrity (LDO/DCDC)', 'ESD & Surge Protection', 'Solar MPPT Battery Circuit'],
  },
  {
  title: { vi: 'Edge AI & Nền Tảng Cloud IoT', en: 'Edge AI & Cloud IoT' },
  icon: 'fa-cloud',
- items: ['TensorFlow Lite Micro', 'ToF 8x8 Sensor Fusion', '60GHz mmWave Radar AI', 'Node.js & Express API', 'MQTT Mosquitto Broker', 'MongoDB Database', 'React Native Mobile App', 'OTA Firmware Server', 'Cursor & GitHub Copilot'],
+ items: ['TensorFlow Lite Micro', 'ToF 8x8 Sensor Fusion', '60GHz mmWave Radar AI', 'MQTT Mosquitto Broker', 'MongoDB Database', 'React Native Mobile App', 'OTA Firmware Server', 'Cursor & GitHub Copilot'],
  },
 ];
 
@@ -2007,8 +2089,8 @@ export const education: Education[] = [
  en: 'Can Tho University (CTU)',
  },
  degree: {
- vi: 'Kỹ sư Kỹ Thuật Máy Tính — Chuyên ngành Hệ Thống Nhúng & Phần Cứng',
- en: 'Bachelor of Engineering in Computer Engineering — Embedded Systems & Hardware',
+ vi: 'Computer Engineering - specializing in embedded systems',
+ en: 'Computer Engineering - specializing in embedded systems',
  },
  period: '08/2018 - 06/2022',
  description: {
